@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+{% load socialaccount %}
+{% load account %}
+{% load i18n %}
+{% user_display user as user_display %}
+<html>
+  <head>
+    <title>{% block head_title %}{% endblock %}</title>
+    {% block extra_head %}
+    {% endblock %}
+
+    <link rel="stylesheet" href="{% static 'css/materialize.min.css' %}">
+  <script src="{% static 'js/jquery-1.12.3.js' %}"
+  integrity="sha256-1XMpEtA4eKXNNpXcJ1pmMPs8JV+nwLdEqwiJeCQEkyc="
+  crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script src="{% static 'js/materialize.min.js' %}"></script>
+  <script src="{% static 'js/main.js' %}"></script>
+
+  </head>
+  <body>
+
+  <nav>
+    <div class="nav-wrapper">
+    {% if user_display %}
+      <a href="#" data-activates="slide-out" class="button-collapse show-on-large"><i class="material-icons">menu</i></a>
+    {% endif %}
+      <ul id="nav-mobile" class="right">
+    {% if user_display %}
+      <li>
+<a class="waves-effect waves-light btn-large transparent z-depth-0"><i class="material-icons left">shopping_cart</i><span style="margin-left:-23px;">6</span></a>
+         
+      </li>
+
+      <li style="margin-left: -70px;">
+<a class="waves-effect waves-light btn-large transparent z-depth-0"><i class="material-icons left">notifications</i><span style="margin-left:-28px;">8</span></a>
+         
+      </li>
+        <li style="margin-left: -70px;">
+          <a class='dropdown-button btn transparent z-depth-0' data-gutter="10px" data-beloworigin="true" href='#' data-activates='dropdown1'>
+          <div class="chip transparent ">
+    <img src="{% static 'images/shahrukh.jpeg' %}" alt="Contact Person">
+  {{ user_display }}<br/>
+  </div></a>
+  <ul id='dropdown1' class='dropdown-content'>
+    <li><a href="#!">one</a></li>
+    <li><a href="{% url 'account_email' %}">Settings</a></li>
+    <li><a href="{% url 'account_logout' %}">Logout</a></li>
+  </ul>
+        </li>
+
+        {% else %}  
+        <li>
+          <a href = "{% url 'account_login' %}" class="waves-effect waves-light btn">Login or Signup</a>
+        </li>
+        {% endif %}
+
+      </ul>
+
+     
+      <div class="col s12" style="padding-left:50px;">
+        <a href="#!" class="breadcrumb">Home</a>
+        <a class="breadcrumb" >Accessories</a>
+      </div>
+
+    </div>
+  </nav>
+  <div class="container">
+    {% block body %}
+
+    {% if messages %}
+    <div>
+      <strong>Messages:</strong>
+      <ul>
+  {% for message in messages %}
+  <li>{{message}}</li>
+  {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+
+    <div>
+<!--       <strong>Menu:</strong>
+      <ul>
+  {% if user.is_authenticated %}
+  <li class="transparent"><a class="waves-effect waves-light btn" href="{% url 'account_email' %}">Change E-mail</a></li>
+  <li class="transparent"><a class="waves-effect waves-light btn" href="{% url 'account_logout' %}">Sign Out</a></li>
+  <a class="waves-effect waves-light btn-large" href="#">Wave</a>
+  {% endif %} 
+      </ul>-->
+    </div>
+    {% block content %}
+    {% endblock %}
+    {% endblock %}
+    {% block extra_body %}
+    {% endblock %}
+  </div>
+  </body>
+</html>

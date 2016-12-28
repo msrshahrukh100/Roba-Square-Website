@@ -1,0 +1,59 @@
+<nav>
+    <div class="nav-wrapper">
+    {% if user_display %}
+      <a href="#" data-activates="slide-out" class="button-collapse show-on-large"><i class="material-icons">menu</i></a>
+    {% endif %}
+      <ul id="nav-mobile" class="right">
+    {% if user_display %}
+      <li>
+<a class="waves-effect waves-light btn-large transparent z-depth-0"><i class="material-icons left">shopping_cart</i><span style="margin-left:-23px;">6</span></a>
+      	 
+      </li>
+
+      <li style="margin-left: -70px;">
+<a class="waves-effect waves-light btn-large transparent z-depth-0"><i class="material-icons left">notifications</i><span style="margin-left:-28px;">8</span></a>
+      	 
+      </li>
+        <li style="margin-left: -70px;">
+          <a class='dropdown-button btn transparent z-depth-0' data-gutter="10px" data-beloworigin="true" href='#' data-activates='dropdown1'>
+          <div class="chip transparent ">
+    <img src="{% static 'images/shahrukh.jpeg' %}" alt="Contact Person">
+  {{ user_display }}<br/>
+  </div></a>
+  <ul id='dropdown1' class='dropdown-content'>
+    <li><a href="#!">one</a></li>
+    <li><a href="{% url 'account_email' %}">Settings</a></li>
+    <li><a href="{% url 'account_logout' %}">Logout</a></li>
+  </ul>
+        </li>
+
+        {% else %}  
+        <li>
+        	<a href = "{% url 'account_login' %}" class="waves-effect waves-light btn">Login or Signup</a>
+        </li>
+        {% endif %}
+
+      </ul>
+
+
+
+     
+      <div class="col s12" style="padding-left:50px;">
+        <a href="#!" class="breadcrumb">Home</a>
+        <a class="breadcrumb" >Accessories</a>
+      </div>
+
+      <ul class="tabs center-align">
+        <li class="tab"><a href="#test1">Test 1</a></li>
+        <li class="tab"><a class="active" href="#test2">Test 2</a></li>
+        <li class="tab"><a href="#test3">Disabled Tab</a></li>
+        <li class="tab"><a href="#test4">Test 4</a></li>
+      </ul>
+
+    </div>
+  </nav>
+
+<div id="test1" class="col s12 center-align">Test 1</div>
+  <div id="test2" class="col s12">Test 2</div>
+  <div id="test3" class="col s12">Test 3</div>
+  <div id="test4" class="col s12">Test 4</div>

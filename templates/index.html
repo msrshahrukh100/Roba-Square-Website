@@ -1,4 +1,8 @@
 {% load staticfiles %}
+{% load socialaccount %}
+{% load account %}
+{% load i18n %}
+{% user_display user as user_display %}
 <html>
 <head>
 	<title>Tijarah</title>
@@ -14,42 +18,103 @@
           
 </head>
 <body>
-  <nav>
+  
+
+
+
+  <nav class="nav-extended">
     <div class="nav-wrapper">
+      <a href="#" class="brand-logo center"><h3>Logo</h3></a>
+      {% if user_display %}
       <a href="#" data-activates="slide-out" class="button-collapse show-on-large"><i class="material-icons">menu</i></a>
-      <ul id="nav-mobile" class="right">
+    {% endif %}
+
+       <ul id="nav-mobile" class="right">
+    {% if user_display %}
       <li>
 <a class="waves-effect waves-light btn-large transparent z-depth-0"><i class="material-icons left">shopping_cart</i><span style="margin-left:-23px;">6</span></a>
       	 
       </li>
 
       <li style="margin-left: -70px;">
-<a class="waves-effect waves-light btn-large transparent z-depth-0"><i class="material-icons left">notifications</i><span style="margin-left:-23px;">8</span></a>
+<a class="waves-effect waves-light btn-large transparent z-depth-0"><i class="material-icons left">notifications</i><span style="margin-left:-28px;">8</span></a>
       	 
       </li>
-        
-        <li>
-          <a class='dropdown-button btn transparent z-depth-0' data-gutter="10px" data-beloworigin="true" href='#' data-activates='dropdown1'>
+        <li style="margin-left: -70px;">
+          <a class='dropdown-button btn transparent z-depth-0' data-gutter="10px" data-beloworigin="true" href='#' data-activates='dropdown-user'>
           <div class="chip transparent ">
     <img src="{% static 'images/shahrukh.jpeg' %}" alt="Contact Person">
-    Mohammad Shahrukh
+  {{ user_display }}<br/>
   </div></a>
-  <ul id='dropdown1' class='dropdown-content'>
+  <ul id='dropdown-user' class='dropdown-content'>
     <li><a href="#!">one</a></li>
-    <li><a href="#!">two</a></li>
-    <li><a href="#!">three</a></li>
+    <li><a href="{% url 'account_email' %}">Settings</a></li>
+    <li><a href="{% url 'account_logout' %}">Logout</a></li>
   </ul>
         </li>
-      </ul>
 
-      <div class="col s12" style="padding-left:50px;">
-        <a href="#!" class="breadcrumb">Home</a>
-        <a class="breadcrumb" >Accessories</a>
-      </div>
+        {% else %}  
+        <li>
+        	<a href = "{% url 'account_login' %}" class="waves-effect waves-light btn">Login or Signup</a>
+        </li>
+        {% endif %}
+
+      </ul>
+<div class="row">
+<div class="col s12 center">
+      <ul style="padding-top: 50px;">
+        <a class="waves-effect waves-light dropdown-button1" data-activates='dropdown1' data-beloworigin="true" >Login or Signup</a>
+        <a class="waves-effect waves-light dropdown-button1" data-activates='dropdown2' data-beloworigin="true" >Login or Signup</a>
+        <a class="waves-effect waves-light dropdown-button1" data-activates='dropdown3' data-beloworigin="true" >Login or Signup</a>
+        <a class="waves-effect waves-light dropdown-button1" data-activates='dropdown4' data-beloworigin="true" >Login or Signup</a>
+        
+      </ul>
+</div>
+</div>
+
 
     </div>
   </nav>
 
+ <ul id='dropdown1' class='dropdown-content'>
+    <li><a href="#!">one</a></li>
+    <li><a href="#!">two</a></li>
+    <li class="divider"></li>
+    <li><a href="#!">three</a></li>
+  </ul>
+       
+ <ul id='dropdown2' class='dropdown-content'>
+    <li><a href="#!">one</a></li>
+    <li><a href="#!">two</a></li>
+    <li class="divider"></li>
+    <li><a href="#!">three</a></li>
+  </ul>
+       
+
+ <ul id='dropdown3' class='dropdown-content'>
+    <li><a href="#!">one</a></li>
+    <li><a href="#!">two</a></li>
+    <li class="divider"></li>
+    <li><a href="#!">three</a></li>
+  </ul>
+       
+
+ <ul id='dropdown4' class='dropdown-content'>
+    <li><a href="#!">one</a></li>
+    <li><a href="#!">two</a></li>
+    <li class="divider"></li>
+    <li><a href="#!">three</a></li>
+  </ul>
+       
+
+
+
+{% user_display user %}<br/>
+
+
+
+<a href="{% provider_login_url "facebook" method="oauth2" %}">Facebook OAuth2</a>
+<br/><a href="{% provider_login_url "google" method="oauth2" %}">Google OAuth2</a>
 
 
  <ul id="slide-out" class="side-nav">
@@ -139,7 +204,7 @@
       <p class="grey-text text-darken-3 lighten-3">Parallax is an effect where the background content or image in this case, is moved at a different speed than the foreground content while scrolling.</p>
     
     <div class="row">
-        <div class="col s12 m7 l6">
+        <div class="col s12 m122 l6">
           <div class="card">
             <div class="card-image">
               <img src="{% static 'images/1.jpeg' %}">
@@ -156,7 +221,7 @@
         </div>
 
 
-        <div class="col s12 m7 l6">
+        <div class="col s12 m12 l6">
           <div class="card">
             <div class="card-image">
               <img src="{% static 'images/1.jpeg' %}">
@@ -172,7 +237,7 @@
           </div>
         </div>
 
-        <div class="col s12 m7 l6">
+        <div class="col s12 m12 l6">
           <div class="card">
             <div class="card-image">
               <img src="{% static 'images/1.jpeg' %}">
@@ -189,7 +254,7 @@
         </div>
 
 
-        <div class="col s12 m7 l6">
+        <div class="col s12 m12 l6">
           <div class="card">
             <div class="card-image">
               <img src="{% static 'images/1.jpeg' %}">
@@ -209,7 +274,7 @@
 	  <h2 class="header">New Products</h2>
 
 	  <div class="row">
-	  	<div class="col s12 m7 l6">
+	  	<div class="col s12 m12 l6">
           <div class="card">
             <div class="card-image">
               <img src="{% static 'images/1.jpeg' %}">
@@ -225,7 +290,7 @@
           </div>
         </div>
 
-        <div class="col s12 m7 l6">
+        <div class="col s12 m12 l6">
           <div class="card">
             <div class="card-image">
               <img src="{% static 'images/1.jpeg' %}">
@@ -258,7 +323,7 @@
 
 
 <div class="row">
-	<div class="col s12 m7 l6">
+	<div class="col s12 m12 l6">
           <div class="card">
             <div class="card-image">
               <img src="{% static 'images/1.jpeg' %}">
@@ -274,7 +339,7 @@
           </div>
         </div>
 
-        	<div class="col s12 m7 l6">
+        	<div class="col s12 m12 l6">
           <div class="card">
             <div class="card-image">
               <video class="responsive-video" controls>
