@@ -5,7 +5,7 @@
 {% user_display user as user_display %}
 <html>
 <head>
-	<title>Tijarah</title>
+	<title>{% block title %}Tijarah{% endblock %}</title>
 
   <script src="{% static 'js/jquery-1.12.3.js' %}" integrity="sha256-1XMpEtA4eKXNNpXcJ1pmMPs8JV+nwLdEqwiJeCQEkyc="
   crossorigin="anonymous"></script>
@@ -120,6 +120,15 @@
 
 
 
+  <div class="row">
+    <div class="input-field col l6 s12 offset-l3">
+      <i class="material-icons prefix">search</i>
+      <input id="icon_prefix" type="text" placeholde="Search for your item" class="validate">
+    </div>
+  </div>
+
+{% block content %}
+
   {% user_display user %}<br/>
 
 
@@ -130,12 +139,6 @@
 
   
   
-  <div class="row">
-    <div class="input-field col l6 s12 offset-l3">
-      <i class="material-icons prefix">search</i>
-      <input id="icon_prefix" type="text" placeholde="Search for your item" class="validate">
-    </div>
-  </div>
 
   <div class="slider">
    <ul class="slides">
@@ -171,7 +174,7 @@
               <p>{{ category.category_description|linebreaks }}</p>
             </div>
             <div class="card-action">
-              <a href="{{ category.link }}">{{ category.link_text }}</a>
+              <a href="{{ category.get_absolute_url }}">{{ category.link_text }}</a>
             </div>
           </div>
         </div>
@@ -276,6 +279,8 @@
     <div class="parallax-container">
       <div class="parallax"><img src="{% static 'images/1.jpg' %}"></div>
     </div>
+
+{% endblock %}
 
     <footer class="page-footer">
       <div class="container">

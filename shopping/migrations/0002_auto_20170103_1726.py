@@ -2,18 +2,19 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
+import autoslug.fields
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('shopping', '0005_auto_20170103_0705'),
+        ('shopping', '0001_initial'),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='imagesofproducts',
-            name='product',
-            field=models.ForeignKey(related_name='productimages', to='shopping.Products'),
+            model_name='productdescription',
+            name='slug',
+            field=autoslug.fields.AutoSlugField(populate_from=b'name', unique=True, editable=False),
         ),
     ]

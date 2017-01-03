@@ -1,0 +1,110 @@
+{% extends "index.html" %}
+{% block title %}View title{% endblock %}
+
+{% block content %}
+
+{% if type == 1 %}
+<div class="row">
+  {% for p in products %}
+  <div class="{% cycle 'col s12 m6 l3 offset-l1' 'col s12 m6 l3' 'col s12 m6 l3 ' %}">
+    <div class="card medium hoverable">
+      <div class="card-image waves-effect waves-block waves-light">
+        <img class="activator" src="{{ p.prod.first.productimages.first.image.url }}
+"></div>
+      <div class="card-content">
+        <span class="card-title activator grey-text text-darken-4">
+          {{ p.name }} <i class="material-icons right">more_vert</i>
+        </span>
+        <p>
+          <a href="{{ p.get_absolute_url }}">This is a link</a>
+          {{ p.price }}
+          {{ p.stockcount }}
+          {{ p.gender }}
+          {{ p.new_product }}
+        </p>
+      </div>
+      <div class="card-reveal">
+        <span class="card-title grey-text text-darken-4">
+          {{ p.name }} <i class="material-icons right">close</i>
+        </span>
+        <p>
+          {{ p.decription }}
+        </p>
+      </div>
+    </div>
+
+  </div>
+    <!-- 
+{% if forloop.first %}     
+      <div class="col l2">
+        <div class="card-panel teal">
+          <span class="white-text">I am a very simple card. I am good at containing small bits of information.
+          I am convenient because I require little markup to use effectively. I am similar to what is called a panel in other frameworks.
+          </span>
+        </div>
+      </div>
+            
+{% endif %} -->
+
+{% endfor %}
+
+  </div>
+
+
+  <div class="fixed-action-btn">
+    <a class="btn-floating btn-large red">
+      <i class="large material-icons">mode_edit</i>
+    </a>
+    <ul>
+      <li><a class="btn-floating red"><i class="material-icons">insert_chart</i></a></li>
+      <li><a class="btn-floating yellow darken-1"><i class="material-icons">format_quote</i></a></li>
+      <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
+      <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
+    </ul>
+  </div>
+
+  {% else %}
+
+      {% for d in detailp %}
+     <div class="row">
+        <div class="col l5 s6 m5 offset-l1 offset-m1">
+          <div class="card z-depth-0">
+            <div class="card-image">
+              <img src="{{ d.prod.first.productimages.first.image.url }}">
+            </div>
+            <div class="card-action">
+              <a href="#">This is a link</a>
+            </div>
+          </div>
+        </div>
+
+      <div class="col l5 s6 m5">
+        <div class="card-panel white card z-depth-0">
+        <h2>
+          {{ d.name }}
+        </h2>
+          <span >{{ d.description }}
+                  {{ d.price }}
+                {{ d.stockcount }}
+                {{ d.gender }}
+                {{ d.new_product }}
+          </span>
+
+        {% for im in d.prod.all %}
+        {{ im.size }}
+        {{ im.color }}
+        {{ im.productimages.all }}
+        {% endfor %}
+
+        </div>
+      </div>
+            
+
+      </div>
+            
+        
+        {% endfor %}
+
+{% endif %}
+
+{% endblock %}

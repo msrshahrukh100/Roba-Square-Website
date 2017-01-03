@@ -7,13 +7,14 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('shopping', '0009_auto_20170103_1024'),
+        ('shopping', '0004_auto_20170103_1756'),
     ]
 
     operations = [
-        migrations.AlterField(
+        migrations.AddField(
             model_name='categories',
-            name='category_description',
-            field=models.TextField(max_length=400),
+            name='link_text',
+            field=models.CharField(default='linl', max_length=100),
+            preserve_default=False,
         ),
     ]

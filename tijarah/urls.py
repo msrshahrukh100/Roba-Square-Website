@@ -19,6 +19,8 @@ urlpatterns = [
     url(r'^', include('authentication.urls',namespace='authentication')),
     url(r'^api/authentication/', include('authentication.api.urls',namespace='authentication-api')),
 
+    url(r'^shop/', include('shopping.urls',namespace='shopping')),
+
 ]
 
 

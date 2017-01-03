@@ -20,7 +20,9 @@ class Migration(migrations.Migration):
                 ('image', models.ImageField(height_field=b'height_field', width_field=b'width_field', upload_to=shopping.models.upload_location_cat)),
                 ('height_field', models.IntegerField(default=0)),
                 ('width_field', models.IntegerField(default=0)),
-                ('category_description', models.CharField(max_length=300)),
+                ('category_description', models.TextField(max_length=400)),
+                ('link_text', models.CharField(max_length=100)),
+                ('link', models.URLField()),
             ],
         ),
         migrations.CreateModel(
@@ -33,15 +35,16 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='Product_Description',
+            name='ProductDescription',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=250)),
                 ('description', models.TextField(null=True, blank=True)),
                 ('price', models.PositiveIntegerField()),
                 ('stockcount', models.PositiveIntegerField(default=0)),
-                ('gender', models.CharField(max_length=10, choices=[(b'Male', b'Male'), (b'Female', b'Female'), (b'Unisex', b'Unisex'), (b'0', b'Not Applicable')])),
+                ('gender', models.CharField(max_length=10, choices=[(b'Male', b'Male'), (b'Female', b'Female'), (b'Unisex', b'Unisex'), (b'0', b'N/A')])),
                 ('new_product', models.BooleanField(default=False)),
+                ('slug', models.SlugField(unique=True)),
                 ('category', models.ForeignKey(on_delete=django.db.models.deletion.SET_NULL, blank=True, to='shopping.Categories', null=True)),
             ],
         ),
@@ -49,10 +52,10 @@ class Migration(migrations.Migration):
             name='Products',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('size', models.CharField(max_length=5, choices=[(b'S', b'S'), (b'M', b'M'), (b'L', b'L'), (b'XL', b'XL'), (b'XXL', b'XXL')])),
+                ('size', models.CharField(max_length=5, choices=[(b'S', b'S'), (b'M', b'M'), (b'L', b'L'), (b'XL', b'XL'), (b'XXL', b'XXL'), (b'0', b'N/A')])),
                 ('color', models.CharField(max_length=30)),
                 ('stockcount', models.PositiveIntegerField(default=0)),
-                ('product', models.ForeignKey(to='shopping.Product_Description', null=True)),
+                ('product', models.ForeignKey(related_name='prod', to='shopping.ProductDescription', null=True)),
             ],
         ),
         migrations.CreateModel(
@@ -72,6 +75,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='imagesofproducts',
             name='product',
-            field=models.ForeignKey(related_name='products', to='shopping.Products'),
+            field=models.ForeignKey(related_name='productimages', to='shopping.Products'),
         ),
     ]

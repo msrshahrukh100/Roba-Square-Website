@@ -1,6 +1,10 @@
 from django.db import models
-from django.db.models.signals import post_delete
+from django.db.models.signals import post_delete, post_save
 from django.dispatch.dispatcher import receiver
+from autoslug import AutoSlugField
+from django.core.urlresolvers import reverse
+
+
 
 # upload location for the image upload on categories
 def upload_location_cat(instance, filename) :
@@ -13,27 +17,40 @@ class Categories(models.Model):
 	height_field = models.IntegerField(default=0)
 	width_field = models.IntegerField(default=0)
 	category_description = models.TextField(max_length=400)
+	slug = AutoSlugField(populate_from='category',unique=True)
 	link_text = models.CharField(max_length=100)
-	link = models.URLField(max_length=200)
+
 	def __unicode__(self) :
 		return self.category
+
+
+	def get_absolute_url(self):
+		return reverse("shopping:view_category_or_item", kwargs={"slug": self.slug,"qtype":"categories"})
+
 
 
 #class for storing the product description 
 class ProductDescription(models.Model) :
 	gender_opt = (('Male','Male'),('Female','Female'),('Unisex','Unisex'),('0','N/A'))
 
-	category = models.ForeignKey(Categories,on_delete=models.SET_NULL,null=True,blank=True)
+	category = models.ForeignKey(Categories,on_delete=models.SET_NULL,null=True,blank=True, related_name="products_desc")
 	name = models.CharField(max_length = 250)
 	description = models.TextField(blank=True, null=True)
 	price = models.PositiveIntegerField()
 	stockcount = models.PositiveIntegerField(default=0)
 	gender = models.CharField(max_length=10, choices=gender_opt)
 	new_product = models.BooleanField(default=False)
-	link = models.URLField(max_length=200)
+	slug = AutoSlugField(populate_from='name',unique=True)
 
 	def __unicode__(self) :
 		return self.name
+
+	def get_absolute_url(self):
+		return reverse("shopping:view_category_or_item", kwargs={"slug": self.slug,"qtype":"product"})
+
+
+
+
 
 
 #class for storing the list of all products with the variation of size and color
