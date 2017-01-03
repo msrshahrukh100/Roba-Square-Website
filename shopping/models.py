@@ -12,8 +12,7 @@ class Categories(models.Model):
 	image = models.ImageField(upload_to=upload_location_cat, width_field="width_field", height_field="height_field")
 	height_field = models.IntegerField(default=0)
 	width_field = models.IntegerField(default=0)
-	category_description = models.TextField()
-	link_text = models.CharField()
+	category_description = models.TextField(max_length=400)
 	link_text = models.CharField(max_length=100)
 	link = models.URLField(max_length=200)
 	def __unicode__(self) :
@@ -57,7 +56,7 @@ def upload_location_pro(instance,filename) :
 #class for storing the product images
 class ImagesOfProducts(models.Model) :
 	product = models.ForeignKey(Products,on_delete=models.CASCADE,related_name='productimages')
-	image = models.ImageField(upload_to = upload_location_pro, null=False, blank=False ,height_field="height_field", width_field="width_field")
+	image = models.ImageField(upload_to = upload_location_pro,height_field="height_field", width_field="width_field")
 	height_field = models.IntegerField(default=0)
 	width_field = models.IntegerField(default=0)
 

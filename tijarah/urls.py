@@ -14,8 +14,10 @@ urlpatterns = [
     #django all auth urls
     url(r'^accounts/', include('allauth.urls')),
 
+
     #local apps url
-    url(r'^', include('authentication.urls')),
+    url(r'^', include('authentication.urls',namespace='authentication')),
+    url(r'^api/authentication/', include('authentication.api.urls',namespace='authentication-api')),
 
 ]
 
