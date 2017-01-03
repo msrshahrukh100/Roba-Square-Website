@@ -3,6 +3,7 @@
 {% load socialaccount %}
 {% load account %}
 {% load i18n %}
+{% load cfilters %}
 {% user_display user as user_display %}
 <html>
   <head>
@@ -11,11 +12,13 @@
     {% endblock %}
 
     <link rel="stylesheet" href="{% static 'css/materialize.min.css' %}">
+  <script src="{% static 'js/materialize.min.js' %}"></script>
+
   <script src="{% static 'js/jquery-1.12.3.js' %}"
   integrity="sha256-1XMpEtA4eKXNNpXcJ1pmMPs8JV+nwLdEqwiJeCQEkyc="
   crossorigin="anonymous"></script>
+
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <script src="{% static 'js/materialize.min.js' %}"></script>
   <script src="{% static 'js/main.js' %}"></script>
 
   </head>

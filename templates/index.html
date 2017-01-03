@@ -7,413 +7,302 @@
 <head>
 	<title>Tijarah</title>
 
+  <script src="{% static 'js/jquery-1.12.3.js' %}"
+  integrity="sha256-1XMpEtA4eKXNNpXcJ1pmMPs8JV+nwLdEqwiJeCQEkyc="
+  crossorigin="anonymous"></script>
+  <script src="{% static 'js/materialize.min.js' %}"></script>
+  <script src="{% static 'js/main.js' %}"></script>
 
-	<link rel="stylesheet" href="{% static 'css/materialize.min.css' %}">
-	<script src="{% static 'js/jquery-1.12.3.js' %}"
-	integrity="sha256-1XMpEtA4eKXNNpXcJ1pmMPs8JV+nwLdEqwiJeCQEkyc="
-	crossorigin="anonymous"></script>
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<script src="{% static 'js/materialize.min.js' %}"></script>
-	<script src="{% static 'js/main.js' %}"></script>
-          
+  <link rel="stylesheet" href="{% static 'css/materialize.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/base.css' %}">
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
 </head>
 <body>
   
 
 
 
+
   <nav class="nav-extended">
     <div class="nav-wrapper">
       <a href="#" class="brand-logo center"><h3>Logo</h3></a>
-      {% if user_display %}
-      <a href="#" data-activates="slide-out" class="button-collapse show-on-large"><i class="material-icons">menu</i></a>
-    {% endif %}
+      
 
-       <ul id="nav-mobile" class="right">
-    {% if user_display %}
-      <li>
-<a class="waves-effect waves-light btn-large transparent z-depth-0"><i class="material-icons left">shopping_cart</i><span style="margin-left:-23px;">6</span></a>
-      	 
-      </li>
+      <ul id="nav-mobile" class="right">
+        {% if user_display %}
+        <li>
+          <a class="waves-effect waves-light btn-large transparent z-depth-0"><i class="material-icons left">shopping_cart</i><span style="margin-left:-23px;">6</span></a>
+          
+        </li>
 
-      <li style="margin-left: -70px;">
-<a class="waves-effect waves-light btn-large transparent z-depth-0"><i class="material-icons left">notifications</i><span style="margin-left:-28px;">8</span></a>
-      	 
-      </li>
+        <li style="margin-left: -70px;">
+          <a class="waves-effect waves-light btn-large transparent z-depth-0"><i class="material-icons left">notifications</i><span style="margin-left:-28px;">8</span></a>
+          
+        </li>
         <li style="margin-left: -70px;">
           <a class='dropdown-button btn transparent z-depth-0' data-gutter="10px" data-beloworigin="true" href='#' data-activates='dropdown-user'>
-          <div class="chip transparent ">
-    <img src="{% static 'images/shahrukh.jpeg' %}" alt="Contact Person">
-  {{ user_display }}<br/>
-  </div></a>
-  <ul id='dropdown-user' class='dropdown-content'>
-    <li><a href="#!">one</a></li>
-    <li><a href="{% url 'account_email' %}">Settings</a></li>
-    <li><a href="{% url 'account_logout' %}">Logout</a></li>
-  </ul>
-        </li>
+            <div class="chip transparent ">
+              <img src="{% static 'images/shahrukh.jpeg' %}" alt="Contact Person">
+              {{ user_display }}<br/>
+            </div></a>
+            <ul id='dropdown-user' class='dropdown-content'>
+              <li><a href="#!">one</a></li>
+              <li><a href="{% url 'account_email' %}">Settings</a></li>
+              <li><a href="{% url 'account_logout' %}">Logout</a></li>
+            </ul>
+          </li>
 
-        {% else %}  
-        <li>
-        	<a href = "{% url 'account_login' %}" class="waves-effect waves-light btn">Login or Signup</a>
-        </li>
-        {% endif %}
+          {% else %}  
+          <li>
+           <a href = "{% url 'account_login' %}" class="waves-effect waves-light btn">Login or Signup</a>
+         </li>
+         {% endif %}
 
-      </ul>
-<div class="row">
-<div class="col s12 center">
-      <ul style="padding-top: 50px;">
-        <a class="waves-effect waves-light dropdown-button1" data-activates='dropdown1' data-beloworigin="true" >Login or Signup</a>
-        <a class="waves-effect waves-light dropdown-button1" data-activates='dropdown2' data-beloworigin="true" >Login or Signup</a>
-        <a class="waves-effect waves-light dropdown-button1" data-activates='dropdown3' data-beloworigin="true" >Login or Signup</a>
-        <a class="waves-effect waves-light dropdown-button1" data-activates='dropdown4' data-beloworigin="true" >Login or Signup</a>
-        
-      </ul>
-</div>
-</div>
+       </ul>
+       <div class="row">
+        <div class="col s12 center">
+          <ul style="padding-top: 50px;">
+            <a class="waves-effect waves-light dropdown-button1" data-activates='dropdown1' data-beloworigin="true" >Login or Signup</a>
+            <a class="waves-effect waves-light dropdown-button1" data-activates='dropdown2' data-beloworigin="true" >Login or Signup</a>
+            <a class="waves-effect waves-light dropdown-button1" data-activates='dropdown3' data-beloworigin="true" >Login or Signup</a>
+            <a class="waves-effect waves-light dropdown-button1" data-activates='dropdown4' data-beloworigin="true" >Login or Signup</a>
+            
+          </ul>
+        </div>
+      </div>
 
 
     </div>
   </nav>
 
- <ul id='dropdown1' class='dropdown-content'>
+
+
+  <ul id='dropdown1' class='dropdown-content dropdown-button2' data-activates='dropdown11' data-beloworigin="false">
     <li><a href="#!">one</a></li>
     <li><a href="#!">two</a></li>
     <li class="divider"></li>
     <li><a href="#!">three</a></li>
-  </ul>
-       
- <ul id='dropdown2' class='dropdown-content'>
-    <li><a href="#!">one</a></li>
-    <li><a href="#!">two</a></li>
-    <li class="divider"></li>
-    <li><a href="#!">three</a></li>
-  </ul>
-       
-
- <ul id='dropdown3' class='dropdown-content'>
-    <li><a href="#!">one</a></li>
-    <li><a href="#!">two</a></li>
-    <li class="divider"></li>
-    <li><a href="#!">three</a></li>
-  </ul>
-       
-
- <ul id='dropdown4' class='dropdown-content'>
-    <li><a href="#!">one</a></li>
-    <li><a href="#!">two</a></li>
-    <li class="divider"></li>
-    <li><a href="#!">three</a></li>
-  </ul>
-       
-
-
-
-{% user_display user %}<br/>
-
-
-
-<a href="{% provider_login_url "facebook" method="oauth2" %}">Facebook OAuth2</a>
-<br/><a href="{% provider_login_url "google" method="oauth2" %}">Google OAuth2</a>
-
-
- <ul id="slide-out" class="side-nav">
-    <li><div class="userView" style="background-image: url({% static 'images/1.jpeg' %});">
-      <!-- <img class="background"  style="height:400px;width:250px;" src="{% static 'images/1.jpeg' %}"> -->
-      <div style="padding-top:20px;"></div>
-      <a href="#!user"><img class="circle" style="height:64px;width:64px;" src="{% static 'images/shahrukh.jpeg' %}"></a>
-      <a href="#!name"><span class="white-text name">John Doe</span></a>
-      <a href="#!email"><span class="white-text email">jdandturk@gmail.com</span></a>
-    </div></li>
-    
-    <li>
-       <div class="row" style="padding-top:20px;">
-    <form class="col s12">
-      <div class="row">
-        <div class="input-field col s12">
-          <i class="material-icons prefix">mode_edit</i>
-          <input id="icon_prefix" type="text" class="validate" placeholder="Share your thoughts"><i class="material-icons">add_circle</i>
-          <div class="chips chips-placeholder"></div>
-          <i class="material-icons">attach_file</i>Attach a Image
-        </div>
-
-         <button class="btn waves-effect waves-light" type="submit" name="action">Post
-            <i class="material-icons right">send</i>
-        </button>
-        <hr/>
-        
-        
-      </div>
-    </form>
-  </div>
-        
-
-    </li>
-    <li><a class="waves-effect showpeople" data-href="/showpage/1" >Find Friends</a></li>
-
-    <li><a class="waves-effect showpeople" data-href="/showpage/2" >Talk About Me page</a></li>
-
   </ul>
   
-<div class="row">
-        <div class="input-field col l6 s12 offset-l3">
-          <i class="material-icons prefix">search</i>
-          <input id="icon_prefix" type="text" placeholde="Search for your item" class="validate">
-        </div>
-</div>
+  <ul id='dropdown11' class='dropdown-content'>
+    <li><a href="#!">one</a></li>
+    <li><a href="#!">two</a></li>
+    <li class="divider"></li>
+    <li><a href="#!">three</a></li>
+  </ul>
+  
 
-<div class="slider">
-	<ul class="slides">
-		<li>
-		<img src="{% static 'images/1.jpeg' %}"> <!-- random image -->
-		<div class="caption center-align">
-		<h3>This is our big Tagline!</h3>
-		<h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
-		</div>
-		</li>
-	<li>
-	<img src="{% static 'images/1.jpg' %}"> <!-- random image -->
-		<div class="caption left-align">
-		<h3>Left Aligned Caption</h3>
-		<h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
-		</div>
-	</li>
-	<li>
-	<img src="{% static 'images/background.jpg' %}"> <!-- random image -->
-	<div class="caption right-align">
-	<h3>Right Aligned Caption</h3>
-	<h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
-	</div>
-	</li>
-	<li>
-	<img src="{% static 'images/shahrukh.jpeg' %}"> <!-- random image -->
-	<div class="caption center-align">
-	<h3>This is our big Tagline!</h3>
-	<h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
-	</div>
-	</li>
-	</ul>
-</div>
-      
+
+  <ul id='dropdown2' class='dropdown-content'>
+    <li><a href="#!">one</a></li>
+    <li><a href="#!">two</a></li>
+    <li class="divider"></li>
+    <li><a href="#!">three</a></li>
+  </ul>
+  
+
+  <ul id='dropdown3' class='dropdown-content'>
+    <li><a href="#!">one</a></li>
+    <li><a href="#!">two</a></li>
+    <li class="divider"></li>
+    <li><a href="#!">three</a></li>
+  </ul>
+  
+
+  <ul id='dropdown4' class='dropdown-content'>
+    <li><a href="#!">one</a></li>
+    <li><a href="#!">two</a></li>
+    <li class="divider"></li>
+    <li><a href="#!">three</a></li>
+  </ul>
+  
+
+
+
+  {% user_display user %}<br/>
+
+
+
+  <a href="{% provider_login_url "facebook" method="oauth2" %}">Facebook OAuth2</a>
+  <br/><a href="{% provider_login_url "google" method="oauth2" %}">Google OAuth2</a>
+
+
+  
+  
+  <div class="row">
+    <div class="input-field col l6 s12 offset-l3">
+      <i class="material-icons prefix">search</i>
+      <input id="icon_prefix" type="text" placeholde="Search for your item" class="validate">
+    </div>
+  </div>
+
+  <div class="slider">
+   <ul class="slides">
+    {% for image in slider %}
+    <li>
+      <img src="{{ image.image.url }}"> <!-- random image -->
+      <div class="caption {{ image.alignment }}-align">
+        <h3>{{ image.header }}</h3>
+        <h5 class="light grey-text text-lighten-3">{{ image.content }}</h5>
+        <h5><a href="{{ image.link }}">{{ image.link_text }}</a><h5>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  
 
 
 
   <div class="section white">
     <div class="row container">
-      <h2 class="header">Parallax</h2>
-      <p class="grey-text text-darken-3 lighten-3">Parallax is an effect where the background content or image in this case, is moved at a different speed than the foreground content while scrolling.</p>
-    
-    <div class="row">
-        <div class="col s12 m122 l6">
-          <div class="card">
-            <div class="card-image">
-              <img src="{% static 'images/1.jpeg' %}">
-              <span class="card-title">Card Title</span>
-            </div>
-            <div class="card-content">
-              <p>I am a very simple card. I am good at containing small bits of information.
-              I am convenient because I require little markup to use effectively.</p>
-            </div>
-            <div class="card-action">
-              <a href="#">This is a link</a>
-            </div>
-          </div>
-        </div>
-
-
-        <div class="col s12 m12 l6">
-          <div class="card">
-            <div class="card-image">
-              <img src="{% static 'images/1.jpeg' %}">
-              <span class="card-title">Card Title</span>
-            </div>
-            <div class="card-content">
-              <p>I am a very simple card. I am good at containing small bits of information.
-              I am convenient because I require little markup to use effectively.</p>
-            </div>
-            <div class="card-action">
-              <a href="#">This is a link</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="col s12 m12 l6">
-          <div class="card">
-            <div class="card-image">
-              <img src="{% static 'images/1.jpeg' %}">
-              <span class="card-title">Card Title</span>
-            </div>
-            <div class="card-content">
-              <p>I am a very simple card. I am good at containing small bits of information.
-              I am convenient because I require little markup to use effectively.</p>
-            </div>
-            <div class="card-action">
-              <a href="#">This is a link</a>
-            </div>
-          </div>
-        </div>
-
-
-        <div class="col s12 m12 l6">
-          <div class="card">
-            <div class="card-image">
-              <img src="{% static 'images/1.jpeg' %}">
-              <span class="card-title">Card Title</span>
-            </div>
-            <div class="card-content">
-              <p>I am a very simple card. I am good at containing small bits of information.
-              I am convenient because I require little markup to use effectively.</p>
-            </div>
-            <div class="card-action">
-              <a href="#">This is a link</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-	  <h2 class="header">New Products</h2>
-
-	  <div class="row">
-	  	<div class="col s12 m12 l6">
-          <div class="card">
-            <div class="card-image">
-              <img src="{% static 'images/1.jpeg' %}">
-              <span class="card-title">Card Title</span>
-            </div>
-            <div class="card-content">
-              <p>I am a very simple card. I am good at containing small bits of information.
-              I am convenient because I require little markup to use effectively.</p>
-            </div>
-            <div class="card-action">
-              <a href="#">This is a link</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="col s12 m12 l6">
-          <div class="card">
-            <div class="card-image">
-              <img src="{% static 'images/1.jpeg' %}">
-              <span class="card-title">Card Title</span>
-            </div>
-            <div class="card-content">
-              <p>I am a very simple card. I am good at containing small bits of information.
-              I am convenient because I require little markup to use effectively.</p>
-            </div>
-            <div class="card-action">
-              <a href="#">This is a link</a>
-            </div>
-          </div>
-        </div>
-
-	  </div>
-    
-    </div>
-  
-
-  </div>
-
-  <div class="parallax-container">
-    <div class="parallax"><img src="{% static 'images/1.jpg' %}"></div>
-  </div>
-
-<div class="container">
-<h2 class="header">Pic of the week</h2>
-</div>
-
-
-<div class="row">
-	<div class="col s12 m12 l6">
-          <div class="card">
-            <div class="card-image">
-              <img src="{% static 'images/1.jpeg' %}">
-              <span class="card-title">Card Title</span>
-            </div>
-            <div class="card-content">
-              <p>I am a very simple card. I am good at containing small bits of information.
-              I am convenient because I require little markup to use effectively.</p>
-            </div>
-            <div class="card-action">
-              <a href="#">This is a link</a>
-            </div>
-          </div>
-        </div>
-
-        	<div class="col s12 m12 l6">
-          <div class="card">
-            <div class="card-image">
-              <video class="responsive-video" controls>
-	    <source src="{% static 'videoes/1.mp4' %}" type="video/mp4">
-		  </video>
-
-            </div>
-            <div class="card-content">
-              <p>I am a very simple card. I am good at containing small bits of information.
-              I am convenient because I require little markup to use effectively.</p>
-            </div>
-            <div class="card-action">
-              <a href="#">This is a link</a>
-            </div>
-          </div>
-        </div>
-</div>
-
-
-  <div class="parallax-container">
-    <div class="parallax"><img src="{% static 'images/1.jpg' %}"></div>
-  </div>
-      
-
-<div class="container">
-<h2 class="header">Product suggestions</h2>
-
-<div class="row">
-    <form class="col s12">
+      <h2 class="header">Products</h2>
+      <p class="grey-text text-darken-3 lighten-3">Here we'll be writing somethings abput our products</p>
       <div class="row">
-        <div class="input-field col s6">
-          <i class="material-icons prefix">mode_edit</i>
-          <textarea id="icon_prefix2" class="materialize-textarea"></textarea>
-          <label for="icon_prefix2">Product suggest</label>
+      {% for category in categories %}
+        <div class="col s12 m122 l6">
+          <div class="card large">
+            <div class="card-image">
+              <img src="{{ category.image.url }}">
+              <span class="card-title">{{ category.category }}</span>
+            </div>
+            <div class="card-content">
+              <p>{{ category.category_description|linebreaks }}</p>
+            </div>
+            <div class="card-action">
+              <a href="{{ category.link }}">{{ category.link_text }}</a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        </div>
+
+        <h2 class="header">New Products</h2>
+
+        <div class="row">
+          {% for product in newproducts %}
+          <div class="col s12 m6 l3">
+            <div class="card small medium">
+              <div class="card-image">
+                <img src="{{ product.prod.all.0.productimages.all.0.image.url }}">
+                <!-- product_description related to products which is related to ImagesOfProducts .all gives all the related objects and .0 used for indexing -->
+                <a href="{{ product.link }}">
+                </a>
+                <span class="card-title">{{ product.name }}</span>
+              </div>
+              <div class="card-content">
+                <p>{{ product.description }}</p>
+              </div>
+              
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+      </div>
+    </div>
+
+    <div class="parallax-container">
+      <div class="parallax"><img src="{% static 'images/1.jpg' %}"></div>
+    </div>
+
+    <div class="container">
+      <h2 class="header">Pic of the week</h2>
+    </div>
+
+
+    <div class="row">
+     <div class="col s12 m12 l6">
+      <div class="card">
+        <div class="card-image">
+          <img src="{% static 'images/1.jpeg' %}">
+          <span class="card-title">Card Title</span>
+        </div>
+        <div class="card-content">
+          <p>I am a very simple card. I am good at containing small bits of information.
+            I am convenient because I require little markup to use effectively.</p>
+          </div>
+          <div class="card-action">
+            <a href="#">This is a link</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col s12 m12 l6">
+        <div class="card">
+          <div class="card-image">
+            <video class="responsive-video" controls>
+             <source src="{% static 'videoes/1.mp4' %}" type="video/mp4">
+             </video>
+
+           </div>
+           <div class="card-content">
+            <p>I am a very simple card. I am good at containing small bits of information.
+              I am convenient because I require little markup to use effectively.</p>
+            </div>
+            <div class="card-action">
+              <a href="#">This is a link</a>
+            </div>
+          </div>
         </div>
       </div>
 
 
-  <button class="btn waves-effect waves-light" type="submit" name="action">Submit
-    <i class="material-icons right">send</i>
-  </button>
+      <div class="container">
+        <h2 class="header">Product suggestions</h2>
 
-    </form>
-  </div>
-
-</div>
-
-
-
-        <footer class="page-footer">
-          <div class="container">
+        <div class="row">
+          <form class="col s12">
             <div class="row">
-              <div class="col l6 s12">
-                <h5 class="white-text">Footer Content</h5>
-                <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
-              </div>
-              <div class="col l4 offset-l2 s12">
-                <h5 class="white-text">Links</h5>
-                <ul>
-                  <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
-                  <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
-                  <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
-                  <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
-                </ul>
+              <div class="input-field col s6">
+                <i class="material-icons prefix">mode_edit</i>
+                <textarea id="icon_prefix2" class="materialize-textarea"></textarea>
+                <label for="icon_prefix2">Product suggest</label>
               </div>
             </div>
-          </div>
-          <div class="footer-copyright">
-            <div class="container">
-            © 2014 Copyright Text
-            <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
-            </div>
-          </div>
-        </footer>
 
-</body>
-</html>
+
+            <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+              <i class="material-icons right">send</i>
+            </button>
+
+          </form>
+        </div>
+
+      </div>
+   
+
+    <div class="parallax-container">
+      <div class="parallax"><img src="{% static 'images/1.jpg' %}"></div>
+    </div>
+
+    <footer class="page-footer">
+      <div class="container">
+        <div class="row">
+          <div class="col l6 s12">
+            <h5 class="white-text">Footer Content</h5>
+            <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
+          </div>
+          <div class="col l4 offset-l2 s12">
+            <h5 class="white-text">Links</h5>
+            <ul>
+              <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
+              <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
+              <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
+              <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer-copyright">
+        <div class="container">
+          © 2014 Copyright Text
+          <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+        </div>
+      </div>
+    </footer>
+
+  </body>
+  </html>
