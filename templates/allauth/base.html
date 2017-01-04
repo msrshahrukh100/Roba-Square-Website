@@ -11,12 +11,12 @@
     {% block extra_head %}
     {% endblock %}
 
-    <link rel="stylesheet" href="{% static 'css/materialize.min.css' %}">
-  <script src="{% static 'js/materialize.min.js' %}"></script>
 
   <script src="{% static 'js/jquery-1.12.3.js' %}"
   integrity="sha256-1XMpEtA4eKXNNpXcJ1pmMPs8JV+nwLdEqwiJeCQEkyc="
   crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'css/materialize.min.css' %}">
+  <script src="{% static 'js/materialize.min.js' %}"></script>
 
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <script src="{% static 'js/main.js' %}"></script>
@@ -48,7 +48,7 @@
   </div></a>
   <ul id='dropdown1' class='dropdown-content'>
     <li><a href="#!">one</a></li>
-    <li><a href="{% url 'account_email' %}">Settings</a></li>
+    <li><a href="{% url 'authentication:change_settings' %}">Settings</a></li>
     <li><a href="{% url 'account_logout' %}">Logout</a></li>
   </ul>
         </li>

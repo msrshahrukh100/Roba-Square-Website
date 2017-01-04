@@ -2,8 +2,9 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-import django.db.models.deletion
+import autoslug.fields
 import shopping.models
+import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
@@ -21,8 +22,8 @@ class Migration(migrations.Migration):
                 ('height_field', models.IntegerField(default=0)),
                 ('width_field', models.IntegerField(default=0)),
                 ('category_description', models.TextField(max_length=400)),
+                ('slug', autoslug.fields.AutoSlugField(populate_from=b'category', unique=True, editable=False)),
                 ('link_text', models.CharField(max_length=100)),
-                ('link', models.URLField()),
             ],
         ),
         migrations.CreateModel(
@@ -44,8 +45,8 @@ class Migration(migrations.Migration):
                 ('stockcount', models.PositiveIntegerField(default=0)),
                 ('gender', models.CharField(max_length=10, choices=[(b'Male', b'Male'), (b'Female', b'Female'), (b'Unisex', b'Unisex'), (b'0', b'N/A')])),
                 ('new_product', models.BooleanField(default=False)),
-                ('slug', models.SlugField(unique=True)),
-                ('category', models.ForeignKey(on_delete=django.db.models.deletion.SET_NULL, blank=True, to='shopping.Categories', null=True)),
+                ('slug', autoslug.fields.AutoSlugField(populate_from=b'name', unique=True, editable=False)),
+                ('category', models.ForeignKey(related_name='products_desc', on_delete=django.db.models.deletion.SET_NULL, blank=True, to='shopping.Categories', null=True)),
             ],
         ),
         migrations.CreateModel(

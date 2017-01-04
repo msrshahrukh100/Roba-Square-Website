@@ -1,0 +1,98 @@
+{% extends 'allauth/base.html' %}
+
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% block head_title %}{% trans "Account" %}{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col s12 m9 l8">    
+
+    <div id="BasicSettings" class="section scrollspy">
+      <form method="post" onsubmit="return false" id="basicsettingsform">
+      {% csrf_token %}
+
+      {{ userinfoform.as_p }}
+
+      <a class="waves-effect waves-light btn" id="sumbitbasicsettings">Submit</a>
+
+      </form>
+<!-- 
+<label for='dateofbirth'>Date Of Birth</label>
+<input type="date" id="dateofbirth" class="datepicker"> -->
+
+
+    </div>
+
+
+    <div id="EmailSettings" class="section scrollspy">
+      <a class="waves-effect waves-light btn" href="{% url 'account_email' %}"><i class="material-icons right">cloud</i>Modify your Email</a>
+    </div>
+
+
+    <div id="PasswordSettings" class="section scrollspy">
+      <a class="waves-effect waves-light btn" href="{% url 'account_change_password' %}"><i class="material-icons right">cloud</i>Change Password</a>
+    </div>
+
+
+  </div>
+
+  <div class="col hide-on-small-only m3 l2">
+    <ul class="section table-of-contents fixed">
+      <li>
+        <a href="#BasicSettings">Basic Settings</a>
+      </li>
+      <li>
+        <a href="#EmailSettings">Email Settings</a>
+      </li>
+      <li>
+        <a href="#PasswordSettings">Password Settings</a>
+      </li>
+
+    </ul>
+  </div>
+</div>
+
+  <a class="btn" onclick="Materialize.toast('I am a toast', 4000)">Toast!</a>
+
+{% endblock %}
+
+
+{% block extra_body %}
+
+<script type="text/javascript">
+
+	$(function(){
+
+    $('#sumbitbasicsettings').on('click',function(){
+
+       var temp = {'X-CSRFToken': document.getElementsByName('csrfmiddlewaretoken')[0].value};
+
+      $.ajax({
+        url : ".",
+        type : 'POST',
+        dataType: 'json',
+        data :  $('#basicsettingsform').serialize(),
+        headers: temp,
+        contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+        success : function(data) {
+          if (data['type'] == 0)
+          {
+            var x = data['errors'].__all__[0] 
+            Materialize.toast(x, 4000) 
+          }
+          else if(data['type'] == 1)
+          {
+            Materialize.toast(data['msg'], 4000) 
+          }
+
+        }
+      });
+
+
+
+    });
+
+  });
+</script>
+{% endblock %}

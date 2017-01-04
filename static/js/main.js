@@ -1,5 +1,15 @@
 $(function(){
 
+    var d = new Date();
+    $('.datepicker').pickadate({
+    selectMonths: true, // Creates a dropdown to control month
+    selectYears: 30, // Creates a dropdown of 15 years to control year
+    min: [1980,3,20],
+    max: [d.getFullYear(),7,14],
+  });
+  $('select').material_select();
+    $('.scrollspy').scrollSpy();
+        
 	$('.slider').slider();
 	 $('.parallax').parallax();
 
