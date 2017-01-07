@@ -2,6 +2,9 @@ from django.db import models
 from django.contrib.auth.models import User
 from autoslug import AutoSlugField
 from authentication.username import get_user_name
+from django.dispatch.dispatcher import receiver
+
+
 # upload location for user profile pics
 def upload_location_user(instance, filename) :
 	return "users/%s/%s" % (instance.user.id, filename)
@@ -20,8 +23,4 @@ class UserInformation(models.Model) :
 
 	def __unicode__(self) :
 		return str(self.user.id)
-
-
-
-
 

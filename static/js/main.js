@@ -34,4 +34,20 @@ $(function(){
       alignment: 'left' // Displays dropdown with edge aligned to the left of button
     }
   );
+
+ $('.addtocart').on('click', function(){
+
+  var link = $(this).attr('data-href')
+  $.ajax({
+    url : link,
+    type : 'GET',
+    success : function(data){
+      Materialize.toast(data['msg'], 4000) 
+      $('#cartcount').text(data['count'])
+    }
+
+  });
+
+ });
+
 });

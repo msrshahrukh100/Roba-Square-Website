@@ -5,6 +5,16 @@
 {% block head_title %}{% trans "Account" %}{% endblock %}
 
 {% block content %}
+
+{% block breadcumb %}
+
+<div class="col s12" style="padding-left:50px;">
+        <a href="/" class="breadcrumb">Home</a>
+        <a href="{% url 'authentication:change_settings' %}" class="breadcrumb" >Settings</a>
+        <a class="breadcrumb" >Email Settings</a>
+</div>
+
+{% endblock %}
 <div class="row">
   <div class="col s12 m9 l10">
     <div id="introduction" class="section scrollspy">
@@ -60,28 +70,12 @@
     </div>
     
 
-    <div id="structure" class="section scrollspy">
-      <p>Content</p>
-    </div>
+    
 
-    <div id="initialization" class="section scrollspy">
-      <p>Content</p>
-    </div>
+    
   </div>
 
-  <div class="col hide-on-small-only m3 l2">
-    <ul class="section table-of-contents">
-      <li>
-        <a href="#introduction">Introduction</a>
-      </li>
-      <li>
-        <a href="#structure">Structure</a>
-      </li>
-      <li>
-        <a href="#initialization">Intialization</a>
-      </li>
-    </ul>
-  </div>
+  
 </div>
 {% endblock %}
 

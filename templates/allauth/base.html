@@ -26,9 +26,7 @@
 
   <nav>
     <div class="nav-wrapper">
-    {% if user_display %}
-      <a href="#" data-activates="slide-out" class="button-collapse show-on-large"><i class="material-icons">menu</i></a>
-    {% endif %}
+   
       <ul id="nav-mobile" class="right">
     {% if user_display %}
       <li>
@@ -61,11 +59,9 @@
 
       </ul>
 
-     
-      <div class="col s12" style="padding-left:50px;">
-        <a href="#!" class="breadcrumb">Home</a>
-        <a class="breadcrumb" >Accessories</a>
-      </div>
+     {% block breadcumb %}
+      
+      {% endblock %}
 
     </div>
   </nav>

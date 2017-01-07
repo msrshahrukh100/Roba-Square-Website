@@ -9,7 +9,7 @@
   <div class="{% cycle 'col s12 m6 l3 offset-l1' 'col s12 m6 l3' 'col s12 m6 l3 ' %}">
     <div class="card medium hoverable">
       <div class="card-image waves-effect waves-block waves-light">
-        <img class="activator" src="{{ p.prod.first.productimages.first.image.url }}
+        <img class="activator" src="{{ p.get_image_url }}
 "></div>
       <div class="card-content">
         <span class="card-title activator grey-text text-darken-4">
@@ -22,6 +22,8 @@
           {{ p.gender }}
           {{ p.new_product }}
         </p>
+        <a data-href='{{ p.get_add_to_cart_url }}' class="addtocart">Add to cart</a>
+        <p>{{ p.get_add_to_cart_url }}</p>
       </div>
       <div class="card-reveal">
         <span class="card-title grey-text text-darken-4">
@@ -70,10 +72,12 @@
         <div class="col l5 s6 m5 offset-l1 offset-m1">
           <div class="card z-depth-0">
             <div class="card-image">
-              <img src="{{ d.prod.first.productimages.first.image.url }}">
+              <img src="{{ d.get_image_url }}">
             </div>
             <div class="card-action">
               <a href="#">This is a link</a>
+              <a data-href='{{ d.get_add_to_cart_url }}' class='addtocart'>Add to cart</a>
+              {{ d.get_add_to_cart_url }}
             </div>
           </div>
         </div>

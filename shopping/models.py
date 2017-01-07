@@ -29,6 +29,8 @@ class Categories(models.Model):
 
 
 
+
+
 #class for storing the product description 
 class ProductDescription(models.Model) :
 	gender_opt = (('Male','Male'),('Female','Female'),('Unisex','Unisex'),('0','N/A'))
@@ -48,6 +50,14 @@ class ProductDescription(models.Model) :
 	def get_absolute_url(self):
 		return reverse("shopping:view_category_or_item", kwargs={"slug": self.slug,"qtype":"product"})
 
+	@property
+	def get_image_url(self) :
+		return self.prod.first().productimages.first().image.url
+
+	@property
+	def get_add_to_cart_url(self) :
+		return reverse("cart:addtocart", kwargs={"id":self.id})
+
 
 
 
@@ -64,6 +74,10 @@ class Products(models.Model) :
 
 	def __unicode__(self) :
 		return str(self.id)
+
+	@property
+	def get_image_url(self) :
+		return self.productimages.first().image.url
 
 
 #upload location for product images

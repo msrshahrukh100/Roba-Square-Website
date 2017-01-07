@@ -15,8 +15,8 @@
   <link rel="stylesheet" href="{% static 'css/materialize.min.css' %}">
   <link rel="stylesheet" href="{% static 'css/base.css' %}">
 
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  
+  <link href="{% static 'css/icons.css' %}" rel="stylesheet">
+   
 </head>
 <body>
   
@@ -32,7 +32,7 @@
       <ul id="nav-mobile" class="right">
         {% if user_display %}
         <li>
-          <a class="waves-effect waves-light btn-large transparent z-depth-0"><i class="material-icons left">shopping_cart</i><span style="margin-left:-23px;">6</span></a>
+          <a class="waves-effect waves-light btn-large transparent z-depth-0"><i class="material-icons left">shopping_cart</i><span id="cartcount" style="margin-left:-23px;">6</span></a>
           
         </li>
 
@@ -132,7 +132,6 @@
   {% user_display user %}<br/>
 
 
-
   <a href="{% provider_login_url "facebook" method="oauth2" %}">Facebook OAuth2</a>
   <br/><a href="{% provider_login_url "google" method="oauth2" %}">Google OAuth2</a>
 
@@ -188,7 +187,8 @@
           <div class="col s12 m6 l3">
             <div class="card small medium">
               <div class="card-image">
-                <img src="{{ product.prod.all.0.productimages.all.0.image.url }}">
+                <!-- <img src="{{ product.prod.all.0.productimages.all.0.image.url }}"> -->
+                <img src="{{ product.get_image_url }}">
                 <!-- product_description related to products which is related to ImagesOfProducts .all gives all the related objects and .0 used for indexing -->
                 <a href="{{ product.link }}">
                 </a>

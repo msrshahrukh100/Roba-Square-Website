@@ -18,7 +18,7 @@ urlpatterns = [
     #local apps url
     url(r'^', include('authentication.urls',namespace='authentication')),
     url(r'^api/authentication/', include('authentication.api.urls',namespace='authentication-api')),
-
+    url(r'^cart/', include('cart.urls',namespace='cart')),
     url(r'^shop/', include('shopping.urls',namespace='shopping')),
 
 ]
