@@ -12,6 +12,14 @@ class Cart(models.Model) :
 	def __unicode__(self) :
 		return self.user.username
 
+class Wishlist(models.Model) :
+	user = models.ForeignKey(User,related_name='wishlist')
+	products = models.ForeignKey(ProductDescription, related_name='inwishlist')
+
+	def __unicode__(self) :
+		return self.user.username
+		
+ 
 
 
 
@@ -24,12 +32,11 @@ def user_logged_in_receiver(sender, user, request, **kwargs):
 
 	items = Cart.objects.filter(user=request.user)
 	# add products from cart model to session
-	temp = []
 	for item in items :
-		if item.products.id not in cart :
-			temp.append(item.products.id)
+		if str(item.products.id) not in cart :
+			cart.append(str(item.products.id)) 
 
-	request.session['products'] = temp
+	request.session['products'] = cart
 
 user_logged_in.connect(user_logged_in_receiver)
 
@@ -48,7 +55,7 @@ def user_logged_out_receiver(sender, user, request, **kwargs):
 			x = ProductDescription.objects.filter(id=i).first()
 			Cart.objects.create(user=user,products=x)
 
-	request.session['products'] = []
+	request.session.clear()
 
 
 user_logged_out.connect(user_logged_out_receiver)

@@ -58,6 +58,15 @@ class ProductDescription(models.Model) :
 	def get_add_to_cart_url(self) :
 		return reverse("cart:addtocart", kwargs={"id":self.id})
 
+	@property
+	def get_add_to_wishlist_url(self) :
+		return reverse("cart:addtowishlist", kwargs={"id":self.id})
+
+
+	@property
+	def get_delete_cart_url(self) :
+		return reverse("cart:deletefromcart", kwargs={"id":self.id})
+
 
 
 

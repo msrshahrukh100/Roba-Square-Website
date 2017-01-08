@@ -22,8 +22,19 @@
           {{ p.gender }}
           {{ p.new_product }}
         </p>
+        {% if incart %}
+        <a href='{{ p.get_delete_cart_url }}' class="">Remove from cart</a>
+        {{ p.get_delete_cart_url }}
+        {% else %}
         <a data-href='{{ p.get_add_to_cart_url }}' class="addtocart">Add to cart</a>
+        {% endif %}
         <p>{{ p.get_add_to_cart_url }}</p>
+
+        {% if request.user %}
+        <a data-href='{{ p.get_add_to_wishlist_url }}' class="addtocart">Add to wishlist</a>
+        <p>{{ p.get_add_to_wishlist_url }}</p>
+        {% endif %}
+
       </div>
       <div class="card-reveal">
         <span class="card-title grey-text text-darken-4">
@@ -78,6 +89,11 @@
               <a href="#">This is a link</a>
               <a data-href='{{ d.get_add_to_cart_url }}' class='addtocart'>Add to cart</a>
               {{ d.get_add_to_cart_url }}
+
+              {% if request.user %}
+              <a data-href='{{ d.get_add_to_wishlist_url }}' class='addtocart'>Add to wishlist</a>
+              {{ d.get_add_to_wishlist_url }}
+              {% endif %}
             </div>
           </div>
         </div>

@@ -42,8 +42,10 @@ $(function(){
     url : link,
     type : 'GET',
     success : function(data){
-      Materialize.toast(data['msg'], 4000) 
+      Materialize.toast(data['msg'], 4000)
+      if (data['count']) {
       $('#cartcount').text(data['count'])
+      } 
     }
 
   });

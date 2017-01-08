@@ -12,6 +12,7 @@ def view_category_or_item(request, qtype=None, slug=None) :
 		context = {
 		'type':1,
 		'products' : products,
+		"cartcount":len(request.session.get('products',[]))
 		}
 		return render(request,'view.html',context)
 	elif qtype == 'product' :
@@ -19,6 +20,7 @@ def view_category_or_item(request, qtype=None, slug=None) :
 		context = {
 		'type' : 2,
 		'detailp':instance,
+		"cartcount":len(request.session.get('products',[]))
 		}
 		return render(request,'view.html',context)
 	else :
