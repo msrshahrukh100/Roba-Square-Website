@@ -67,9 +67,9 @@ class ProductDescription(models.Model) :
 	def get_delete_cart_url(self) :
 		return reverse("cart:deletefromcart", kwargs={"id":self.id})
 
-
-
-
+	@property
+	def get_delete_wishlist_url(self) :
+		return reverse("cart:deletefromwishlist", kwargs={"id":self.id})
 
 
 #class for storing the list of all products with the variation of size and color

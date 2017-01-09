@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from shopping.models import ProductDescription
 from django.http import JsonResponse
 from .models import Wishlist
@@ -20,12 +20,15 @@ def addtocart(request,id=None) :
 		return JsonResponse({'msg':'Added to cart!','count':1})
 
 def deletefromcart(request,id=None) :
-	request.session['products'].remove(str(id))
+	cart = request.session['products']
+	cart.remove(str(id))
+	request.session['products'] = cart
 	print request.session['products']
 	return redirect('cart:viewcart')
 
 def viewcart(request) :
 	cart = request.session.get('products',None)
+	print cart
 	products = []
 	for i in cart :
 		products.append(ProductDescription.objects.filter(id=int(i)).first())
@@ -47,3 +50,26 @@ def addtowishlist(request, id=None) :
 	else :
 		return JsonResponse({'msg' : 'Already in your wishlist'})
 
+
+def viewwishlist(request) :
+	user = request.user
+	products = []
+	wishlist = Wishlist.objects.filter(user=user)
+	for p in wishlist :
+		products.append(p.products)
+
+	context = {
+	'type':1,
+	'products' : products,
+	'inwl' : True,
+	"cartcount":len(request.session.get('products',[]))
+	}
+	return render(request,'view.html',context)
+
+
+def deletefromwishlist(request, id=None) :
+	product = ProductDescription.objects.filter(id=id).first()
+	user = request.user
+	x = get_object_or_404(Wishlist,user=user, products=product)
+	x.delete()
+	return redirect('cart:viewwishlist')
