@@ -11,6 +11,7 @@ def view_category_or_item(request, qtype=None, slug=None) :
 		instance = Categories.objects.filter(slug=slug)
 		products = instance.first().products_desc.all().order_by('?')
 		context = {
+		'cname' : instance.first().category,
 		'type':1,
 		'products' : products,
 		"cartcount":len(request.session.get('products',[]))

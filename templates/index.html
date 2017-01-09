@@ -62,62 +62,40 @@
          {% endif %}
 
        </ul>
+
+{% block browser %}
        <div class="row">
         <div class="col s12 center">
-          <ul style="padding-top: 50px;">
-            <a class="waves-effect waves-light dropdown-button1" data-activates='dropdown1' data-beloworigin="true" >Login or Signup</a>
-            <a class="waves-effect waves-light dropdown-button1" data-activates='dropdown2' data-beloworigin="true" >Login or Signup</a>
-            <a class="waves-effect waves-light dropdown-button1" data-activates='dropdown3' data-beloworigin="true" >Login or Signup</a>
-            <a class="waves-effect waves-light dropdown-button1" data-activates='dropdown4' data-beloworigin="true" >Login or Signup</a>
+          <ul style="padding-top: 10px;">
+          {% for c in categories %}
+          <a class="waves-effect waves-light dropdown-button1" href="{{ c.get_absolute_url }}" data-activates='{{ c.id }}' data-beloworigin="true" >{{ c.category }}</a>
+          {% endfor %}
+          
             
           </ul>
         </div>
       </div>
 
+<!-- for the dropdowns -->
+
+{% for c in categories %}
+  <ul id='{{ c.id }}' class='dropdown-content' data-beloworigin="false">
+  {% for p in c.products_desc.all %}
+    <li><a href="{{ p.get_absolute_url }}">{{ p.name }}</a></li>
+  {% endfor %}
+  </ul>
+{% endfor %}
+
+<!-- for the dropdowns -->
+{% endblock %}
+
+     {% block breadcumb %}
+      
+      {% endblock %}
 
     </div>
   </nav>
 
-
-
-  <ul id='dropdown1' class='dropdown-content dropdown-button2' data-activates='dropdown11' data-beloworigin="false">
-    <li><a href="#!">one</a></li>
-    <li><a href="#!">two</a></li>
-    <li class="divider"></li>
-    <li><a href="#!">three</a></li>
-  </ul>
-  
-  <ul id='dropdown11' class='dropdown-content'>
-    <li><a href="#!">one</a></li>
-    <li><a href="#!">two</a></li>
-    <li class="divider"></li>
-    <li><a href="#!">three</a></li>
-  </ul>
-  
-
-
-  <ul id='dropdown2' class='dropdown-content'>
-    <li><a href="#!">one</a></li>
-    <li><a href="#!">two</a></li>
-    <li class="divider"></li>
-    <li><a href="#!">three</a></li>
-  </ul>
-  
-
-  <ul id='dropdown3' class='dropdown-content'>
-    <li><a href="#!">one</a></li>
-    <li><a href="#!">two</a></li>
-    <li class="divider"></li>
-    <li><a href="#!">three</a></li>
-  </ul>
-  
-
-  <ul id='dropdown4' class='dropdown-content'>
-    <li><a href="#!">one</a></li>
-    <li><a href="#!">two</a></li>
-    <li class="divider"></li>
-    <li><a href="#!">three</a></li>
-  </ul>
   
 
 

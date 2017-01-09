@@ -2,10 +2,30 @@
 {% block title %}View title{% endblock %}
 {% load crispy_forms_tags %}
 
-
+{% block browser %}&nbsp{% endblock %}
 {% block content %}
 
+
+     {% block breadcumb %}
+      {% if type == 1 %}
+    <div class="col s12" style="padding-left:50px;">
+        <a href="/" class="breadcrumb">Home</a>
+        <a class="breadcrumb" >{{ cname }}</a>
+    </div>
+    {% else %}
+    <div class="col s12" style="padding-left:50px;">
+        <a href="/" class="breadcrumb">Home</a>
+        <a href="{{ detailp.category.get_absolute_url }}" class="breadcrumb">{{ detailp.category.category }}</a>
+        <a class="breadcrumb" >{{ detailp.name }}</a>
+    </div>
+      {% endif %}  
+      {% endblock %}
+
+
+
 {% if type == 1 %}
+
+
 <div class="row">
   {% for p in products %}
   <div class="{% cycle 'col s12 m6 l3 offset-l1' 'col s12 m6 l3' 'col s12 m6 l3 ' %}">
@@ -72,7 +92,11 @@
     </ul>
   </div>
 
+  
+
   {% else %}
+
+
 
      <div class="row">
         <div class="col l5 s6 m5 offset-l1 offset-m1">
@@ -83,7 +107,6 @@
             <div class="card-action">
               <a href="#">This is a link</a>
               <a data-href='{{ detailp.get_add_to_cart_url }}' class='addtocart'>Add to cart</a>
-              {{ d.get_add_to_cart_url }}
 
               {% if request.user %}
               <a data-href='{{ detailp.get_add_to_wishlist_url }}' class='addtocart'>Add to wishlist</a>
