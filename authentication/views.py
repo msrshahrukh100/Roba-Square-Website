@@ -76,6 +76,7 @@ def change_settings(request) :
 	# 	print userinfoform.errors
 	context = {
 	'userinfoform' : userinfoform,
+	# "cartcount":len(request.session.get('products',[])),
 	}
 	return render(request,'settings.html',context)
 

@@ -31,7 +31,7 @@
 
       <ul id="nav-mobile" class="right">
         <li>
-          <a href="{% url 'cart:viewcart' %}" class="waves-effect waves-light btn-large transparent z-depth-0"><i class="material-icons left">shopping_cart</i><span id="cartcount" style="margin-left:-15px;">{{ cartcount }}</span></a>
+          <a href="{% url 'cart:viewcart' %}" class="waves-effect waves-light btn-large transparent z-depth-0"><i class="material-icons left">shopping_cart</i><span id="cartcount" style="margin-left:-15px;">{{ request.session.products|length }}</span></a>
           
         </li>
 
@@ -99,17 +99,20 @@
   
 
 
-
+{% block search %}
   <div class="row">
     <div class="input-field col l6 s12 offset-l3">
       <i class="material-icons prefix">search</i>
-      <input id="icon_prefix" type="text" placeholde="Search for your item" class="validate">
+      <label for="icon_prefix" class="center">Search for your favourite item</label>
+      <input id="icon_prefix" type="text"  class="validate">
     </div>
   </div>
+{% endblock %}
 
 {% block content %}
 
   {% user_display user %}<br/>
+  <a href="{% url 'social:viewallusers' %}">View all users</a>
 
 
   <a href="{% provider_login_url "facebook" method="oauth2" %}">Facebook OAuth2</a>

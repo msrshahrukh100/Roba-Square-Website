@@ -1,0 +1,50 @@
+{% extends "index.html" %}
+{% load staticfiles %}
+{% block title %}View title{% endblock %}
+{% load crispy_forms_tags %}
+
+{% block browser %}&nbsp{% endblock %}
+
+{% block breadcumb %}
+
+{% endblock %}
+
+{% block search %}
+  <div class="row">
+    <div class="input-field col l6 s12 offset-l3">
+      <i class="material-icons prefix">search</i>
+      <label for="icon_prefix" class="center">Find Friends</label>
+      <input id="icon_prefix" type="text"  class="validate">
+    </div>
+  </div>
+{% endblock %}
+
+
+{% block content %}
+<div class="row">
+      {% for user in users %}
+        <div class="col s6 l3 m4">
+          <div class="card">
+            <div class="card-image">
+              <img src="{% static 'images/1.jpg' %}">
+              <span class="card-title">{{ user.username }}</span>
+            </div>
+            <div class="card-content">
+              <p>{{ user.user_information.profession }} at {{ user.user_information.name_of_institute }}</p>
+            </div>
+            <div class="card-action" id="arc">
+            <span id="addorremove{{ user.id }}">
+            {% if user in connections %}
+              <a data-id="{{ user.id }}" data-href="{% url 'social:removeconnection' id=user.id %}" class="addremoveconnection">Remove from connections</a>
+              {% else %}
+              <a data-id="{{ user.id }}" data-href="{% url 'social:addconnection' id=user.id %}" class="addremoveconnection" >Add to connections</a>
+            {% endif %}
+            </span>
+
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+</div>
+
+{% endblock %}

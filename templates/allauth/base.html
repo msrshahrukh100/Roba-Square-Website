@@ -30,12 +30,12 @@
       <ul id="nav-mobile" class="right">
     {% if user_display %}
       <li>
-<a class="waves-effect waves-light btn-large transparent z-depth-0"><i class="material-icons left">shopping_cart</i><span style="margin-left:-23px;">6</span></a>
+<a href="{% url 'cart:viewcart' %}" class="waves-effect waves-light btn-large transparent z-depth-0"><i class="material-icons left">shopping_cart</i><span id="cartcount" style="margin-left:-15px;">{{ request.session.products|length }}</span></a>
          
       </li>
 
       <li style="margin-left: -70px;">
-<a class="waves-effect waves-light btn-large transparent z-depth-0"><i class="material-icons left">notifications</i><span style="margin-left:-28px;">8</span></a>
+<a class="waves-effect waves-light btn-large transparent z-depth-0"><i class="material-icons left">notifications</i><span style="margin-left:-18px;">8</span></a>
          
       </li>
         <li style="margin-left: -70px;">

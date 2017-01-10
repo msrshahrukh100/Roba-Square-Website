@@ -34,6 +34,7 @@ def viewcart(request) :
 		products.append(ProductDescription.objects.filter(id=int(i)).first())
 	context = {
 	'type':1,
+	'etype':1,
 	'products' : products,
 	'incart' : True,
 	"cartcount":len(request.session.get('products',[]))
@@ -60,6 +61,7 @@ def viewwishlist(request) :
 
 	context = {
 	'type':1,
+	'etype':2,
 	'products' : products,
 	'inwl' : True,
 	"cartcount":len(request.session.get('products',[]))

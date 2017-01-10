@@ -21,6 +21,7 @@ urlpatterns = [
     url(r'^cart/', include('cart.urls',namespace='cart')),
     url(r'^shop/', include('shopping.urls',namespace='shopping')),
     url(r'^review/', include('productreviews.urls',namespace='review')),
+    url(r'^social/', include('social.urls',namespace='social')),
 
 ]
 

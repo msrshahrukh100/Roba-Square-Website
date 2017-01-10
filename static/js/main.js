@@ -52,4 +52,21 @@ $(function(){
 
  });
 
+
+ $('.addremoveconnection').on('click', function(){
+    var link = $(this).attr('data-href')
+    var id = $(this).attr('data-id')
+    var $replacewithid = $('#addorremove'+id)
+
+    $replacewithid.html("")
+
+    $.ajax({
+      url : link,
+      type: 'GET',
+      success : function(data) {
+        Materialize.toast(data['msg'], 4000)
+      }
+    });
+ });
+
 });

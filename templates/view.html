@@ -3,6 +3,18 @@
 {% load crispy_forms_tags %}
 
 {% block browser %}&nbsp{% endblock %}
+
+{% block search %}
+  <div class="row">
+    <div class="input-field col l6 s12 offset-l3">
+      <i class="material-icons prefix">search</i>
+      <label for="icon_prefix" class="center">Search for your favourite item</label>
+      <input id="icon_prefix" type="text"  class="validate">
+    </div>
+  </div>
+{% endblock %}
+
+
 {% block content %}
 
 
@@ -10,7 +22,13 @@
       {% if type == 1 %}
     <div class="col s12" style="padding-left:50px;">
         <a href="/" class="breadcrumb">Home</a>
+        {% if etype == 1 %}
+        <a class="breadcrumb">My Cart</a>
+        {% elif etype == 2 %}
+        <a class="breadcrumb">My Wish List</a>
+        {% else %}
         <a class="breadcrumb" >{{ cname }}</a>
+        {% endif %}
     </div>
     {% else %}
     <div class="col s12" style="padding-left:50px;">
@@ -19,6 +37,7 @@
         <a class="breadcrumb" >{{ detailp.name }}</a>
     </div>
       {% endif %}  
+      
       {% endblock %}
 
 

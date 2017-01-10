@@ -3,6 +3,7 @@ from django.http import Http404
 
 from productreviews.forms import Reviewform
 from .models import Categories, ProductDescription
+from social.models import RecentlyViewed
 # Create your views here.
 
 
@@ -14,17 +15,22 @@ def view_category_or_item(request, qtype=None, slug=None) :
 		'cname' : instance.first().category,
 		'type':1,
 		'products' : products,
-		"cartcount":len(request.session.get('products',[]))
 		}
 		return render(request,'view.html',context)
 	elif qtype == 'product' :
 		instance = ProductDescription.objects.filter(slug=slug).first()
+		# create a entry on the recently viewed table
+		user = request.user
+		if not user.is_anonymous() : 
+			c, created = RecentlyViewed.objects.get_or_create(user=user, product=instance)
+			if not created :
+				c.user = request.user
+				c.save()
 		data = {'product':instance.id}
 		form = Reviewform(initial=data)
 		context = {
 		'type' : 2,
 		'detailp':instance,
-		"cartcount":len(request.session.get('products',[])),
 		"form" : form,
 		}
 		return render(request,'view.html',context)
