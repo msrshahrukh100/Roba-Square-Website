@@ -6,6 +6,10 @@
 {% block browser %}&nbsp{% endblock %}
 
 {% block breadcumb %}
+<div class="col s12" style="padding-left:50px;">
+        <a href="/" class="breadcrumb">Home</a>
+        <a class="breadcrumb" >Shoppers</a>
+</div>
 
 {% endblock %}
 
@@ -31,8 +35,10 @@
             </div>
             <div class="card-content">
               <p>{{ user.user_information.profession }} at {{ user.user_information.name_of_institute }}</p>
+              <a href="{% url 'social:viewuser' slug=user.user_information.slug %}">View User</a>
             </div>
             <div class="card-action" id="arc">
+
             <span id="addorremove{{ user.id }}">
             {% if user in connections %}
               <a data-id="{{ user.id }}" data-href="{% url 'social:removeconnection' id=user.id %}" class="addremoveconnection">Remove from connections</a>

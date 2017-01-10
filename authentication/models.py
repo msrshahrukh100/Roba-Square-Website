@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from autoslug import AutoSlugField
 from authentication.username import get_user_name
 from django.dispatch.dispatcher import receiver
+from django.db.models.signals import post_save
 
 
 # upload location for user profile pics
@@ -19,8 +20,19 @@ class UserInformation(models.Model) :
 	phonenumber = models.CharField(max_length=15,blank=True, null=True)
 	profession = models.CharField(max_length=100, blank=True, null=True)
 	name_of_institute = models.CharField(max_length=200, blank=True, null=True)
-	# slug = AutoSlugField(populate_from=get_user_name(),unique=True) ponder later
-
+	slug = AutoSlugField(populate_from='user',unique=True)
+	
 	def __unicode__(self) :
-		return str(self.user.id)
+		return str(self.user.username)
+
+
+@receiver(post_save, sender=User)
+def UserInformationreceiver(sender, instance, **kwargs):
+	UserInformation.objects.get_or_create(user=instance)
+	
+
+
+
+
+
 

@@ -20,7 +20,6 @@ def change_settings(request) :
 
 	user = request.user
 	userinfo = UserInformation.objects.filter(user=user).first()
-
 	data = {
 	'first_name' : user.first_name,
 	'last_name' : user.last_name,
@@ -46,18 +45,18 @@ def change_settings(request) :
 					name_of_institute=formdata['name_of_institute']
 				 	)
 			else :
-				UserInformation.objects.create(					
+				instance = UserInformation(					
 					user=user,
 					date_of_birth=formdata['date_of_birth'],
 					phonenumber=formdata['phonenumber'],
 					profession=formdata['profession'],
 					name_of_institute=formdata['name_of_institute']
 				 	)
+				instance.save()
 
 			user.first_name = formdata['first_name']
 			user.last_name = formdata['last_name']
 			user.save()
-			print "valid bhai"
 			response = {'type': 1,
 			'msg' : "Changes Saved!"
 			}
@@ -69,14 +68,8 @@ def change_settings(request) :
 			}
 			return JsonResponse(response)
 
-	# if userinfoform.is_valid() :
-	# 	print "its valid"
-	# else :
-	# 	print "invalid"
-	# 	print userinfoform.errors
 	context = {
 	'userinfoform' : userinfoform,
-	# "cartcount":len(request.session.get('products',[])),
 	}
 	return render(request,'settings.html',context)
 

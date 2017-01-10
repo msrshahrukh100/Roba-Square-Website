@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
+import autoslug.fields
 from django.conf import settings
 import authentication.models
 
@@ -24,6 +25,7 @@ class Migration(migrations.Migration):
                 ('phonenumber', models.CharField(max_length=15, null=True, blank=True)),
                 ('profession', models.CharField(max_length=100, null=True, blank=True)),
                 ('name_of_institute', models.CharField(max_length=200, null=True, blank=True)),
+                ('slug', autoslug.fields.AutoSlugField(populate_from=b'user', unique=True, editable=False)),
                 ('user', models.OneToOneField(related_name='user_information', to=settings.AUTH_USER_MODEL)),
             ],
         ),

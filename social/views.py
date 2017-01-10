@@ -2,7 +2,8 @@ from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from .models import Connections
+from .models import Connections, RecentlyViewed
+from authentication.models import UserInformation
 # Create your views here.
 
 @login_required
@@ -33,3 +34,30 @@ def removeconnection(request,id=None) :
 	x = get_object_or_404(Connections,user=user,following=following)
 	x.delete()
 	return JsonResponse({'msg':'Removed from connections'})
+
+
+@login_required
+def myprofile(request) :
+	user = request.user
+	ids = Connections.objects.values_list('following').filter(user=user)
+	connections = User.objects.filter(id__in=ids)
+	recentlyviewed = RecentlyViewed.objects.filter(user=user)
+	context = {'connections' : connections, 'recentlyviewed' : recentlyviewed}
+	return render(request,'myprofile.html',context)
+
+@login_required
+def viewuser(request,slug=None) :
+	loggedinuser = request.user
+	x = get_object_or_404(UserInformation,slug=slug)
+	user = x.user
+	ids = Connections.objects.values_list('following').filter(user=user)
+	connections = User.objects.filter(id__in=ids)
+	recentlyviewed = RecentlyViewed.objects.filter(user=user)
+	if loggedinuser in connections :
+		context = {'connections' : connections, 'recentlyviewed' : recentlyviewed}
+	else :
+		context = {}
+	return render(request,'myprofile.html',context)
+
+
+	

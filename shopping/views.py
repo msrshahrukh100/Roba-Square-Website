@@ -28,9 +28,11 @@ def view_category_or_item(request, qtype=None, slug=None) :
 				c.save()
 		data = {'product':instance.id}
 		form = Reviewform(initial=data)
+		recentlyviewed = RecentlyViewed.objects.filter(user=request.user)
 		context = {
 		'type' : 2,
 		'detailp':instance,
+		'recentlyviewed':recentlyviewed[1:5],
 		"form" : form,
 		}
 		return render(request,'view.html',context)

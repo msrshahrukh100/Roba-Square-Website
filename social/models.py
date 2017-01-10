@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from shopping.models import ProductDescription
+
 # Create your models here.
 
 class Connections(models.Model) :
@@ -28,6 +29,7 @@ class RecentlyViewed(models.Model) :
 		unique_together = (('user','product'))
 		verbose_name = "Recently Viewed"
 		verbose_name_plural = "Recently Viewed"
+		ordering = ['-timestamp']
 
 
 

@@ -17,8 +17,16 @@ class Migration(migrations.Migration):
             name='Cart',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('products', models.ForeignKey(related_name='incart', to='shopping.Products')),
-                ('user', models.OneToOneField(related_name='cart', to=settings.AUTH_USER_MODEL)),
+                ('products', models.ForeignKey(related_name='incart', to='shopping.ProductDescription')),
+                ('user', models.ForeignKey(related_name='cart', to=settings.AUTH_USER_MODEL)),
+            ],
+        ),
+        migrations.CreateModel(
+            name='Wishlist',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('products', models.ForeignKey(related_name='inwishlist', to='shopping.ProductDescription')),
+                ('user', models.ForeignKey(related_name='wishlist', to=settings.AUTH_USER_MODEL)),
             ],
         ),
     ]
