@@ -10,4 +10,7 @@ def addclass(field,css) :
 def addtype(field,css) :
 	return field.as_widget(attrs={"type":css})
 
-	
+
+@register.filter(name='times') 
+def times(number):
+    return range(number)

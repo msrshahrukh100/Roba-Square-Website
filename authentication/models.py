@@ -25,6 +25,12 @@ class UserInformation(models.Model) :
 	def __unicode__(self) :
 		return str(self.user.username)
 
+	class Meta :
+		verbose_name = "User Information"
+		verbose_name_plural = "User Information"
+
+
+
 
 @receiver(post_save, sender=User)
 def UserInformationreceiver(sender, instance, **kwargs):

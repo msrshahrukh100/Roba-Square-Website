@@ -1,7 +1,8 @@
 {% extends "index.html" %}
 {% block title %}View title{% endblock %}
 {% load crispy_forms_tags %}
-
+{% load cfilters %}
+{% load staticfiles %}
 {% block browser %}&nbsp{% endblock %}
 
 {% block search %}
@@ -16,7 +17,6 @@
 
 
 {% block content %}
-
 
      {% block breadcumb %}
       {% if type == 1 %}
@@ -46,38 +46,44 @@
 
 
 <div class="row">
+{% if products %}
   {% for p in products %}
-  <div class="{% cycle 'col s12 m6 l3 offset-l1' 'col s12 m6 l3' 'col s12 m6 l3 ' %}">
-    <div class="card medium hoverable">
-      <div class="card-image waves-effect waves-block waves-light">
-        <img class="activator" src="{{ p.get_image_url }}
+  <div class="{% cycle 'col s12 m6 l3 offset-l1' 'col s12 m6 l3' 'col s12 m6 l3 ' %}" >
+    <div class="card medium hoverable" >
+      <div class="card-image waves-effect waves-block waves-light" >
+        <img  class="activator" src="{{ p.get_image_url }}
 "></div>
       <div class="card-content">
         <span class="card-title activator grey-text text-darken-4">
-          {{ p.name }} <i class="material-icons right">more_vert</i>
+          <a href="{{ p.get_absolute_url }}">{{ p.name }} </a><i class="material-icons right">more_vert</i>
         </span>
+          {%  if p.new_product %}
+          <span class="new badge green"></span>
+          {% endif %}
         <p>
-          <a href="{{ p.get_absolute_url }}">This is a link</a>
-          {{ p.price }}
-          {{ p.stockcount }}
-          {{ p.gender }}
-          {{ p.new_product }}
-        </p>
-        {% if incart %}
-        <a href='{{ p.get_delete_cart_url }}' class="">Remove from cart</a>
-        {{ p.get_delete_cart_url }}
-        {% else %}
-        <a data-href='{{ p.get_add_to_cart_url }}' class="addtocart">Add to cart</a>
-        {% endif %}
-        <p>{{ p.get_add_to_cart_url }}</p>
-        {% if inwl %}
-        <a href='{{ p.get_delete_wishlist_url }}'>Remove from Wish List</a>
-        {{ p.get_delete_wishlist_url }}
-        {% endif %}
-        {% if request.user and not inwl%}
+          <p>stars</p>
+          <p>R-{{ p.price }}</p>
+          
+          <span class="badge red">{{ p.gender }}</span>
 
-        <a data-href='{{ p.get_add_to_wishlist_url }}' class="addtocart">Add to wishlist</a>
-        <p>{{ p.get_add_to_wishlist_url }}</p>
+        </p>
+
+        {% if incart %}
+        <a href='{{ p.get_delete_cart_url  }}' data-position="bottom" data-delay="30" data-tooltip="Remove from cart" class="btn-floating waves-effect waves-light hoverable tooltipped"><i class="material-icons">remove_shopping_cart</i></a>
+        {% else %}
+        <a data-href='{{ p.get_add_to_cart_url }}' data-position="bottom" data-delay="30" data-tooltip="Add to cart" class="addtocart  btn-floating waves-effect waves-light hoverable tooltipped"><i class="material-icons">add_shopping_cart</i></a>
+        {% endif %}
+
+        {% if inwl %}
+        <a href='{{ p.get_delete_wishlist_url }}' data-position="bottom" data-delay="30" data-tooltip="Remove from Wish List" class="btn-floating waves-effect waves-light hoverable tooltipped"><i class="material-icons">favorite_border</i></a>
+        {% endif %}
+
+        {% if request.user and not inwl %}
+
+        <a data-href='{{ p.get_add_to_wishlist_url }}' data-position="bottom" data-delay="30" data-tooltip="Add to wishlist" class="addtocart btn-floating waves-effect waves-light hoverable tooltipped"><i class="material-icons">favorite</i></a>
+                                  
+
+
         {% endif %}
 
       </div>
@@ -87,6 +93,7 @@
         </span>
         <p>
           {{ p.description }}
+          <p>{{ p.stockcount }} pieces in stock</p>
         </p>
       </div>
     </div>
@@ -95,7 +102,9 @@
   
 
 {% endfor %}
-
+{% else %}
+<h5 class="center grey-text" style="padding-bottom: 70px;">No items here</h5>
+{% endif %}
   </div>
 
 
@@ -116,20 +125,34 @@
   {% else %}
 
 
-
      <div class="row">
         <div class="col l5 s6 m5 offset-l1 offset-m1">
           <div class="card z-depth-0">
             <div class="card-image">
-              <img src="{{ detailp.get_image_url }}">
+
+          <div class="slider">
+            <ul class="slides">
+              {% for im in detailp.prod.all %}
+          {% for image in im.productimages.all %}
+              <li>
+                <img src="{{ image.image.url }}" data-caption="{{ detailp.name }} {{ im.color }} {{ im.size }}" class="materialboxed viewimage"></li>
+              {% endfor %}
+          {% endfor %}
+              <li>
+                <img class="materialboxed viewimage" src="http://lorempixel.com/580/250/nature/2"></li>
+              <li>
+                <img class="materialboxed viewimage" src="http://lorempixel.com/580/250/nature/3"></li>
+              <li>
+                <img class="materialboxed viewimage" src="http://lorempixel.com/580/250/nature/4"></li>
+            </ul>
+          </div>
+
             </div>
             <div class="card-action">
-              <a href="#">This is a link</a>
-              <a data-href='{{ detailp.get_add_to_cart_url }}' class='addtocart'>Add to cart</a>
+              <a data-href='{{ detailp.get_add_to_cart_url }}' class='addtocart waves-effect waves-light btn'><i class="material-icons left">add_shopping_cart</i>Add to cart</a>
 
               {% if request.user %}
-              <a data-href='{{ detailp.get_add_to_wishlist_url }}' class='addtocart'>Add to wishlist</a>
-              {{ detailp.get_add_to_wishlist_url }}
+              <a data-href='{{ detailp.get_add_to_wishlist_url }}' class='addtocart waves-effect waves-light btn'><i class="material-icons left">favorite</i>Add to wishlist</a>
               {% endif %}
             </div>
           </div>
@@ -140,24 +163,42 @@
         <h2>
           {{ detailp.name }}
         </h2>
-          <span >{{ detailp.description }}
-                  {{ detailp.price }}
-                {{ detailp.stockcount }}
-                {{ detailp.gender }}
-                {{ detailp.new_product }}
-          </span>
-
-        {% for im in detailp.prod.all %}
-        {{ im.size }}
-        {{ im.color }}
-        {{ im.productimages.all }}
-        {% endfor %}
-
+        {%  if detailp.new_product %}
+          <span class="badge green black-text">New Arrival</span>
+          {% endif %}
+          <span class="badge green black-text">{{ detailp.gender }}</span>
+          {{ detailp.description|linebreaks }}
+                  <p>R-{{ detailp.price }}</p>
+                <p>{{ detailp.stockcount }} in stock<p>
+          
         </div>
       </div>
       </div>
 
+   
+<div class="divider"></div>
+
+<div class="section container">
   
+<ul class="collection">
+{% for review in detailp.reviews.all %}
+    <li class="collection-item avatar">
+      <img src="images/yuna.jpg" alt="" class="circle">
+      <span class="title">{{ review.user }}</span>
+      <p> {{ review.review }}
+      </p>
+      <a href="#!" class="secondary-content">{% for i in review.rating|times %}
+      <i class="material-icons">grade</i>
+      {% endfor %}</a>
+    </li>  
+      {% endfor %}
+  </ul>
+</div>
+
+
+  <div class="divider"></div>
+  {% if request.user.is_authenticated %}
+  <div class="section container">
       <form method="post" action="{% url 'review:addreview' %}">{% csrf_token %}
         {{ form.product }}
      
@@ -181,17 +222,12 @@
       </div>
 
       </form>
-      {% for review in detailp.reviews.all %}
-      <p>
-      {{ review.user }}
-      {{ review.review }}
-      {{ review.rating }}
-      {% if request.user == review.user %}
-      <a href="{{ review.get_delete_review_url }}">Delete post</a>
-      {% endif %}
-      </p>
-      {% endfor %}
+     </div>
+     {% endif %}
 
+
+{% if recentlyviewed %}
+<div class="section">
 <h1>Recently viewed products</h1>
       <div class="row">
       {% for p in recentlyviewed %}
@@ -214,8 +250,10 @@
         </div>
       {% endfor %}
         </div>
-
+</div>
+{% endif %}
 
 {% endif %}
+
 
 {% endblock %}

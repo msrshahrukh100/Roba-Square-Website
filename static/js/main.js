@@ -69,4 +69,24 @@ $(function(){
     });
  });
 
+
+ $('.materialboxed').materialbox();
+
+var clicked = true;
+
+$('.viewimage').on('click',function(){
+
+if(clicked)
+{
+  $('.slider').slider('pause');
+  clicked = false;
+}
+else
+{
+  $('.slider').slider('start');
+  clicked = true;
+}
+
+});
+
 });

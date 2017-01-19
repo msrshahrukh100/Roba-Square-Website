@@ -12,12 +12,24 @@ class Cart(models.Model) :
 	def __unicode__(self) :
 		return self.user.username
 
+	class Meta :
+		verbose_name = "User's Cart"
+		verbose_name_plural = "User's Cart"
+
+
+
 class Wishlist(models.Model) :
 	user = models.ForeignKey(User,related_name='wishlist')
 	products = models.ForeignKey(ProductDescription, related_name='inwishlist')
 
 	def __unicode__(self) :
 		return self.user.username
+
+	class Meta :
+		verbose_name = "User's Wishlist"
+		verbose_name_plural = "User's Wishlist"
+
+
 		
  
 

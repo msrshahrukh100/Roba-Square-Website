@@ -16,6 +16,13 @@ class Reviews(models.Model) :
 	def get_delete_review_url(self) :
 		return reverse('review:deletereview', kwargs={"id":self.id})
 
+	class Meta :
+		verbose_name = "Reviews of Products"
+		verbose_name_plural = "Reviews of Products"
+		ordering = ['-id']
+
+
+
 
 class ProductSuggestions(models.Model) :
 	user = models.ForeignKey(User, related_name='suggestions', null=True)
@@ -24,4 +31,13 @@ class ProductSuggestions(models.Model) :
 
 	def __unicode__(self) :
 		return str(self.id)
+
+
+	class Meta :
+		verbose_name = "Product Suggestion"
+		verbose_name_plural = "Product Suggestions"
+
+
+
+
 	
