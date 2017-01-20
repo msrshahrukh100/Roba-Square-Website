@@ -6,13 +6,7 @@
 {% block browser %}&nbsp{% endblock %}
 
 {% block search %}
-  <div class="row">
-    <div class="input-field col l6 s12 offset-l3">
-      <i class="material-icons prefix">search</i>
-      <label for="icon_prefix" class="center">Search for your favourite item</label>
-      <input id="icon_prefix" type="text"  class="validate">
-    </div>
-  </div>
+{{ block.super }}
 {% endblock %}
 
 

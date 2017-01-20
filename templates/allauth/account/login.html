@@ -7,7 +7,7 @@
 {% block head_title %}{% trans "Sign In" %}{% endblock %}
 
 {% block content %}
-
+<div class="container">
 <h1>{% trans "Sign In" %}</h1>
 
 {% get_providers as socialaccount_providers %}
@@ -41,7 +41,7 @@ for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
 <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
 {% endif %}
 
-<form class="login" method="POST" action="{% url 'account_login' %}" onsubmit="return false">
+<form class="login" method="POST" action="{% url 'account_login' %}">
   {% csrf_token %} 
   {{ form|crispy }}
   
@@ -62,49 +62,6 @@ $(function(){
     $("#id_login").removeAttr('placeholder');
     $("#id_password").removeAttr('placeholder');
 });
- 
-var $button = $('#login_button');
-
-    $button.on('click',function(){
-  
-  $.post("{% url 'account_login' %}", {
-   "csrfmiddlewaretoken" : document.getElementsByName('csrfmiddlewaretoken')[0].value,
-   "login": $('#id_login').val(),
-   "password": $('#id_password').val(),
-   "remember": $('#id_remember').val() 
-   }, 
-   function (data, status) {
-     // console.log(data);
-});    
-  
-//       var data = {"csrfmiddlewaretoken" : document.getElementsByName('csrfmiddlewaretoken')[0].value,
-//        "login": $('#id_login').val(),
-//        "password": $('#id_password').val(),
-//        "remember": $('#id_remember').val() };
-
-//       //  if(! $('#id_remember').is(':checked'))
-//       //     delete data['remember'];
-
-// var temp = {'X-CSRFToken': document.getElementsByName('csrfmiddlewaretoken')[0].value };
-
-//         $.post({
-//           url : "{% url 'account_login' %}",
-//           headers: temp,
-//           type: "POST",
-//           data : data,
-//           contentType: "application/x-www-form-urlencoded",
-//           dataType: "text",
-          
-          
-//           success : function(data) {
-//             // console.log(data);
-//           },
-
-//         });
-
-  });
-
-
-
 </script>
+</div>
 {% endblock %}

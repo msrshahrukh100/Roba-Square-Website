@@ -11,7 +11,7 @@
   crossorigin="anonymous"></script>
   <script src="{% static 'js/materialize.min.js' %}"></script>
   <script src="{% static 'js/main.js' %}"></script>
-  <script src="{% static 'js/zoom.js' %}"></script>
+  <script src="{% static 'js/search.js' %}"></script>
 
 
   <link rel="stylesheet" href="{% static 'css/materialize.min.css' %}">
@@ -46,7 +46,12 @@
         <li style="margin-left: -70px;">
           <a class='dropdown-button btn transparent z-depth-0' data-gutter="10px" data-beloworigin="true" href='#' data-activates='dropdown-user'>
             <div class="chip transparent ">
-              <img src="{% static 'images/shahrukh.jpeg' %}" alt="Contact Person">
+            {% if user.socialaccount_set.all.0.get_avatar_url %}
+            <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" alt="Contact Person">
+            {% else %}
+            <img src="{{ user.user_information.change_profile_pic.url }}" alt="Contact Person">
+            {% endif %}
+
               {{ user_display }}<br/>
             </div></a>
             <ul id='dropdown-user' class='dropdown-content'>
@@ -107,7 +112,9 @@
     <div class="input-field col l6 s12 offset-l3">
       <i class="material-icons prefix">search</i>
       <label for="icon_prefix" class="center">Search for your favourite item</label>
-      <input id="icon_prefix" type="text"  class="validate">
+      <input id="icon_prefix" type="text"  class="autocomplete">
+      <ul class="autocomplete-content dropdown-content">
+    </ul>
     </div>
   </div>
 {% endblock %}
@@ -121,7 +128,7 @@
   <a href="{% provider_login_url "facebook" method="oauth2" %}">Facebook OAuth2</a>
   <br/><a href="{% provider_login_url "google" method="oauth2" %}">Google OAuth2</a>
 
-
+{{ user.socialaccount_set.all.0.get_avatar_url }}
   
   
 

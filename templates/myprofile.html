@@ -1,2 +1,99 @@
-{{ connections }}
-{{ recentlyviewed }}
+{% extends 'allauth/base.html' %}
+{% load staticfiles %}
+
+{% block breadcumb %}
+
+<div class="col s12" style="padding-left:50px;">
+        <a href="/" class="breadcrumb">Home</a>
+        <a class="breadcrumb" >My Profile</a>
+</div>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+<div class="col s12 l3 m3 offset-l1 offset-m1" style="padding-top: 20px;">
+{% if user.socialaccount_set.all.0.get_avatar_url %}
+            <img class="responsive-img" src="{{ user.socialaccount_set.all.0.get_avatar_url }}" alt="Contact Person">
+            {% else %}
+            <img class="responsive-img" src="{{ user.user_information.change_profile_pic.url }}" alt="Contact Person">
+            {% endif %}
+</div>
+<div class="col s12 l8 m8" style="padding-top: 20px;">
+
+      <ul class="tabs">
+        <li class="tab col s3"><a class="active" href="#test2">Your Friends</a></li>
+        <li class="tab col s3"><a href="#test1">Products Viewed</a></li>
+      </ul>
+
+    <div id="test1" class="col s12">
+{% if recentlyviewed %}
+<div class="section">
+      <div class="row">
+      {% for p in recentlyviewed %}
+          <div class="col l3 s2 m3">
+          <div class="card z-depth-0">
+            <div class="card-image">
+              <img src="{{ p.product.get_image_url }}">
+            </div>
+            <div class="card-action">
+            {{ p.product.name }}
+              <a href="#">This is a link</a>
+              <a data-href='{{ p.product.get_add_to_cart_url }}' class='addtocart'>Add to cart</a>
+
+              {% if request.user %}
+              <a data-href='{{ p.product.get_add_to_wishlist_url }}' class='addtocart'>Add to wishlist</a>
+              {{ p.product.get_add_to_wishlist_url }}
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+        </div>
+</div>
+{% else %}
+<h5 class="grey-text center">No Items Viewed</h5>
+{% endif %}
+
+    </div>
+
+    <div id="test2" class="col s12">
+    {% if connections %}
+    	<div class="row">
+      {% for user in connections %}
+        <div class="col s6 l3 m4">
+          <div class="card">
+            <div class="card-image">
+              <img src="{% static 'images/1.jpg' %}">
+              <span class="card-title">{{ user.username }}</span>
+            </div>
+            <div class="card-content">
+              <p>{{ user.user_information.profession }} at {{ user.user_information.name_of_institute }}</p>
+              <a href="{% url 'social:viewuser' slug=user.user_information.slug %}">View User</a>
+            </div>
+            <div class="card-action" id="arc">
+
+            <span id="addorremove{{ user.id }}">
+            {% if user in connections %}
+              <a data-id="{{ user.id }}" data-href="{% url 'social:removeconnection' id=user.id %}" class="addremoveconnection">Remove from connections</a>
+              {% else %}
+              <a data-id="{{ user.id }}" data-href="{% url 'social:addconnection' id=user.id %}" class="addremoveconnection" >Add to connections</a>
+            {% endif %}
+            </span>
+
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+</div>
+
+       {% else %}
+       <h5 class="grey-text center">No connections</h5>
+       {% endif %}
+    </div>
+
+</div>
+</div>
+
+{% endblock %}

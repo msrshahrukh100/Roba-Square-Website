@@ -1,5 +1,6 @@
 $(function(){
 
+
     var d = new Date();
     $('.datepicker').pickadate({
     selectMonths: true, // Creates a dropdown to control month
@@ -10,8 +11,9 @@ $(function(){
   $('select').material_select();
     $('.scrollspy').scrollSpy();
         
-	$('.slider').slider();
-	 $('.parallax').parallax();
+      $('.slider').slider();
+      $('.parallax').parallax();
+      $('ul.tabs').tabs();
 
      $('.dropdown-button1').dropdown({
       inDuration: 300,

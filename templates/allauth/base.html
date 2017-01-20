@@ -28,36 +28,44 @@
     <div class="nav-wrapper">
    
       <ul id="nav-mobile" class="right">
-    {% if user_display %}
-      <li>
-<a href="{% url 'cart:viewcart' %}" class="waves-effect waves-light btn-large transparent z-depth-0"><i class="material-icons left">shopping_cart</i><span id="cartcount" style="margin-left:-15px;">{{ request.session.products|length }}</span></a>
-         
-      </li>
-
-      <li style="margin-left: -70px;">
-<a class="waves-effect waves-light btn-large transparent z-depth-0"><i class="material-icons left">notifications</i><span style="margin-left:-18px;">8</span></a>
-         
-      </li>
-        <li style="margin-left: -70px;">
-          <a class='dropdown-button btn transparent z-depth-0' data-gutter="10px" data-beloworigin="true" href='#' data-activates='dropdown1'>
-          <div class="chip transparent ">
-    <img src="{% static 'images/shahrukh.jpeg' %}" alt="Contact Person">
-  {{ user_display }}<br/>
-  </div></a>
-  <ul id='dropdown1' class='dropdown-content'>
-    <li><a href="#!">one</a></li>
-    <li><a href="{% url 'authentication:change_settings' %}">Settings</a></li>
-    <li><a href="{% url 'account_logout' %}">Logout</a></li>
-  </ul>
-        </li>
-
-        {% else %}  
         <li>
-          <a href = "{% url 'account_login' %}" class="waves-effect waves-light btn">Login or Signup</a>
+          <a href="{% url 'cart:viewcart' %}" class="waves-effect waves-light btn-large transparent z-depth-0"><i class="material-icons left">shopping_cart</i><span id="cartcount" style="margin-left:-15px;">{{ request.session.products|length }}</span></a>
+          
         </li>
-        {% endif %}
 
-      </ul>
+        <li style="margin-left: -70px;">
+          <a class="waves-effect waves-light btn-large transparent z-depth-0"><i class="material-icons left">notifications</i><span style="margin-left:-18px;">8</span></a>
+          
+        </li>
+        
+        {% if user_display %}
+        <li style="margin-left: -70px;">
+          <a class='dropdown-button btn transparent z-depth-0' data-gutter="10px" data-beloworigin="true" href='#' data-activates='dropdown-user'>
+            <div class="chip transparent ">
+              {% if user.socialaccount_set.all.0.get_avatar_url %}
+              <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" alt="Contact Person">
+            {% else %}
+              <img src="{{ user.user_information.change_profile_pic.url }}" alt="Contact Person">
+            {% endif %}
+              {{ user_display }}<br/>
+            </div></a>
+            <ul id='dropdown-user' class='dropdown-content'>
+              <li><a href="#!">one</a></li>
+              <li><a href="{% url 'cart:viewwishlist' %}">Wish List</a></li>
+              <li><a href="{% url 'social:myprofile' %}">My Profile</a></li>
+              <li><a href="{% url 'authentication:change_settings' %}">Settings</a></li>
+              <li><a href="{% url 'account_logout' %}">Logout</a></li>
+            </ul>
+          </li>
+
+          {% else %}  
+          <li>
+           <a href = "{% url 'account_login' %}" class="waves-effect waves-light btn">Login or Signup</a>
+         </li>
+         {% endif %}
+
+       </ul>
+
 
      {% block breadcumb %}
       
@@ -65,7 +73,7 @@
 
     </div>
   </nav>
-  <div class="container">
+  
     {% block body %}
 
     {% if messages %}
@@ -94,6 +102,6 @@
     {% endblock %}
     {% block extra_body %}
     {% endblock %}
-  </div>
+  
   </body>
 </html>
