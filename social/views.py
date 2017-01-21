@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from .models import Connections, RecentlyViewed
 from authentication.models import UserInformation
+from notifications.signals import notify
 # Create your views here.
 
 @login_required
@@ -22,6 +23,8 @@ def addconnection(request,id=None) :
 	following = User.objects.filter(id=id).first()
 	c, created = Connections.objects.get_or_create(user=user, following=following)
 	if created :
+		verb = user.get_full_name() + "followed you."
+		notify.send(user, recipient=following, verb=verb)
 		return JsonResponse({'msg':'Added to connections!'})
 	else :
 		return JsonResponse({'msg':'Already in your connections!'})

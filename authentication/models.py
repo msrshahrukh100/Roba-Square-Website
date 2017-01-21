@@ -29,6 +29,10 @@ class UserInformation(models.Model) :
 		verbose_name = "User Information"
 		verbose_name_plural = "User Information"
 
+	def get_absolute_url(self):
+		return reverse("authentication:viewuser", kwargs={"slug": self.slug})
+
+
 
 
 

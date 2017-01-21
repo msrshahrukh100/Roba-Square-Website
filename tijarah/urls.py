@@ -13,7 +13,8 @@ urlpatterns = [
     url(r'^nested_admin/', include('nested_admin.urls')),
     #django all auth urls
     url(r'^accounts/', include('allauth.urls')),
-
+    # for the notfications 
+    url('^inbox/notifications/', include('notifications.urls', namespace='notifications')),
 
     #local apps url
     url(r'^', include('authentication.urls',namespace='authentication')),
