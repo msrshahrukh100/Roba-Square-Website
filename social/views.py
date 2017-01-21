@@ -20,11 +20,13 @@ def viewallusers(request) :
 @login_required
 def addconnection(request,id=None) :
 	user = request.user
+	url = user.user_information.get_absolute_url()
+	imageurl = user.user_information.get_image_url()
 	following = User.objects.filter(id=id).first()
 	c, created = Connections.objects.get_or_create(user=user, following=following)
 	if created :
 		verb = user.get_full_name() + "followed you."
-		notify.send(user, recipient=following, verb=verb)
+		notify.send(user, recipient=following, verb=verb, url=url, imageurl=imageurl)
 		return JsonResponse({'msg':'Added to connections!'})
 	else :
 		return JsonResponse({'msg':'Already in your connections!'})
@@ -45,7 +47,8 @@ def myprofile(request) :
 	ids = Connections.objects.values_list('following').filter(user=user)
 	connections = User.objects.filter(id__in=ids)
 	recentlyviewed = RecentlyViewed.objects.filter(user=user)
-	context = {'connections' : connections, 'recentlyviewed' : recentlyviewed}
+	notifications = user.notifications.all()
+	context = {'user':user,'connections' : connections, 'recentlyviewed' : recentlyviewed,'notifications':notifications}
 	return render(request,'myprofile.html',context)
 
 @login_required
@@ -57,10 +60,16 @@ def viewuser(request,slug=None) :
 	connections = User.objects.filter(id__in=ids)
 	recentlyviewed = RecentlyViewed.objects.filter(user=user)
 	if loggedinuser in connections :
-		context = {'connections' : connections, 'recentlyviewed' : recentlyviewed}
+		context = {'user':user,'connections' : connections, 'recentlyviewed' : recentlyviewed}
 	else :
 		context = {}
 	return render(request,'myprofile.html',context)
 
+@login_required
+def readallnotifications(request) :
+	user = request.user
+	qs = user.notifications.unread()
+	qs.mark_all_as_read()
+	return JsonResponse({'msg':'Read all'})
 
 	

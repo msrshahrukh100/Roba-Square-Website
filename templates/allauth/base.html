@@ -4,6 +4,7 @@
 {% load account %}
 {% load i18n %}
 {% load cfilters %}
+{% load notifications_tags %}
 {% user_display user as user_display %}
 <html>
   <head>
@@ -20,6 +21,9 @@
 
   <link href="{% static 'css/icons.css' %}" rel="stylesheet">
   <script src="{% static 'js/main.js' %}"></script>
+  <script src="{% static 'js/notif.js' %}"></script>
+  <script src="{% static 'notifications/notify.js' %}" type="text/javascript"></script>
+  {% register_notify_callbacks refresh_period=50 badge_id='notifications' callbacks='fill_notification_badge,my_notification_callback' %}
 
   </head>
   <body>
@@ -33,10 +37,18 @@
           
         </li>
 
-        <li style="margin-left: -70px;">
-          <a class="waves-effect waves-light btn-large transparent z-depth-0"><i class="material-icons left">notifications</i><span style="margin-left:-18px;">8</span></a>
+        <li style="margin-left: -50px;">
+          <a onclick="readall()" class="waves-effect waves-light btn-large transparent z-depth-0 dropdown-button" data-activates='nl' data-beloworigin="true" data-constrainwidth="false"><i class="material-icons left">notifications</i>
+          <span style="margin-left:-15px;">&nbsp
+            {% live_notify_badge  badge_id='notifications' classes='green-text' %}
+          </span></a>
           
         </li>
+         <ul id='nl' class='dropdown-content collection'>
+
+        </ul>
+
+
         
         {% if user_display %}
         <li style="margin-left: -70px;">

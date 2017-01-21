@@ -4,6 +4,8 @@ from autoslug import AutoSlugField
 from authentication.username import get_user_name
 from django.dispatch.dispatcher import receiver
 from django.db.models.signals import post_save
+from django.core.urlresolvers import reverse
+
 
 
 # upload location for user profile pics
@@ -20,6 +22,9 @@ class UserInformation(models.Model) :
 	phonenumber = models.CharField(max_length=15,blank=True, null=True)
 	profession = models.CharField(max_length=100, blank=True, null=True)
 	name_of_institute = models.CharField(max_length=200, blank=True, null=True)
+	showrecentlyviewed = models.BooleanField(default=True)
+	showfollowers = models.BooleanField(default=True)
+	showfollowing = models.BooleanField(default=True)
 	slug = AutoSlugField(populate_from='user',unique=True)
 	
 	def __unicode__(self) :
@@ -30,7 +35,15 @@ class UserInformation(models.Model) :
 		verbose_name_plural = "User Information"
 
 	def get_absolute_url(self):
-		return reverse("authentication:viewuser", kwargs={"slug": self.slug})
+		return reverse("social:viewuser", kwargs={"slug": self.slug})
+
+	def get_image_url(self) :
+		if self.user.socialaccount_set.all().first() :
+			return self.user.socialaccount_set.all().first().get_avatar_url()
+		else :
+			return self.user.user_information.change_profile_pic.url
+
+
 
 
 

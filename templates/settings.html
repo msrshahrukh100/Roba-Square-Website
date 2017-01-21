@@ -46,6 +46,50 @@
       <a class="waves-effect waves-light btn" href="{% url 'account_change_password' %}"><i class="material-icons right">cloud</i>Change Password</a>
     </div>
 
+    <div id="PrivacySettings" class="section scrollspy">
+      <h5>Privacy Settings</h5>
+{{ userinfo }}
+<form method="post" onsubmit="return false" id="privacysettingsform">{% csrf_token %}
+    <ul class="collection">
+      <li class="collection-item">
+            <div class="switch">
+            Show your recently viewed products to other users &nbsp
+            <label>
+            No
+            <input name="recentlyviewed" type="checkbox" class="inline" {% if userinfo.showrecentlyviewed %} checked="checked" {% endif %}>
+            <span class="lever"></span>
+            Yes
+            </label>
+            </div>
+      </li>
+      <li class="collection-item">
+              <div class="switch">
+              Show people you are following to other users &nbsp
+              <label>
+              No
+              <input name="following" type="checkbox" class="inline" {% if userinfo.showfollowing %} checked="checked" {% endif %}>
+              <span class="lever"></span>
+              Yes
+              </label>
+              </div>
+      </li>
+      <li class="collection-item">
+          <div class="switch">
+          Show your followers to other users &nbsp
+          <label>
+          No
+          <input name="followers" type="checkbox" class="inline" {% if userinfo.showfollowers %} checked="checked" {% endif %}>
+          <span class="lever"></span>
+          Yes
+          </label>
+          </div>
+      </li>
+    </ul>
+    <a class="waves-effect waves-light btn" id="submitprivacysettings">Save</a>
+       </form>   
+            
+    </div>
+
 
   </div>
 
@@ -60,12 +104,14 @@
       <li>
         <a href="#PasswordSettings">Password Settings</a>
       </li>
+      <li>
+        <a href="#PrivacySettings">Privacy Settings</a>
+      </li>
 
     </ul>
   </div>
 </div>
 
-  <a class="btn" onclick="Materialize.toast('I am a toast', 4000)">Toast!</a>
 </div>
 
 {% endblock %}
@@ -108,4 +154,42 @@
 
   });
 </script>
+
+
+
+<script type="text/javascript">
+
+  $(function(){
+
+    $('#submitprivacysettings').on('click',function(){
+
+       var temp = {'X-CSRFToken': document.getElementsByName('csrfmiddlewaretoken')[0].value};
+      $.ajax({
+        url : "{% url 'authentication:change_privacy_settings' %}",
+        type : 'POST',
+        dataType: 'json',
+        data :  $('#privacysettingsform').serialize(),
+        headers: temp,
+        contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+        success : function(data) {
+          if (data['type'] == 0)
+          {
+            var x = data['errors'].__all__[0] 
+            Materialize.toast(x, 4000) 
+          }
+          else if(data['type'] == 1)
+          {
+            Materialize.toast(data['msg'], 4000) 
+          }
+
+        }
+      });
+
+
+
+    });
+
+  });
+</script>
+
 {% endblock %}

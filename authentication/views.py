@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from shopping.models import Slider, Categories, ProductDescription
 from allauth.account.forms import ChangePasswordForm, AddEmailForm
 from django.contrib.auth.decorators import login_required
@@ -33,7 +33,7 @@ def change_settings(request) :
 
 	userinfoform = UserInfoForm(request.POST or None,initial=data)
 	if request.method == 'POST' :
-		print "first name" + request.POST.get('first_name',"")
+		# print "first name" + request.POST.get('first_name',"")
 		# print userinfoform.is_valid()
 		if userinfoform.is_valid():
 			formdata = userinfoform.cleaned_data
@@ -70,6 +70,30 @@ def change_settings(request) :
 
 	context = {
 	'userinfoform' : userinfoform,
+	'userinfo':userinfo,
 	}
 	return render(request,'settings.html',context)
+
+
+@login_required
+def change_dp(request) :
+	user = request.user
+	userinfo = UserInformation.objects.filter(user=user).first()
+	userinfo.change_profile_pic = request.FILES.get('ppic')
+	userinfo.save()
+	return redirect('social:myprofile')
+
+@login_required
+def change_privacy_settings(request) :
+	user = request.user
+	userinfo = UserInformation.objects.filter(user=user).first()
+	userinfo.showrecentlyviewed = request.POST.get('recentlyviewed',False)
+	userinfo.showfollowers = request.POST.get('followers',False)
+	userinfo.showfollowing = request.POST.get('following',False)
+	userinfo.save()
+	print request.POST
+	response = {'type': 1,
+			'msg' : "Changes Saved!"
+			}
+	return JsonResponse(response)
 
