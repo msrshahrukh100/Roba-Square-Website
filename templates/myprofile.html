@@ -1,6 +1,6 @@
 {% extends 'allauth/base.html' %}
 {% load staticfiles %}
-
+{% load cfilters %}
 {% block breadcumb %}
 
 <div class="col s12" style="padding-left:50px;">
@@ -13,12 +13,14 @@
 {% block content %}
 
 <div class="row">
-<div class="col s12 l3 m3 offset-l1 offset-m1" style="padding-top: 20px;">
+<div class="col s12 l3 m3 " style="padding-top: 20px;">
+
 {% if user.socialaccount_set.all.0.get_avatar_url %}
             <img class="responsive-img" src="{{ user.socialaccount_set.all.0.get_avatar_url }}" alt="Contact Person">
+            <h5>{{ user|getfullname }}</h5>
             {% else %}
             <img class="responsive-img" src="{{ user.user_information.change_profile_pic.url }}" alt="Contact Person">
-
+            <h5>{{ user|getfullname }}</h5>
             <div class="row">
           <form method='POST' action="{% url 'authentication:change_dp' %}" enctype='multipart/form-data'>{% csrf_token %}
             <div class="file-field input-field">
@@ -37,13 +39,14 @@
             </div>
 
             {% endif %}
-            
-            <h5>{{ user.get_full_name }}</h5>
-</div>
-<div class="col s12 l8 m8" style="padding-top: 20px;">
 
+            
+
+</div>
+<div class="col s12 l9 m9" style="padding-top: 20px;">
       <ul class="tabs">
-        <li class="tab col s3"><a class="active" href="#test2">Your Friends</a></li>
+        <li class="tab col s3"><a class="active" href="#test2">Following</a></li>
+        <li class="tab col s3"><a href="#test4">Followers</a></li>
         <li class="tab col s3"><a href="#test1">Products Viewed</a></li>
         {% if notifications %}
         <li class="tab col s3"><a href="#test3">Notifications</a></li>
@@ -123,14 +126,47 @@
         <ul class='collection'>
         <a href="{{ i.data.url }}"><li class="collection-item avatar">
         <img src="{{ i.data.imageurl }}" class="circle">
-        <b class="title">{{ i.actor }}</b> {{ i.verb }}</br>{{ i.timestamp|timesince }} ago
+        <b class="title">@{{ i.actor }}</b> {{ i.verb }}</br>{{ i.timestamp|timesince }} ago
         </li></a>
         </ul>
         {% endfor %}
-        {% else %}
-        <h5 class="grey-text center">No Notifications to show</h5>
         {% endif %}
       </div>
+
+      <div id="test4" class="col s12">
+    {% if followers %}
+      <div class="row">
+      {% for user in followers %}
+        <div class="col s6 l3 m4">
+          <div class="card">
+            <div class="card-image">
+              <img src="{% static 'images/1.jpg' %}">
+              <span class="card-title">{{ user.username }}</span>
+            </div>
+            <div class="card-content">
+              <p>{{ user.user_information.profession }} at {{ user.user_information.name_of_institute }}</p>
+              <a href="{% url 'social:viewuser' slug=user.user_information.slug %}">View User</a>
+            </div>
+            <div class="card-action" id="arc">
+
+            <span id="addorremove{{ user.id }}">
+            {% if user in connections %}
+              <a data-id="{{ user.id }}" data-href="{% url 'social:removeconnection' id=user.id %}" class="addremoveconnection">Remove from connections</a>
+              {% else %}
+              <a data-id="{{ user.id }}" data-href="{% url 'social:addconnection' id=user.id %}" class="addremoveconnection" >Add to connections</a>
+            {% endif %}
+            </span>
+
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+</div>
+
+       {% else %}
+       <h5 class="grey-text center">No Followers to show</h5>
+       {% endif %}
+    </div>
 
 
 </div>

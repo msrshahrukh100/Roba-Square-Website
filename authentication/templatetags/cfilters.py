@@ -1,4 +1,6 @@
 from django import template
+from authentication.username import get_user_name
+
 register = template.Library()
 
 @register.filter(name='addclass')
@@ -14,3 +16,7 @@ def addtype(field,css) :
 @register.filter(name='times') 
 def times(number):
     return range(number)
+
+@register.filter(name="getfullname")
+def getfullname(user) :
+	return get_user_name(user)

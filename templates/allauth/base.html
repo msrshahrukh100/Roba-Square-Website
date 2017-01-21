@@ -54,12 +54,12 @@
         <li style="margin-left: -70px;">
           <a class='dropdown-button btn transparent z-depth-0' data-gutter="10px" data-beloworigin="true" href='#' data-activates='dropdown-user'>
             <div class="chip transparent ">
-              {% if user.socialaccount_set.all.0.get_avatar_url %}
-              <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" alt="Contact Person">
+              {% if request.user.socialaccount_set.all.0 %}
+              <img src="{{ request.user.socialaccount_set.all.0.get_avatar_url }}" alt="Contact Person">
             {% else %}
-              <img src="{{ user.user_information.change_profile_pic.url }}" alt="Contact Person">
+              <img src="{{ request.user.user_information.change_profile_pic.url }}" alt="Contact Person">
             {% endif %}
-              {{ user_display }}<br/>
+              {{ request.user|getfullname }}<br/>
             </div></a>
             <ul id='dropdown-user' class='dropdown-content'>
               <li><a href="#!">one</a></li>

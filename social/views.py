@@ -25,7 +25,7 @@ def addconnection(request,id=None) :
 	following = User.objects.filter(id=id).first()
 	c, created = Connections.objects.get_or_create(user=user, following=following)
 	if created :
-		verb = user.get_full_name() + "followed you."
+		verb = user.get_full_name() + " followed you."
 		notify.send(user, recipient=following, verb=verb, url=url, imageurl=imageurl)
 		return JsonResponse({'msg':'Added to connections!'})
 	else :
@@ -47,8 +47,10 @@ def myprofile(request) :
 	ids = Connections.objects.values_list('following').filter(user=user)
 	connections = User.objects.filter(id__in=ids)
 	recentlyviewed = RecentlyViewed.objects.filter(user=user)
+	idsf = Connections.objects.values_list('user').filter(following=user)
+	followers = User.objects.filter(id__in=idsf)
 	notifications = user.notifications.all()
-	context = {'user':user,'connections' : connections, 'recentlyviewed' : recentlyviewed,'notifications':notifications}
+	context = {'user':user,'connections' : connections, 'recentlyviewed' : recentlyviewed,'notifications':notifications,'followers':followers}
 	return render(request,'myprofile.html',context)
 
 @login_required
@@ -58,11 +60,21 @@ def viewuser(request,slug=None) :
 	user = x.user
 	ids = Connections.objects.values_list('following').filter(user=user)
 	connections = User.objects.filter(id__in=ids)
+	idsf = Connections.objects.values_list('user').filter(following=user)
+	followers = User.objects.filter(id__in=idsf)
+	print followers
+	print x.showfollowers
 	recentlyviewed = RecentlyViewed.objects.filter(user=user)
+	context = {}
+	context['user'] = user
 	if loggedinuser in connections :
-		context = {'user':user,'connections' : connections, 'recentlyviewed' : recentlyviewed}
-	else :
-		context = {}
+		if x.showrecentlyviewed :
+			context['recentlyviewed'] = recentlyviewed
+		if x.showfollowers :
+			context['followers'] = followers
+ 		if x.showfollowing :
+			context['connections'] = connections
+
 	return render(request,'myprofile.html',context)
 
 @login_required

@@ -55,7 +55,7 @@ def change_settings(request) :
 				instance.save()
 
 			user.first_name = formdata['first_name']
-			user.last_name = formdata['last_name']
+			user.last_name = formdata['last_name'] 
 			user.save()
 			response = {'type': 1,
 			'msg' : "Changes Saved!"
@@ -91,7 +91,6 @@ def change_privacy_settings(request) :
 	userinfo.showfollowers = request.POST.get('followers',False)
 	userinfo.showfollowing = request.POST.get('following',False)
 	userinfo.save()
-	print request.POST
 	response = {'type': 1,
 			'msg' : "Changes Saved!"
 			}
