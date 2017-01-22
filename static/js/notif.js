@@ -13,10 +13,10 @@
 		    $('#nl').append("<li class='collection-item'><a href='/social/myprofile/'><b>View All</b></a></li>")
 
 		   if(data.unread_list.length != 0 && data.unread_list.length != previouslength){
+			Materialize.toast('New Notifications', 3000, 'rounded');
+			previouslength = data.unread_list.length;
 			// var audio = new Audio('/static/audio/notification.mp3');
 			// audio.play();
-			Materialize.toast('New Notifications', 3000, 'rounded')
-			previouslength = data.unread_list.length;
 		   }
 	}
 

@@ -52,6 +52,23 @@ class UserInformation(models.Model) :
 @receiver(post_save, sender=User)
 def UserInformationreceiver(sender, instance, **kwargs):
 	UserInformation.objects.get_or_create(user=instance)
+
+
+class Addresses(models.Model) :
+	user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='addresses')
+	address = models.CharField(max_length=300)
+	city = models.CharField(max_length=30)
+	pincode = models.PositiveIntegerField()
+	nearest_landmark = models.CharField(max_length=200, null=True, blank=True)
+
+	def __unicode__(self) :
+		return self.user.username
+
+	def get_remove_url(self) :
+		return reverse("authentication:removeaddress", kwargs={'id':self.id})
+
+
+
 	
 
 

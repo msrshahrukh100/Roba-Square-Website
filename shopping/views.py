@@ -20,6 +20,7 @@ def view_category_or_item(request, qtype=None, slug=None) :
 		return render(request,'view.html',context)
 	elif qtype == 'product' :
 		instance = ProductDescription.objects.filter(slug=slug).first()
+		detailsofproduct = instance.productdetails.all()
 		# create a entry on the recently viewed table
 		user = request.user
 		if not user.is_anonymous() : 
@@ -36,6 +37,7 @@ def view_category_or_item(request, qtype=None, slug=None) :
 		context = {
 		'type' : 2,
 		'detailp':instance,
+		'detailsofproduct':detailsofproduct,
 		'recentlyviewed':recentlyviewed[1:5],
 		"form" : form,
 		}

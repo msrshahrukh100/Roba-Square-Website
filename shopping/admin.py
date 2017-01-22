@@ -1,9 +1,11 @@
 from django.contrib import admin
 import nested_admin
-from .models import Categories, ProductDescription, Products, ImagesOfProducts, Slider
+from .models import Categories, ProductDescription, Products, ImagesOfProducts, Slider, DetailsOfProducts
 # Register your models here.
 
-
+class DetailsOfProductsInline(nested_admin.NestedTabularInline) :
+	model = DetailsOfProducts
+	extra = 1
 
 class ImageInline(nested_admin.NestedTabularInline) :
 	model = ImagesOfProducts
@@ -26,7 +28,7 @@ class CategoriesAdmin(nested_admin.NestedModelAdmin) :
 
 
 class ProductsDescriptionAdmin(nested_admin.NestedModelAdmin) :
-	inlines = [ProductsInline]
+	inlines = [ProductsInline, DetailsOfProductsInline]
 	exclude = ("height_field","width_field")
 
 
@@ -55,3 +57,4 @@ admin.site.register(ProductDescription,ProductsDescriptionAdmin)
 admin.site.register(Products,ProductsAdmin)
 admin.site.register(ImagesOfProducts,ImagesOfProductsAdmin)
 admin.site.register(Slider,SliderAdmin)
+admin.site.register(DetailsOfProducts)

@@ -1,5 +1,5 @@
 from django import forms
-from .models import UserInformation
+from .models import UserInformation, Addresses
 from django.forms.extras.widgets import SelectDateWidget
 
 
@@ -28,3 +28,7 @@ class UserInfoForm(forms.ModelForm) :
 
 		return self.cleaned_data
 
+class AddressForm(forms.ModelForm) :
+	class Meta :
+		model = Addresses
+		fields = ('address','city','pincode','nearest_landmark')

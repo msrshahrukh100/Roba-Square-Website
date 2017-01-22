@@ -1,10 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from shopping.models import Slider, Categories, ProductDescription
 from allauth.account.forms import ChangePasswordForm, AddEmailForm
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-from .forms import UserInfoForm
-from .models import UserInformation
+from .forms import UserInfoForm,AddressForm
+from .models import UserInformation, Addresses
 
 
 def home_page(request) :
@@ -20,6 +20,7 @@ def change_settings(request) :
 
 	user = request.user
 	userinfo = UserInformation.objects.filter(user=user).first()
+	addresses = Addresses.objects.filter(user=user)
 	data = {
 	'first_name' : user.first_name,
 	'last_name' : user.last_name,
@@ -32,6 +33,7 @@ def change_settings(request) :
 		data['name_of_institute'] = userinfo.name_of_institute
 
 	userinfoform = UserInfoForm(request.POST or None,initial=data)
+	addressform = AddressForm(request.POST or None)
 	if request.method == 'POST' :
 		# print "first name" + request.POST.get('first_name',"")
 		# print userinfoform.is_valid()
@@ -71,6 +73,8 @@ def change_settings(request) :
 	context = {
 	'userinfoform' : userinfoform,
 	'userinfo':userinfo,
+	'addressform':addressform,
+	'addresses' : addresses,
 	}
 	return render(request,'settings.html',context)
 
@@ -95,4 +99,21 @@ def change_privacy_settings(request) :
 			'msg' : "Changes Saved!"
 			}
 	return JsonResponse(response)
+
+@login_required
+def addaddress(request):
+	user = request.user
+	address = request.POST.get('address')
+	city = request.POST.get('city')
+	pincode = request.POST.get('pincode')
+	nearest_landmark = request.POST.get('nearest_landmark')
+	Addresses.objects.get_or_create(user=user,address=address,city=city,pincode=pincode,nearest_landmark=nearest_landmark) 
+	return redirect('authentication:change_settings')
+
+
+@login_required
+def removeaddress(request,id=None) :
+	instance = get_object_or_404(Addresses,id=id)
+	instance.delete()
+	return redirect('authentication:change_settings')
 

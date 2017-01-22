@@ -5,6 +5,13 @@
 {% block head_title %}{% trans "Account" %}{% endblock %}
 
 {% block content %}
+<style type="text/css">
+  .divider  
+  {
+    padding-top: 100px;
+    /*padding-bottom: 100px;*/
+  }
+</style>
 <div class="container">
   
 
@@ -21,10 +28,11 @@
   <div class="col s12 m9 l8">    
 
     <div id="BasicSettings" class="section scrollspy">
+    <h5>Basic Settings</h5>
       <form method="post" onsubmit="return false" id="basicsettingsform">
       {% csrf_token %}
 
-      {{ userinfoform.as_p }}
+      {{ userinfoform|crispy}}
 
       <a class="waves-effect waves-light btn" id="sumbitbasicsettings">Submit</a>
 
@@ -35,25 +43,59 @@
 
 
     </div>
+    <div class="divider white"></div>
 
+    <div id="AddressSettings" class="section scrollspy">
+      <h5>Address Settings</h5>
+      {% if addresses %}
+      <ul class="collection">
+      {% for i in addresses %}
+      <li class="collection-item">
+      <a class="right waves-effect waves-light btn" href="{{ i.get_remove_url }}">Remove</a>
+       <b>Address:</b>  {{ i.address }} <br><b>City:</b> {{ i.city }}<br> <b>Pincode:</b>{{ i.pincode }}<br> <b>Nearest Landmark: </b>{{ i.nearest_landmark }} <br>
+      </li>
+      {% endfor %}
+    </ul>
+      {% else %}
+      <p class="grey-text">No address added yet</p>
+      {% endif %}
+        
+            
+      <br/><b>Add new address here</b>
+      <div class="row">
+      <form method="POST" action="{% url 'authentication:addaddress' %}">{% csrf_token %}
+      {{ addressform|crispy }}
+        <button class="btn waves-effect waves-light" type="submit" name="action">Add
+      <i class="material-icons right">send</i>
+      </button>
+      </form>
+        
+      </div>
+      </div>
+
+      <div class="divider white"></div>
 
     <div id="EmailSettings" class="section scrollspy">
+    <h5>Email Settings</h5>
       <a class="waves-effect waves-light btn" href="{% url 'account_email' %}"><i class="material-icons right">cloud</i>Modify your Email</a>
     </div>
 
+<div class="divider white"></div>
 
     <div id="PasswordSettings" class="section scrollspy">
+    <h5>Password Settings</h5>
       <a class="waves-effect waves-light btn" href="{% url 'account_change_password' %}"><i class="material-icons right">cloud</i>Change Password</a>
     </div>
 
+    <div class="divider white"></div>
+
     <div id="PrivacySettings" class="section scrollspy">
       <h5>Privacy Settings</h5>
-{{ userinfo }}
 <form method="post" onsubmit="return false" id="privacysettingsform">{% csrf_token %}
     <ul class="collection">
       <li class="collection-item">
-            <div class="switch">
             Show your recently viewed products to other users &nbsp
+            <div class="switch right">
             <label>
             No
             <input name="recentlyviewed" type="checkbox" class="inline" {% if userinfo.showrecentlyviewed %} checked="checked" {% endif %}>
@@ -63,8 +105,8 @@
             </div>
       </li>
       <li class="collection-item">
-              <div class="switch">
               Show people you are following to other users &nbsp
+              <div class="switch right">
               <label>
               No
               <input name="following" type="checkbox" class="inline" {% if userinfo.showfollowing %} checked="checked" {% endif %}>
@@ -74,8 +116,8 @@
               </div>
       </li>
       <li class="collection-item">
-          <div class="switch">
           Show your followers to other users &nbsp
+          <div class="switch right">
           <label>
           No
           <input name="followers" type="checkbox" class="inline" {% if userinfo.showfollowers %} checked="checked" {% endif %}>
@@ -97,6 +139,9 @@
     <ul class="section table-of-contents fixed">
       <li>
         <a href="#BasicSettings">Basic Settings</a>
+      </li>
+      <li>
+        <a href="#AddressSettings">Address Settings</a>
       </li>
       <li>
         <a href="#EmailSettings">Email Settings</a>

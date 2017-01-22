@@ -132,12 +132,7 @@
                 <img src="{{ image.image.url }}" data-caption="{{ detailp.name }} {{ im.color }} {{ im.size }}" class="materialboxed viewimage"></li>
               {% endfor %}
           {% endfor %}
-              <li>
-                <img class="materialboxed viewimage" src="http://lorempixel.com/580/250/nature/2"></li>
-              <li>
-                <img class="materialboxed viewimage" src="http://lorempixel.com/580/250/nature/3"></li>
-              <li>
-                <img class="materialboxed viewimage" src="http://lorempixel.com/580/250/nature/4"></li>
+              
             </ul>
           </div>
 
@@ -154,9 +149,9 @@
 
       <div class="col l5 s6 m5">
         <div class="card-panel white card z-depth-0">
-        <h2>
+        <h3 class="center">
           {{ detailp.name }}
-        </h2>
+        </h3>
         {%  if detailp.new_product %}
           <span class="badge green black-text">New Arrival</span>
           {% endif %}
@@ -172,15 +167,35 @@
    
 <div class="divider"></div>
 
+{% if detailsofproduct %}
 <div class="section container">
-  
+  <h5 class="center">Product Description</h5>
+      <table class="responsive-table centered">
+        <tbody>
+          {% for i in detailsofproduct %}
+          <tr>
+            <td><b>{{ i.attribute }}</b></td>
+            <td>{{ i.value }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+</div>
+{% endif %}
+
+{% if detailp.reviews.all %}
+<div class="section container">
+  <h5>Product Reviews</h5>
 <ul class="collection">
 {% for review in detailp.reviews.all %}
     <li class="collection-item avatar">
       <img src="images/yuna.jpg" alt="" class="circle">
-      <span class="title">{{ review.user }}</span>
+      <b class="title">{{ review.user|getfullname }}</b>
       <p> {{ review.review }}
       </p>
+      {% if request.user == review.user %}
+      <a href="{{ review.get_delete_review_url }}">Remove</a> 
+      {% endif %}
       <a href="#!" class="secondary-content">{% for i in review.rating|times %}
       <i class="material-icons">grade</i>
       {% endfor %}</a>
@@ -188,9 +203,10 @@
       {% endfor %}
   </ul>
 </div>
+{% else %}
+<h6 class="grey-text center">Be the first one to review this product</h6>
+{% endif %}
 
-
-  <div class="divider"></div>
   {% if request.user.is_authenticated %}
   <div class="section container">
       <form method="post" action="{% url 'review:addreview' %}">{% csrf_token %}
@@ -222,7 +238,7 @@
 
 {% if recentlyviewed %}
 <div class="section">
-<h1>Recently viewed products</h1>
+<h5 class="center">Recently viewed products</h5 >
       <div class="row">
       {% for p in recentlyviewed %}
           <div class="col l3 s2 m3">

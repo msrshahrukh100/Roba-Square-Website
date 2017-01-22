@@ -82,7 +82,17 @@ class ProductDescription(models.Model) :
 		verbose_name_plural = "Description of the product(Add here)"
 
 
+class DetailsOfProducts(models.Model) :
+	product = models.ForeignKey(ProductDescription,on_delete=models.CASCADE, null=True, related_name="productdetails")
+	attribute = models.CharField(max_length=70, help_text="Product description attributes eg, weight, material etc")
+	value = models.CharField(max_length=100, help_text="Values of the product description attribute")
 
+	def __unicode__(self) :
+		return self.product.name
+
+	class Meta :
+		verbose_name = "Details of Products"
+		verbose_name_plural = "Details of Products"
 
 #class for storing the list of all products with the variation of size and color
 class Products(models.Model) :
@@ -103,6 +113,7 @@ class Products(models.Model) :
 	class Meta :
 		verbose_name = "Product"
 		verbose_name_plural = "Products"
+
 
 
 
