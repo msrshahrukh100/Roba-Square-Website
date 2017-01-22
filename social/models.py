@@ -31,6 +31,12 @@ class RecentlyViewed(models.Model) :
 		verbose_name_plural = "Recently Viewed"
 		ordering = ['-timestamp']
 
+class Likes(models.Model) :
+	user = models.ForeignKey(User,related_name='userlikes')
+	product = models.ForeignKey(ProductDescription, related_name='productlikes')
+	timestamp = models.DateTimeField(auto_now=True, auto_now_add=False)
 
+	def __unicode__(self):
+		return self.user.username
 
 

@@ -3,8 +3,10 @@ from django.http import Http404
 from django.views.decorators.csrf import csrf_exempt
 from productreviews.forms import Reviewform
 from .models import Categories, ProductDescription
+from cart.models import Cart
 from social.models import RecentlyViewed
 from django.http import JsonResponse
+from social.models import Likes
 # Create your views here.
 
 
@@ -30,16 +32,24 @@ def view_category_or_item(request, qtype=None, slug=None) :
 				c.save()
 		data = {'product':instance.id}
 		form = Reviewform(initial=data)
+		likes = Likes.objects.filter(product=instance)
+		likescount = likes.count()
+		ids = Connections.objects.values_list('following').filter(user=user)
+		connections = User.objects.filter(id__in=ids)
+		# friendslikes = likes.filter()
 		if request.user.is_anonymous() :
 			recentlyviewed = []
 		else :
 			recentlyviewed = RecentlyViewed.objects.filter(user=request.user)
+
 		context = {
 		'type' : 2,
 		'detailp':instance,
 		'detailsofproduct':detailsofproduct,
 		'recentlyviewed':recentlyviewed[1:5],
 		"form" : form,
+		'likes' : likes,
+		'likescount':likescount,
 		}
 		return render(request,'view.html',context)
 	else :

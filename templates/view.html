@@ -57,24 +57,23 @@
         <p>
           <p>stars</p>
           <p>R-{{ p.price }}</p>
-          
           <span class="badge red">{{ p.gender }}</span>
 
         </p>
-
+        <a data-href='{{ p.get_like_dislike_url  }}' data-position="bottom" data-delay="30" data-tooltip="Like Dislike" class="addtocart btn-floating waves-effect waves-light hoverable tooltipped " ><i class="material-icons ">favorite</i></a>
         {% if incart %}
         <a href='{{ p.get_delete_cart_url  }}' data-position="bottom" data-delay="30" data-tooltip="Remove from cart" class="btn-floating waves-effect waves-light hoverable tooltipped"><i class="material-icons">remove_shopping_cart</i></a>
         {% else %}
         <a data-href='{{ p.get_add_to_cart_url }}' data-position="bottom" data-delay="30" data-tooltip="Add to cart" class="addtocart  btn-floating waves-effect waves-light hoverable tooltipped"><i class="material-icons">add_shopping_cart</i></a>
         {% endif %}
 
-        {% if inwl %}
-        <a href='{{ p.get_delete_wishlist_url }}' data-position="bottom" data-delay="30" data-tooltip="Remove from Wish List" class="btn-floating waves-effect waves-light hoverable tooltipped"><i class="material-icons">favorite_border</i></a>
+        {% if inwl and request.user %}
+        <a href='{{ p.get_delete_wishlist_url }}' data-position="bottom" data-delay="30" data-tooltip="Remove from Wish List" class="btn-floating waves-effect waves-light hoverable tooltipped"><i class="material-icons">redeem</i></a>
         {% endif %}
 
         {% if request.user and not inwl %}
 
-        <a data-href='{{ p.get_add_to_wishlist_url }}' data-position="bottom" data-delay="30" data-tooltip="Add to wishlist" class="addtocart btn-floating waves-effect waves-light hoverable tooltipped"><i class="material-icons">favorite</i></a>
+        <a data-href='{{ p.get_add_to_wishlist_url }}' data-position="bottom" data-delay="30" data-tooltip="Add to wishlist" class="addtocart btn-floating waves-effect waves-light hoverable tooltipped"><i class="material-icons">redeem</i></a>
                                   
 
 
@@ -137,11 +136,18 @@
           </div>
 
             </div>
-            <div class="card-action">
+            <div class="card-action hide-on-med-and-down">
               <a data-href='{{ detailp.get_add_to_cart_url }}' class='addtocart waves-effect waves-light btn'><i class="material-icons left">add_shopping_cart</i>Add to cart</a>
 
               {% if request.user %}
-              <a data-href='{{ detailp.get_add_to_wishlist_url }}' class='addtocart waves-effect waves-light btn'><i class="material-icons left">favorite</i>Add to wishlist</a>
+              <a data-href='{{ detailp.get_add_to_wishlist_url }}' class='addtocart waves-effect waves-light btn'><i class="material-icons left">redeem</i>Add to wishlist</a>
+              {% endif %}
+            </div>
+            <div class="card-action hide-on-large-only">
+              <a data-href='{{ detailp.get_add_to_cart_url }}' class='addtocart waves-effect waves-light btn'><i class="material-icons left">add_shopping_cart</i></a>
+
+              {% if request.user %}
+              <a data-href='{{ detailp.get_add_to_wishlist_url }}' class='addtocart waves-effect waves-light btn'><i class="material-icons left">redeem</i></a>
               {% endif %}
             </div>
           </div>
@@ -159,7 +165,31 @@
           {{ detailp.description|linebreaks }}
                   <p>R-{{ detailp.price }}</p>
                 <p>{{ detailp.stockcount }} in stock<p>
-          
+          <div class="section">
+          <p></p>
+            <p>
+              <a  href="#modal1">{{ likescount }} shoppers liked this product</a>
+            </p>
+            <div class="row">
+                    <div id="modal1" class="col l4 s8 m6 modal center">
+                      <div class="modal-content">
+                        <h5>Likes on this product</h5>
+                        {% for l in likes %}
+                        <p>
+                        <a href="{{ l.user.user_information.get_absolute_url }}">
+                          <div class="chip">
+                            <img class="responsive-img" src="{{ l.user.user_information.get_image_url }}" >
+                            {{ l.user|getfullname }}
+                          </div>
+                          <span class="right grey-text">{{ l.timestamp|timesince }} ago</span>
+                          </a>
+                        </p>
+                        {% endfor %}
+                      </div>
+                    </div>
+              </div>
+          </div>
+
         </div>
       </div>
       </div>
@@ -185,7 +215,7 @@
 
 {% if detailp.reviews.all %}
 <div class="section container">
-  <h5>Product Reviews</h5>
+  <h5 class="center">Product Reviews</h5>
 <ul class="collection">
 {% for review in detailp.reviews.all %}
     <li class="collection-item avatar">
@@ -233,6 +263,8 @@
 
       </form>
      </div>
+     {% else %}
+     <h5 class="center grey-text">Signup to add review</h5>
      {% endif %}
 
 

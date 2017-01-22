@@ -2,9 +2,11 @@ from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from .models import Connections, RecentlyViewed
+from .models import Connections, RecentlyViewed, Likes
 from authentication.models import UserInformation
+from shopping.models import ProductDescription
 from notifications.signals import notify
+from authentication.username import get_user_name
 # Create your views here.
 
 @login_required
@@ -25,7 +27,7 @@ def addconnection(request,id=None) :
 	following = User.objects.filter(id=id).first()
 	c, created = Connections.objects.get_or_create(user=user, following=following)
 	if created :
-		verb = user.get_full_name() + " followed you."
+		verb = get_user_name(user) + " followed you."
 		notify.send(user, recipient=following, verb=verb, url=url, imageurl=imageurl)
 		return JsonResponse({'msg':'Added to connections!'})
 	else :
@@ -83,5 +85,26 @@ def readallnotifications(request) :
 	qs = user.notifications.unread()
 	qs.mark_all_as_read()
 	return JsonResponse({'msg':'Read all'})
+
+@login_required
+def likedislike(request, id=None) :
+	user = request.user
+	product = get_object_or_404(ProductDescription, id=id)
+	l, created = Likes.objects.get_or_create(user=user, product=product)
+	if created :
+		idsf = Connections.objects.values_list('user').filter(following=user)
+		followers = User.objects.filter(id__in=idsf)
+		verb = get_user_name(user) + " liked a product"
+		url = product.get_absolute_url()
+		imageurl = product.get_image_url
+		print imageurl
+		print url
+		for i in followers : 
+			notify.send(user, recipient=i, verb=verb, url=url, imageurl=imageurl)
+		return JsonResponse({'msg':'You liked this product'})
+	l.delete()
+	return JsonResponse({'msg':'You unliked this product'})
+
+
 
 	

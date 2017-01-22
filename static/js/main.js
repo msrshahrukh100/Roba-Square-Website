@@ -14,6 +14,7 @@ $(function(){
       $('.slider').slider();
       $('.parallax').parallax();
       $('ul.tabs').tabs();
+      $('.modal').modal();
 
      $('.dropdown-button1').dropdown({
       inDuration: 300,
@@ -45,6 +46,7 @@ $(function(){
     type : 'GET',
     success : function(data){
       Materialize.toast(data['msg'], 4000)
+      $(this).toggleClass('green')
       if (data['count']) {
       $('#cartcount').text(data['count'])
       } 

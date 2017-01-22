@@ -77,6 +77,10 @@ class ProductDescription(models.Model) :
 	def get_delete_wishlist_url(self) :
 		return reverse("cart:deletefromwishlist", kwargs={"id":self.id})
 
+	@property
+	def get_like_dislike_url(self) :
+		return reverse("social:likedislike", kwargs={"id":self.id})
+
 	class Meta :
 		verbose_name = "Description of the product(Add here)"
 		verbose_name_plural = "Description of the product(Add here)"

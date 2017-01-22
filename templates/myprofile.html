@@ -5,7 +5,13 @@
 
 <div class="col s12" style="padding-left:50px;">
         <a href="/" class="breadcrumb">Home</a>
-        <a class="breadcrumb" >My Profile</a>
+        {% if request.user == user %}
+        <a class="breadcrumb" >My profile</a>
+        {% else %}
+        <a href="{% url 'social:viewallusers' %}" class="breadcrumb" >All Shoppers</a>
+        <a class="breadcrumb" >{{ user|getfullname }}</a>
+        {% endif %}
+
 </div>
 
 {% endblock %}
@@ -21,6 +27,7 @@
             {% else %}
             <img class="responsive-img" src="{{ user.user_information.change_profile_pic.url }}" alt="Contact Person">
             <h5>{{ user|getfullname }}</h5>
+            {% if request.user == user %}
             <div class="row">
           <form method='POST' action="{% url 'authentication:change_dp' %}" enctype='multipart/form-data'>{% csrf_token %}
             <div class="file-field input-field">
@@ -37,7 +44,7 @@
   </button>
           </form>
             </div>
-
+            {% endif %}
             {% endif %}
 
             
