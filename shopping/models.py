@@ -3,6 +3,8 @@ from django.db.models.signals import post_delete, post_save
 from django.dispatch.dispatcher import receiver
 from autoslug import AutoSlugField
 from django.core.urlresolvers import reverse
+from sorl.thumbnail import ImageField
+from django.core.cache import cache
 
 
 
@@ -13,7 +15,7 @@ def upload_location_cat(instance, filename) :
 # class for storing the cateogry of products
 class Categories(models.Model):
 	category = models.CharField(max_length = 200, help_text="Category of Product, eg. Apparels,Clothing")
-	image = models.ImageField(upload_to=upload_location_cat, width_field="width_field", height_field="height_field", help_text="Image of the category. It is displayed on the front page. It depicts the category of product")
+	image = ImageField(upload_to=upload_location_cat, width_field="width_field", height_field="height_field", help_text="Image of the category. It is displayed on the front page. It depicts the category of product")
 	height_field = models.IntegerField(default=0)
 	width_field = models.IntegerField(default=0)
 	category_description = models.TextField(max_length=400, help_text="Description of the category in 400 characters.It is displayed on the front page")
@@ -129,7 +131,7 @@ def upload_location_pro(instance,filename) :
 #class for storing the product images
 class ImagesOfProducts(models.Model) :
 	product = models.ForeignKey(Products,on_delete=models.CASCADE,related_name='productimages')
-	image = models.ImageField(upload_to = upload_location_pro,height_field="height_field", width_field="width_field",help_text="Image showing the different views of the product")
+	image = ImageField(upload_to = upload_location_pro,height_field="height_field", width_field="width_field",help_text="Image showing the different views of the product")
 	height_field = models.IntegerField(default=0)
 	width_field = models.IntegerField(default=0)
 
@@ -149,7 +151,7 @@ def upload_location_sli(instance,filename) :
 class Slider(models.Model) :
 	view_opt = (('center','center'),('left','left'),('right','right'))
 
-	image = models.ImageField(upload_to = upload_location_sli, null=False, blank=False ,height_field="height_field", width_field="width_field",help_text="Images to be displayed on the slider")
+	image = ImageField(upload_to = upload_location_sli, null=False, blank=False ,height_field="height_field", width_field="width_field",help_text="Images to be displayed on the slider")
 	height_field = models.IntegerField(default=0)
 	width_field = models.IntegerField(default=0)
 	header = models.CharField(max_length=100,help_text="The heading to be displayed on the slider.")
@@ -168,7 +170,10 @@ class Slider(models.Model) :
 
 
 
-
+@receiver(post_save, sender=Categories)
+def clear_cache_when_new_added(sender, instance, **kwargs):
+    print "have to clear the case"
+    cache._cache.flush_all()
 
 # make for update too
 

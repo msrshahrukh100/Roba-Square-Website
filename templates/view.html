@@ -114,6 +114,67 @@
   </div>
 
   
+<div class="container">
+        <h2 class="header">Product suggestions</h2>
+
+        <div class="row">
+          <form class="col s12" method="POST" onsubmit="return false" id="suggestionform">{% csrf_token %}
+            <div class="row">
+              <div class="input-field col s6">
+                <input id="suggestions" name="suggestions" type="text" class="validate" required>
+                <label for="suggestions">Product Suggestion</label>
+              </div>
+               <div class="input-field col s6">
+                <input id="email" type="email" name="email" class="validate">
+                <label for="email">E-mail(optional)</label>
+              </div>
+            </div>
+
+
+            <button class="btn waves-effect waves-light" id="suggestionsubmit"  type="submit" name="action">Submit
+              <i class="material-icons right">send</i>
+            </button>
+
+          </form>
+        </div>
+
+      </div>
+   
+
+    
+
+    <script type="text/javascript">
+
+  $(function(){
+
+    $('#suggestionsubmit').on('click',function(){
+
+       var temp = {'X-CSRFToken': document.getElementsByName('csrfmiddlewaretoken')[0].value};
+
+      $.ajax({
+        url : "{% url 'review:productsuggestion' %}",
+        type : 'POST',
+        dataType: 'json',
+        data :  $('#suggestionform').serialize(),
+        headers: temp,
+        contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+        success : function(data) {
+          $('#suggestions').val("")
+          $('#email').val("")
+          Materialize.toast(data['msg'], 4000)
+
+        }
+      });
+
+
+
+    });
+
+  });
+</script>
+
+
+
 
   {% else %}
 

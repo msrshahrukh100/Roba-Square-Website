@@ -4,8 +4,18 @@
 
 {% block head_title %}{% trans "Signup" %}{% endblock %}
 
+{% block breadcumb %}
+
+<div class="col s12" style="padding-left:50px;">
+        <a href="/" class="breadcrumb">Home</a>
+        <a class="breadcrumb" >Sign Up</a>
+</div>
+
+{% endblock %}
+
 {% block content %}
-<h1>{% trans "Sign Up" %}</h1>
+<div class="container">
+<h5>{% trans "Sign Up" %}</h5>
 
 <p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
 
@@ -17,5 +27,5 @@
   {% endif %}
   <button type="submit">{% trans "Sign Up" %} &raquo;</button>
 </form>
-
+ </div>
 {% endblock %}

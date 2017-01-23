@@ -7,8 +7,10 @@ from authentication.models import UserInformation
 from shopping.models import ProductDescription
 from notifications.signals import notify
 from authentication.username import get_user_name
-# Create your views here.
+from django.views.decorators.cache import never_cache
 
+# Create your views here.
+@never_cache
 @login_required
 def viewallusers(request) :
 	user = request.user
@@ -43,6 +45,7 @@ def removeconnection(request,id=None) :
 	return JsonResponse({'msg':'Removed from connections'})
 
 
+@never_cache
 @login_required
 def myprofile(request) :
 	user = request.user
@@ -55,6 +58,7 @@ def myprofile(request) :
 	context = {'user':user,'connections' : connections, 'recentlyviewed' : recentlyviewed,'notifications':notifications,'followers':followers}
 	return render(request,'myprofile.html',context)
 
+@never_cache
 @login_required
 def viewuser(request,slug=None) :
 	loggedinuser = request.user
@@ -79,6 +83,7 @@ def viewuser(request,slug=None) :
 
 	return render(request,'myprofile.html',context)
 
+@never_cache
 @login_required
 def readallnotifications(request) :
 	user = request.user
@@ -86,6 +91,7 @@ def readallnotifications(request) :
 	qs.mark_all_as_read()
 	return JsonResponse({'msg':'Read all'})
 
+@never_cache
 @login_required
 def likedislike(request, id=None) :
 	user = request.user

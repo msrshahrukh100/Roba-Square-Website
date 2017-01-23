@@ -4,9 +4,29 @@
 
 {% block head_title %}{% trans "Verify Your E-mail Address" %}{% endblock %}
 
+{% block breadcumb %}
+
+<div class="col s12" style="padding-left:50px;">
+        <a href="/" class="breadcrumb">Home</a>
+</div>
+
+{% endblock %}
+
 {% block content %}
+<div class="container">
     <h1>{% trans "Verify Your E-mail Address" %}</h1>
 
+{% if messages %}
+    <div>
+      <strong>Messages:</strong>
+      <ul>
+  {% for message in messages %}
+  <li>{{message}}</li>
+  {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+    
     <p>{% blocktrans %}We have sent an e-mail to you for verification. Follow the link provided to finalize the signup process. Please contact us if you do not receive it within a few minutes.{% endblocktrans %}</p>
-
+</div>
 {% endblock %}

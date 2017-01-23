@@ -3,6 +3,7 @@
 {% load account %}
 {% load i18n %}
 {% load notifications_tags %}
+{% load thumbnail %}
 {% user_display user as user_display %}
 <html>
 <head>
@@ -61,10 +62,15 @@
         <li style="margin-left: -70px;">
           <a class='dropdown-button btn transparent z-depth-0' data-gutter="10px" data-beloworigin="true" href='#' data-activates='dropdown-user'>
             <div class="chip transparent ">
-            {% if user.socialaccount_set.all.0.get_avatar_url %}
+            {% if user.socialaccount_set.all.0 %}
             <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" alt="Contact Person">
             {% else %}
-            <img src="{{ user.user_information.change_profile_pic.url }}" alt="Contact Person">
+
+            {% thumbnail user.user_information.change_profile_pic "100x100" as im %}
+            <img src="{{ im.url }}" alt="Contact Person">
+              {% endthumbnail %}
+
+            
             {% endif %}
 
               {{ user_display }}<br/>
@@ -169,14 +175,17 @@
 
   <div class="section white">
     <div class="row container">
-      <h2 class="header">Products</h2>
-      <p class="grey-text text-darken-3 lighten-3">Here we'll be writing somethings abput our products</p>
+      <h5 class="header">Products</h5>
       <div class="row">
       {% for category in categories %}
         <div class="col s12 m12 l6">
           <div class="card large">
             <div class="card-image">
-              <img src="{{ category.image.url }}">
+
+                {% thumbnail category.image "400x250" as im %}
+                  <img src="{{ im.url }}">
+                {% endthumbnail %}
+              
               <span class="card-title">{{ category.category }}</span>
             </div>
             <div class="card-content">
@@ -260,68 +269,6 @@
         </div>
       </div>
 </div>
-
-      <div class="container">
-        <h2 class="header">Product suggestions</h2>
-
-        <div class="row">
-          <form class="col s12" method="POST" onsubmit="return false" id="suggestionform">{% csrf_token %}
-            <div class="row">
-              <div class="input-field col s6">
-                <input id="suggestions" name="suggestions" type="text" class="validate" required>
-                <label for="suggestions">Product Suggestion</label>
-              </div>
-               <div class="input-field col s6">
-                <input id="email" type="email" name="email" class="validate">
-                <label for="email">E-mail(optional)</label>
-              </div>
-            </div>
-
-
-            <button class="btn waves-effect waves-light" id="suggestionsubmit"  type="submit" name="action">Submit
-              <i class="material-icons right">send</i>
-            </button>
-
-          </form>
-        </div>
-
-      </div>
-   
-
-    <div class="parallax-container">
-      <div class="parallax"><img src="{% static 'images/1.jpg' %}"></div>
-    </div>
-
-    <script type="text/javascript">
-
-  $(function(){
-
-    $('#suggestionsubmit').on('click',function(){
-
-       var temp = {'X-CSRFToken': document.getElementsByName('csrfmiddlewaretoken')[0].value};
-
-      $.ajax({
-        url : "{% url 'review:productsuggestion' %}",
-        type : 'POST',
-        dataType: 'json',
-        data :  $('#suggestionform').serialize(),
-        headers: temp,
-        contentType: 'application/x-www-form-urlencoded;charset=utf-8',
-        success : function(data) {
-          $('#suggestions').val("")
-          $('#email').val("")
-          Materialize.toast(data['msg'], 4000)
-
-        }
-      });
-
-
-
-    });
-
-  });
-</script>
-
 {% endblock %}
 
     <footer class="page-footer">

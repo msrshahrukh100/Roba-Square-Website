@@ -1,6 +1,7 @@
 from django.contrib import admin
 import nested_admin
 from .models import Categories, ProductDescription, Products, ImagesOfProducts, Slider, DetailsOfProducts
+from sorl.thumbnail.admin import AdminImageMixin
 # Register your models here.
 
 class DetailsOfProductsInline(nested_admin.NestedTabularInline) :
@@ -32,7 +33,7 @@ class ProductsDescriptionAdmin(nested_admin.NestedModelAdmin) :
 	exclude = ("height_field","width_field")
 
 
-class SliderAdmin(admin.ModelAdmin) :
+class SliderAdmin(AdminImageMixin ,admin.ModelAdmin) :
 	exclude = ("height_field","width_field")
 	list_display = ["header", "content","link_text","link","alignment"]
 	list_editable = ["header", "content","link_text","link","alignment"]
