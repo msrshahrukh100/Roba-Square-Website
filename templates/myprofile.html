@@ -98,7 +98,7 @@
         <div class="col s6 l3 m4">
           <div class="card">
             <div class="card-image">
-              <img src="{% static 'images/1.jpg' %}">
+              <img src="{{ user.user_information.get_image_url }}">
               <span class="card-title">{{ user.username }}</span>
             </div>
             <div class="card-content">
@@ -147,7 +147,7 @@
         <div class="col s6 l3 m4">
           <div class="card">
             <div class="card-image">
-              <img src="{% static 'images/1.jpg' %}">
+              <img src="{{ user.user_information.get_image_url }}">
               <span class="card-title">{{ user.username }}</span>
             </div>
             <div class="card-content">

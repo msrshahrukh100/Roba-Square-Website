@@ -26,6 +26,15 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
+            name='Likes',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('timestamp', models.DateTimeField(auto_now=True)),
+                ('product', models.ForeignKey(related_name='productlikes', to='shopping.ProductDescription')),
+                ('user', models.ForeignKey(related_name='userlikes', to=settings.AUTH_USER_MODEL)),
+            ],
+        ),
+        migrations.CreateModel(
             name='RecentlyViewed',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),

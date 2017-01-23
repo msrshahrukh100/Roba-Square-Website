@@ -30,8 +30,9 @@ def viewcart(request) :
 	cart = request.session.get('products',None)
 	print cart
 	products = []
-	for i in cart :
-		products.append(ProductDescription.objects.filter(id=int(i)).first())
+	if cart :
+		for i in cart :
+			products.append(ProductDescription.objects.filter(id=int(i)).first())
 	context = {
 	'type':1,
 	'etype':1,

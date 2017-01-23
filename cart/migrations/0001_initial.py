@@ -20,6 +20,10 @@ class Migration(migrations.Migration):
                 ('products', models.ForeignKey(related_name='incart', to='shopping.ProductDescription')),
                 ('user', models.ForeignKey(related_name='cart', to=settings.AUTH_USER_MODEL)),
             ],
+            options={
+                'verbose_name': "User's Cart",
+                'verbose_name_plural': "User's Cart",
+            },
         ),
         migrations.CreateModel(
             name='Wishlist',
@@ -28,5 +32,9 @@ class Migration(migrations.Migration):
                 ('products', models.ForeignKey(related_name='inwishlist', to='shopping.ProductDescription')),
                 ('user', models.ForeignKey(related_name='wishlist', to=settings.AUTH_USER_MODEL)),
             ],
+            options={
+                'verbose_name': "User's Wishlist",
+                'verbose_name_plural': "User's Wishlist",
+            },
         ),
     ]

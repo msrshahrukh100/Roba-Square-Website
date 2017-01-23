@@ -21,6 +21,10 @@ class Migration(migrations.Migration):
                 ('email', models.EmailField(max_length=254, null=True, blank=True)),
                 ('user', models.ForeignKey(related_name='suggestions', to=settings.AUTH_USER_MODEL, null=True)),
             ],
+            options={
+                'verbose_name': 'Product Suggestion',
+                'verbose_name_plural': 'Product Suggestions',
+            },
         ),
         migrations.CreateModel(
             name='Reviews',
@@ -31,5 +35,10 @@ class Migration(migrations.Migration):
                 ('product', models.ForeignKey(related_name='reviews', to='shopping.ProductDescription')),
                 ('user', models.ForeignKey(related_name='userreviews', to=settings.AUTH_USER_MODEL)),
             ],
+            options={
+                'ordering': ['-id'],
+                'verbose_name': 'Reviews of Products',
+                'verbose_name_plural': 'Reviews of Products',
+            },
         ),
     ]

@@ -166,10 +166,21 @@
                   <p>R-{{ detailp.price }}</p>
                 <p>{{ detailp.stockcount }} in stock<p>
           <div class="section">
-          <p></p>
+          {% if friendslikes %}
+          {% for l in friendslikes %}
+                      <a href="{{ l.user.user_information.get_absolute_url }}">
+                      <div class="chip">
+                      <img class="responsive-img" src="{{ l.user.user_information.get_image_url }}" >
+                      {{ l.user|getfullname }}
+                      </div>
+                      </a>
+          {% endfor %}
+
+          {% endif %}
             <p>
               <a  href="#modal1">{{ likescount }} shoppers liked this product</a>
             </p>
+
             <div class="row">
                     <div id="modal1" class="col l4 s8 m6 modal center">
                       <div class="modal-content">
@@ -188,6 +199,7 @@
                       </div>
                     </div>
               </div>
+
           </div>
 
         </div>
