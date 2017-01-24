@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^shop/', include('shopping.urls',namespace='shopping')),
     url(r'^review/', include('productreviews.urls',namespace='review')),
     url(r'^social/', include('social.urls',namespace='social')),
+    url(r'^blog/', include("blog.urls", namespace='blog')),
 
 ]
 

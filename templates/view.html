@@ -3,6 +3,7 @@
 {% load crispy_forms_tags %}
 {% load cfilters %}
 {% load staticfiles %}
+{% load thumbnail %}
 {% block browser %}&nbsp{% endblock %}
 
 {% block search %}
@@ -180,16 +181,20 @@
 
 
      <div class="row">
-        <div class="col l5 s6 m5 offset-l1 offset-m1">
-          <div class="card z-depth-0">
+        <div class="col l6 s6 m6">
+          <div class="card z-depth-0" style="height: 500px;">
             <div class="card-image">
 
-          <div class="slider">
+          <div class="slider productslider" >
             <ul class="slides">
               {% for im in detailp.prod.all %}
           {% for image in im.productimages.all %}
               <li>
-                <img src="{{ image.image.url }}" data-caption="{{ detailp.name }} {{ im.color }} {{ im.size }}" class="materialboxed viewimage"></li>
+              {% thumbnail image.image "450x500" as img %}
+                <img src="{{ img.url }}" height="500px" width="450px" data-caption="{{ detailp.name }} {{ im.color }} {{ im.size }}" class="responsive-img materialboxed viewimage">
+              {% endthumbnail %}
+
+                </li>
               {% endfor %}
           {% endfor %}
               
@@ -216,14 +221,16 @@
 
       <div class="col l5 s6 m5">
         <div class="card-panel white card z-depth-0">
+          <div class="row">
         <h3 class="center">
           {{ detailp.name }}
         </h3>
         {%  if detailp.new_product %}
           <span class="badge green black-text">New Arrival</span>
           {% endif %}
-          <span class="badge green black-text">{{ detailp.gender }}</span>
-          {{ detailp.description|linebreaks }}
+          <span class="badge green black-text">{{ detailp.gender }}</span>      
+          </div>
+          <p>{{ detailp.description|linebreaks }}</p>
                   <p>R-{{ detailp.price }}</p>
                 <p>{{ detailp.stockcount }} in stock<p>
           <div class="section">
@@ -270,6 +277,9 @@
    
 <div class="divider"></div>
 
+<div class="row">
+  <div class="col s12">
+    
 {% if detailsofproduct %}
 <div class="section container">
   <h5 class="center">Product Description</h5>
@@ -286,13 +296,25 @@
 </div>
 {% endif %}
 
-{% if detailp.reviews.all %}
+  </div>
+</div>
+
+<div class="row">
+  <div class="col s12">
+      {% if detailp.reviews.all %}
 <div class="section container">
   <h5 class="center">Product Reviews</h5>
 <ul class="collection">
 {% for review in detailp.reviews.all %}
     <li class="collection-item avatar">
-      <img src="images/yuna.jpg" alt="" class="circle">
+            {% if review.user.socialaccount_set.all.0 %}
+            <img src="{{ review.user.socialaccount_set.all.0.get_avatar_url }}" alt="Contact Person" class="circle">
+            {% else %}
+            {% thumbnail review.user.user_information.change_profile_pic "100x100" as im %}
+            <img src="{{ im.url }}" alt="Contact Person" class="circle">
+            {% endthumbnail %}
+            {% endif %}
+
       <b class="title">{{ review.user|getfullname }}</b>
       <p> {{ review.review }}
       </p>
@@ -309,6 +331,10 @@
 {% else %}
 <h6 class="grey-text center">Be the first one to review this product</h6>
 {% endif %}
+    
+  </div>
+</div>
+
 
   {% if request.user.is_authenticated %}
   <div class="section container">
@@ -369,6 +395,5 @@
 {% endif %}
 
 {% endif %}
-
 
 {% endblock %}

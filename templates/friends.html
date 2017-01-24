@@ -1,5 +1,7 @@
 {% extends "index.html" %}
 {% load staticfiles %}
+{% load cfilters %}
+{% load thumbnail %}
 {% block title %}View title{% endblock %}
 {% load crispy_forms_tags %}
 
@@ -30,12 +32,26 @@
         <div class="col s6 l3 m4">
           <div class="card">
             <div class="card-image">
-              <img src="{{ user.user_name.get_image_url }}">
-              <span class="card-title">{{ user.username }}</span>
+
+
+               {% if user.socialaccount_set.all.0 %}
+                  <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" alt="Contact Person">
+            {% else %}
+
+            {% thumbnail user.user_information.change_profile_pic "227x227" crop="center" quality=100 as im %}
+            <img src="{{ im.url }}" alt="Contact Person">
+              {% endthumbnail %}
+
+            
+            {% endif %}
+              
+              <span class="card-title"></span>
             </div>
             <div class="card-content">
+            {% if user.user_information.profession and user.user_information.name_of_institute %}
               <p>{{ user.user_information.profession }} at {{ user.user_information.name_of_institute }}</p>
-              <a href="{% url 'social:viewuser' slug=user.user_information.slug %}">View User</a>
+              {% endif %}
+              <a href="{% url 'social:viewuser' slug=user.user_information.slug %}">{{ user|getfullname }}</a>
             </div>
             <div class="card-action" id="arc">
 

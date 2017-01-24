@@ -11,10 +11,15 @@ $(function(){
   $('select').material_select();
     $('.scrollspy').scrollSpy();
         
-      $('.slider').slider();
+      // $('.slider').slider();
+      $('.slider').slider({
+        height:500
+      });
+
       $('.parallax').parallax();
       $('ul.tabs').tabs();
       $('.modal').modal();
+
 
      $('.dropdown-button1').dropdown({
       inDuration: 300,

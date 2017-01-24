@@ -40,7 +40,7 @@ def view_category_or_item(request, qtype=None, slug=None) :
 			friendslikes = []
 		else :
 			ids = Connections.objects.values_list('following').filter(user=user)
-			connections = User.objects.filter(id__in=ids)
+			connections = User.objects.filter(id__in=ids).order_by("?")
 			friendslikes = likes.filter(user__in=connections)
 			recentlyviewed = RecentlyViewed.objects.filter(user=request.user)
 

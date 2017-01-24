@@ -126,7 +126,7 @@ class Products(models.Model) :
 
 #upload location for product images
 def upload_location_pro(instance,filename) :
-	return "product_images/%s/%s" % (instance.product.productimages.name, filename)
+	return "product_images/%s/%s" % (instance.id, filename)
 
 #class for storing the product images
 class ImagesOfProducts(models.Model) :
@@ -170,10 +170,13 @@ class Slider(models.Model) :
 
 
 
-@receiver(post_save, sender=Categories)
-def clear_cache_when_new_added(sender, instance, **kwargs):
-    print "have to clear the case"
-    cache._cache.flush_all()
+# @receiver(post_save, sender=Categories)
+# def clear_cache_when_new_added(sender, instance, **kwargs):
+#     cache._cache.flush_all()
+
+# @receiver(post_delete, sender=Categories)
+# def clear_cache_when_category_removed(sender, instance, **kwargs):
+#     cache._cache.flush_all()
 
 # make for update too
 

@@ -12,6 +12,7 @@
   <script src="{% static 'js/jquery-1.12.3.js' %}" integrity="sha256-1XMpEtA4eKXNNpXcJ1pmMPs8JV+nwLdEqwiJeCQEkyc="
   crossorigin="anonymous"></script>
   <script src="{% static 'js/materialize.min.js' %}"></script>
+  <script src="https://use.fontawesome.com/6dc1b79a56.js"></script>
   <script src="{% static 'js/main.js' %}"></script>
   <script src="{% static 'js/search.js' %}"></script>
   <script src="{% static 'js/timesince.js' %}"></script>
@@ -63,7 +64,7 @@
           <a class='dropdown-button btn transparent z-depth-0' data-gutter="10px" data-beloworigin="true" href='#' data-activates='dropdown-user'>
             <div class="chip transparent ">
             {% if user.socialaccount_set.all.0 %}
-            <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" alt="Contact Person">
+                  <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" alt="Contact Person">
             {% else %}
 
             {% thumbnail user.user_information.change_profile_pic "100x100" as im %}
@@ -76,9 +77,10 @@
               {{ user_display }}<br/>
             </div></a>
             <ul id='dropdown-user' class='dropdown-content'>
-              <li><a href="#!">one</a></li>
-              <li><a href="{% url 'cart:viewwishlist' %}">Wish List</a></li>
+              
+              <li><a href="{% url 'cart:viewwishlist' %}">My Wish List</a></li>
               <li><a href="{% url 'social:myprofile' %}">My Profile</a></li>
+              <li><a href="{% url 'social:viewallusers' %}">Social</a></li>
               <li><a href="{% url 'authentication:change_settings' %}">Settings</a></li>
               <li><a href="{% url 'account_logout' %}">Logout</a></li>
             </ul>
@@ -97,7 +99,7 @@
         <div class="col s12 center">
           <ul style="padding-top: 10px;">
           {% for c in categories %}
-          <a class="waves-effect waves-light dropdown-button1" href="{{ c.get_absolute_url }}" data-activates='{{ c.id }}' data-beloworigin="true" >{{ c.category }}</a>
+          <a class="waves-effect waves-light dropdown-button1" data-constrainwidth="false" href="{{ c.get_absolute_url }}" data-activates='{{ c.id }}' data-beloworigin="true" >{{ c.category }}</a>
           {% endfor %}
           
             
@@ -141,20 +143,7 @@
 {% endblock %}
 
 {% block content %}
-
-  {% user_display user %}<br/>
-  <a href="{% url 'social:viewallusers' %}">View all users</a></br>
-  {% notifications_unread as unread_count %} {{ unread_count }}</br>
-
-
-
-  <a href="{% provider_login_url "facebook" method="oauth2" %}">Facebook OAuth2</a>
-  <br/><a href="{% provider_login_url "google" method="oauth2" %}">Google OAuth2</a>
-
-{{ user.socialaccount_set.all.0.get_avatar_url }}
   
-  
-
   <div class="slider">
    <ul class="slides">
     {% for image in slider %}
@@ -209,11 +198,9 @@
                 <!-- <img src="{{ product.prod.all.0.productimages.all.0.image.url }}"> -->
                 <img src="{{ product.get_image_url }}">
                 <!-- product_description related to products which is related to ImagesOfProducts .all gives all the related objects and .0 used for indexing -->
-                <span class="card-title">{{ product.name }}</span>
               </div>
               <div class="card-content">
-                <p>{{ product.description }}</p>
-                <a href="{{ product.get_absolute_url }}">Buy Now</a>
+                <a href="{{ product.get_absolute_url }}">{{ product.name }}</a>
               </div>
               
             </div>

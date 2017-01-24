@@ -5,6 +5,7 @@
 {% load i18n %}
 {% load cfilters %}
 {% load notifications_tags %}
+{% load thumbnail %}
 {% user_display user as user_display %}
 <html>
   <head>
@@ -18,6 +19,7 @@
   crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{% static 'css/materialize.min.css' %}">
   <script src="{% static 'js/materialize.min.js' %}"></script>
+    <script src="https://use.fontawesome.com/6dc1b79a56.js"></script>
 
   <link href="{% static 'css/icons.css' %}" rel="stylesheet">
   <script src="{% static 'js/main.js' %}"></script>
@@ -59,7 +61,10 @@
               {% if request.user.socialaccount_set.all.0 %}
               <img src="{{ request.user.socialaccount_set.all.0.get_avatar_url }}" alt="Contact Person">
             {% else %}
-              <img src="{{ request.user.user_information.change_profile_pic.url }}" alt="Contact Person">
+                    {% thumbnail user.user_information.change_profile_pic "100x100" as im %}
+            <img src="{{ im.url }}" alt="Contact Person">
+              {% endthumbnail %}
+
             {% endif %}
               {{ request.user|getfullname }}<br/>
             </div></a>
@@ -67,6 +72,7 @@
               <li><a href="#!">one</a></li>
               <li><a href="{% url 'cart:viewwishlist' %}">Wish List</a></li>
               <li><a href="{% url 'social:myprofile' %}">My Profile</a></li>
+              <li><a href="{% url 'social:viewallusers' %}">Social</a></li>
               <li><a href="{% url 'authentication:change_settings' %}">Settings</a></li>
               <li><a href="{% url 'account_logout' %}">Logout</a></li>
             </ul>

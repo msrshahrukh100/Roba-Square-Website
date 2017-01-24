@@ -4,31 +4,31 @@ from .models import Categories, ProductDescription, Products, ImagesOfProducts, 
 from sorl.thumbnail.admin import AdminImageMixin
 # Register your models here.
 
-class DetailsOfProductsInline(nested_admin.NestedTabularInline) :
+class DetailsOfProductsInline(AdminImageMixin,nested_admin.NestedTabularInline) :
 	model = DetailsOfProducts
 	extra = 1
 
-class ImageInline(nested_admin.NestedTabularInline) :
+class ImageInline(AdminImageMixin,nested_admin.NestedTabularInline) :
 	model = ImagesOfProducts
 	exclude = ("height_field","width_field")
 	extra = 1
 
-class ProductsInline(nested_admin.NestedTabularInline) :
+class ProductsInline(AdminImageMixin,nested_admin.NestedTabularInline) :
 	model = Products
 	inlines = [ImageInline]
 	extra = 1
 
-class ProductDescriptionInline(nested_admin.NestedTabularInline) :
+class ProductDescriptionInline(AdminImageMixin,nested_admin.NestedTabularInline) :
 	model = ProductDescription
 	inlines = [ProductsInline]
 	extra = 1
 
-class CategoriesAdmin(nested_admin.NestedModelAdmin) :
+class CategoriesAdmin(AdminImageMixin,nested_admin.NestedModelAdmin) :
 	inlines = [ProductDescriptionInline]
 	exclude = ("height_field","width_field")
 
 
-class ProductsDescriptionAdmin(nested_admin.NestedModelAdmin) :
+class ProductsDescriptionAdmin(AdminImageMixin,nested_admin.NestedModelAdmin) :
 	inlines = [ProductsInline, DetailsOfProductsInline]
 	exclude = ("height_field","width_field")
 

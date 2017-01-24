@@ -1,7 +1,25 @@
 $(function(){
 
-	$('.slider').slider();
-	 $('.parallax').parallax();
+
+    var d = new Date();
+    $('.datepicker').pickadate({
+    selectMonths: true, // Creates a dropdown to control month
+    selectYears: 30, // Creates a dropdown of 15 years to control year
+    min: [1980,3,20],
+    max: [d.getFullYear(),7,14],
+  });
+  $('select').material_select();
+    $('.scrollspy').scrollSpy();
+        
+      // $('.slider').slider();
+      $('.slider').slider({
+        height:500
+      });
+
+      $('.parallax').parallax();
+      $('ul.tabs').tabs();
+      $('.modal').modal();
+
 
      $('.dropdown-button1').dropdown({
       inDuration: 300,
@@ -24,4 +42,60 @@ $(function(){
       alignment: 'left' // Displays dropdown with edge aligned to the left of button
     }
   );
+
+ $('.addtocart').on('click', function(){
+
+  var link = $(this).attr('data-href')
+  $.ajax({
+    url : link,
+    type : 'GET',
+    success : function(data){
+      Materialize.toast(data['msg'], 4000)
+      $(this).toggleClass('green')
+      if (data['count']) {
+      $('#cartcount').text(data['count'])
+      } 
+    }
+
+  });
+
+ });
+
+
+ $('.addremoveconnection').on('click', function(){
+    var link = $(this).attr('data-href')
+    var id = $(this).attr('data-id')
+    var $replacewithid = $('#addorremove'+id)
+
+    $replacewithid.html("")
+
+    $.ajax({
+      url : link,
+      type: 'GET',
+      success : function(data) {
+        Materialize.toast(data['msg'], 4000)
+      }
+    });
+ });
+
+
+ $('.materialboxed').materialbox();
+
+var clicked = true;
+
+$('.viewimage').on('click',function(){
+
+if(clicked)
+{
+  $('.slider').slider('pause');
+  clicked = false;
+}
+else
+{
+  $('.slider').slider('start');
+  clicked = true;
+}
+
+});
+
 });

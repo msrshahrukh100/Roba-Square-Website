@@ -1,0 +1,69 @@
+{% extends "blog/base.html" %}
+{% load urlify %}
+
+{% block head_title %}
+{{ instance.title }} | {{ block.super }}
+{% endblock head_title %}
+
+
+
+{% block content %}
+<div class='col-sm-6 col-sm-offset-3'>
+    {% if instance.image %}
+    <img src='{{ instance.image.url }}' class='img-responsive' />
+    {% endif %}
+<h1>{{ title }} <small>{% if instance.draft %}<span style='color:red;'>Draft</span> {% endif %}{{ instance.publish }}</small></h1>
+{% if instance.user.get_full_name %}
+<p>Author: {{ instance.user.get_full_name }}</p>
+{% endif %}
+
+<p><div class="fb-like" data-href="{{ request.build_absolute_uri }}" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
+<hr/>
+</p>
+
+<!-- <p>
+<a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}">
+Facebook
+</a>
+
+<a href="https://twitter.com/home?status={{ instance.content|truncatechars:80|urlify }}%20{{ request.build_absolute_uri }}">
+Twitter
+</a>
+
+<a href='https://plus.google.com/share?url={{ request.build_absolute_uri }}'>
+
+
+<a href="https://www.linkedin.com/shareArticle?mini=true&url={{ request.build_absolute_uri }}&title={{ instance.title }}&summary={{ share_string }}&source={{ request.build_absolute_uri }}">
+Linkedin
+</a>
+
+<a href="http://www.reddit.com/submit?url={{ request.build_absolute_uri }}&title={{ share_string }}.">Reddit</a>
+
+</p> -->
+<div class='row'>
+<div class='col-sm-12'>
+<div class="marked-conten">
+{{ instance.get_markdown_content }}
+	
+</div>
+
+<hr/>
+<br/>
+{{ instance.get_comments }}
+
+{% for comment in comments %}
+<br/>
+{{ comment.content }}<br/>
+By - {{ comment.user }}
+------------------------
+{% endfor %}
+</div>
+<form method="POST" action=".">{% csrf_token %}
+	{{ comment_form.as_p }}
+	<input type="submit" value="Submit"/>
+</form>
+</div>
+
+</div>
+
+{% endblock content %}

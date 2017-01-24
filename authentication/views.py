@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from .forms import UserInfoForm,AddressForm
 from .models import UserInformation, Addresses
+from django.views.decorators.cache import never_cache
 
 
 def home_page(request) :
@@ -15,6 +16,7 @@ def home_page(request) :
 	}
 	return render(request,'index.html',context)
 
+@never_cache
 @login_required
 def change_settings(request) :
 
@@ -87,6 +89,7 @@ def change_dp(request) :
 	userinfo.save()
 	return redirect('social:myprofile')
 
+@never_cache
 @login_required
 def change_privacy_settings(request) :
 	user = request.user
