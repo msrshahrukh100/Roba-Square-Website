@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
+import sorl.thumbnail.fields
 import autoslug.fields
 import shopping.models
 import django.db.models.deletion
@@ -18,7 +19,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('category', models.CharField(help_text=b'Category of Product, eg. Apparels,Clothing', max_length=200)),
-                ('image', models.ImageField(help_text=b'Image of the category. It is displayed on the front page. It depicts the category of product', height_field=b'height_field', width_field=b'width_field', upload_to=shopping.models.upload_location_cat)),
+                ('image', sorl.thumbnail.fields.ImageField(help_text=b'Image of the category. It is displayed on the front page. It depicts the category of product', height_field=b'height_field', width_field=b'width_field', upload_to=shopping.models.upload_location_cat)),
                 ('height_field', models.IntegerField(default=0)),
                 ('width_field', models.IntegerField(default=0)),
                 ('category_description', models.TextField(help_text=b'Description of the category in 400 characters.It is displayed on the front page', max_length=400)),
@@ -46,7 +47,7 @@ class Migration(migrations.Migration):
             name='ImagesOfProducts',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('image', models.ImageField(help_text=b'Image showing the different views of the product', height_field=b'height_field', width_field=b'width_field', upload_to=shopping.models.upload_location_pro)),
+                ('image', sorl.thumbnail.fields.ImageField(help_text=b'Image showing the different views of the product', height_field=b'height_field', width_field=b'width_field', upload_to=shopping.models.upload_location_pro)),
                 ('height_field', models.IntegerField(default=0)),
                 ('width_field', models.IntegerField(default=0)),
             ],
@@ -91,7 +92,7 @@ class Migration(migrations.Migration):
             name='Slider',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('image', models.ImageField(help_text=b'Images to be displayed on the slider', height_field=b'height_field', width_field=b'width_field', upload_to=shopping.models.upload_location_sli)),
+                ('image', sorl.thumbnail.fields.ImageField(help_text=b'Images to be displayed on the slider', height_field=b'height_field', width_field=b'width_field', upload_to=shopping.models.upload_location_sli)),
                 ('height_field', models.IntegerField(default=0)),
                 ('width_field', models.IntegerField(default=0)),
                 ('header', models.CharField(help_text=b'The heading to be displayed on the slider.', max_length=100)),

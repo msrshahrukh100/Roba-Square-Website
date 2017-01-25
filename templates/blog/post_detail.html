@@ -1,69 +1,113 @@
-{% extends "blog/base.html" %}
-{% load urlify %}
+{% load cfilters %}
+{% load staticfiles %}
+{% load thumbnail %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{{ instance.title }} | RobaSquare</title>
 
-{% block head_title %}
-{{ instance.title }} | {{ block.super }}
-{% endblock head_title %}
+  <script src="{% static 'js/jquery-1.12.3.js' %}" integrity="sha256-1XMpEtA4eKXNNpXcJ1pmMPs8JV+nwLdEqwiJeCQEkyc="
+  crossorigin="anonymous"></script>
+  <script src="{% static 'js/materialize.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/materialize.min.css' %}">
+
+<meta property="og:url"           content="{{ request.build_absolute_uri }}" />
+  <meta property="og:type"          content="article" />
+ <meta property="fb:app_id"  content="344946732557346" />
+  <meta property="og:title"         content="{{ title }}" />
+  <meta property="og:description"   content="Read this blog post on RobaSquare" />
+  <meta property="og:image"         content="{{ request.build_absolute_uri }}{{ instance.image.url }}" />
 
 
+<style type="text/css">
+	.parallax-container {
+      height: 300px;
+    }  
+</style>
+</head>
+<body>
 
-{% block content %}
-<div class='col-sm-6 col-sm-offset-3'>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.8&appId=344946732557346";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
     {% if instance.image %}
-    <img src='{{ instance.image.url }}' class='img-responsive' />
+ <div class="parallax-container">
+      <div class="parallax"><img src="{{ instance.image.url }}"></div>
+    </div>
     {% endif %}
-<h1>{{ title }} <small>{% if instance.draft %}<span style='color:red;'>Draft</span> {% endif %}{{ instance.publish }}</small></h1>
-{% if instance.user.get_full_name %}
-<p>Author: {{ instance.user.get_full_name }}</p>
-{% endif %}
 
-<p><div class="fb-like" data-href="{{ request.build_absolute_uri }}" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
+       <div class="container">
+       
+
+<h2>{{ title }}</h2> <span class="badge blue black-text">Viewed {{ count }} times</span>
+<p>By <a href="{{ instance.user.user_information.get_absolute_url }}">{{ instance.user|getfullname }}</a></p>
+
+
 <hr/>
+<div class="row">
+	<div class="col s12">
+{% autoescape off %}
+{{ instance.content }}
+{% endautoescape %}	
+	</div>
+</div>
+<div class="divider"></div>
+
+<div class="row">
+	<div class="col s4 offset-s4">
+ <blockquote>
+ 	<h5>About the Author</h5>
+  <ul class="collection" style="border: none;">
+    <li class="collection-item avatar">
+          {% if instance.user.socialaccount_set.all.0 %}
+                  <img class="square" src="{{ instance.user.socialaccount_set.all.0.get_avatar_url }}" alt="Contact Person">
+            {% else %}
+            {% thumbnail instance.user.user_information.change_profile_pic "50x50" as im %}
+            <img class="circle" src="{{ im.url }}" alt="Contact Person">
+              {% endthumbnail %}            
+            {% endif %}
+      <span class="title"><a href="{{ instance.user.user_information.get_absolute_url }}"><b>{{ instance.user|getfullname }}</b></a></span>
+      <p> 
+    {% if user.user_information.profession and user.user_information.name_of_institute %}
+                <p>{{ user.user_information.profession }} at {{ user.user_information.name_of_institute }}</p>
+                {% endif %} <br>
+      </p>
+      {% if instance.about_the_author %}
+  <p>{{ instance.about_the_author }}</p>
+                {% endif %}
+    </li>
+    </ul>                
+    </blockquote>
+          
+	</div>
+</div>
+
+<div class="container">
+  
+<p>
+  <div class="fb-like" data-href="{{ request.build_absolute_uri }}" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
 </p>
-
-<!-- <p>
-<a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}">
-Facebook
-</a>
-
-<a href="https://twitter.com/home?status={{ instance.content|truncatechars:80|urlify }}%20{{ request.build_absolute_uri }}">
-Twitter
-</a>
-
-<a href='https://plus.google.com/share?url={{ request.build_absolute_uri }}'>
-
-
-<a href="https://www.linkedin.com/shareArticle?mini=true&url={{ request.build_absolute_uri }}&title={{ instance.title }}&summary={{ share_string }}&source={{ request.build_absolute_uri }}">
-Linkedin
-</a>
-
-<a href="http://www.reddit.com/submit?url={{ request.build_absolute_uri }}&title={{ share_string }}.">Reddit</a>
-
-</p> -->
-<div class='row'>
-<div class='col-sm-12'>
-<div class="marked-conten">
-{{ instance.get_markdown_content }}
-	
+<div class="fb-comments" data-href="{{ request.build_absolute_uri }}" data-numposts="5"></div>
 </div>
 
-<hr/>
-<br/>
-{{ instance.get_comments }}
+       </div> 
 
-{% for comment in comments %}
-<br/>
-{{ comment.content }}<br/>
-By - {{ comment.user }}
-------------------------
-{% endfor %}
-</div>
-<form method="POST" action=".">{% csrf_token %}
-	{{ comment_form.as_p }}
-	<input type="submit" value="Submit"/>
-</form>
-</div>
 
-</div>
 
-{% endblock content %}
+<script type="text/javascript">
+	 $(document).ready(function(){
+      $('.parallax').parallax();
+    });
+        
+</script>
+
+
+</body>
+</html>

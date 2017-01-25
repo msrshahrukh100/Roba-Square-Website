@@ -1,13 +1,53 @@
-{% extends "blog/base.html" %}
-{% block extra_header %} {{ form.media }} {% endblock %}
-
+{% extends "allauth/base.html" %}
+<!-- {% block extra_header %} {{ form.media }} {% endblock %} -->
 {% block content %}
-<div class='col-sm-6 col-sm-offset-3'>
-<h1>Form</h1>
+
+{% block breadcumb %}
+
+<div class="col s12" style="padding-left:50px;">
+        <a href="/" class="breadcrumb">Home</a>
+        <a href="{% url 'blog:list' %}" class="breadcrumb">Blogs</a>
+        <a class="breadcrumb" >Write Blog</a>
+</div>
+
+{% endblock %}
+
+{% load wysiwyg %}
+{% wysiwyg_setup %}
+<div class='container'>
+<h4>Write your blog here</h4>
 
 <form method='POST' action='' enctype='multipart/form-data'>{% csrf_token %}
-{{ form.as_p }}
+<p>	
+{{ form.title.errors }}
+{{ form.title.label_tag }}
+{{ form.title }}
+</p>
+
+
+<p>	
+{{ form.content.errors }}
+{{ form.content.label_tag }}
+{{ form.content }}
+</p>
+
+
+<p>	
+{{ form.show_about_the_author.errors }}
+{{ form.show_about_the_author }}
+{{ form.show_about_the_author.label_tag }}
+</p>
+
+
+<p>	
+{{ form.about_the_author.errors }}
+{{ form.about_the_author.label_tag }}
+{{ form.about_the_author }}
+</p>
+
+
 <input type='submit' class='btn btn-default' value='Create Post' />
+{% wysiwyg_editor "id_content" %}
 </form>
 </div>
 {% endblock content %}

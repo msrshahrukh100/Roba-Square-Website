@@ -1,31 +1,55 @@
-{% extends "blog/base.html" %}
+{% extends "allauth/base.html" %}
 {% block content %}
+{% load cfilters %}
 
+{% block breadcumb %}
+
+<div class="col s12" style="padding-left:50px;">
+        <a href="/" class="breadcrumb">Home</a>
+        <a class="breadcrumb" >Blogs</a>
+</div>
+{% endblock %}
+
+<div class="container">
+    
 
 <div class='col-sm-6 col-sm-offset-3'>
-    <h1>{{ title }}</h1>
+    <h4 class="center">Blogs on Robasquare</h4>
 <form method='GET' action=''>
-<input type='text' name='q' placeholder='Search posts' value='{{ request.GET.q }}'/>
-<input type='submit' value='Search' />
+<div class="row">
+<div class="input-field col s8">
+<i class="material-icons prefix">search</i>
+<input id="searchblogs" type='text' name='q'  value='{{ request.GET.q }}'/>
+<label for="searchblogs">Search Blogs</label> 
+</div>
+
+<button class="btn waves-effect waves-light" type="submit" name="action">Search
+  </button>
+<!-- <input type='submit' class="col s2" value='Search' /> -->
+
+</div>
 </form>
 {% for obj in object_list %}
+
 <div class="row">
-  <div class="col-sm-12">
-    <div class="thumbnail">
-        {% if obj.image %}
-         <img src='{{ obj.image.url }}' class='img-responsive' />
-        {% endif %}
-      <div class="caption">
-        {% if obj.draft %}<h3>Staff only: Draft</h3>{% endif %} {% if obj.publish > today %}<h3>Staff Only: Future Post</h3>{% endif %}
-        <h3><a href='{{ obj.get_absolute_url }}'>{{ obj.title }}</a> <small>{{ obj.publish }}</small></h3>
-        {% if obj.user.get_full_name %}<p>Author: {{ obj.user.get_full_name }}</p>{% endif %}
-        <p class="marked-content">{{ obj.get_markdown_content|truncatechars:10 }}</p>
-        <p><a href="{{ obj.get_absolute_url }}" class="btn btn-primary" role="button">View</a></p>
+        <div class="col s12 m12">
+          <div class="card small">
+            <div class="card-image">
+                {% if obj.image %}
+                 <img src='{{ obj.image.url }}' class='responsive-img' />
+                {% endif %}
+            </div>
+            <div class="card-action">
+              <span class="badge blue black-text">Viewed {{ obj.get_views_count }} times</span>
+              <h5><a style="text-transform: none;" href='{{ obj.get_absolute_url }}'>{{ obj.title }}</a></h5>
+              <p>By <a style="text-transform: none;" class="green-text" href="{{ obj.user.user_information.get_absolute_url }}">{{ obj.user|getfullname }}</a><span class="right grey-text">Pubished: {{ obj.timestamp|timesince }} ago</span></p>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
+            
 <hr/>
-</div>
+
 {% endfor %}
 
 
@@ -48,6 +72,7 @@
 
 
 
+</div>
 </div>
 
 {% endblock content %}

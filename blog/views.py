@@ -15,9 +15,11 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from .forms import PostForm
-from .models import Post
+from .models import Post, PostViews
+from django.contrib.auth.decorators import login_required
 from django.contrib.contenttypes.models import ContentType
 
+@login_required
 def post_create(request):
 
 	form = PostForm(request.POST or None, request.FILES or None)
@@ -35,13 +37,18 @@ def post_create(request):
 
 def post_detail(request, slug=None):
 	instance = get_object_or_404(Post, slug=slug)
-	share_string = quote_plus(instance.content)
-	comments = Comments.objects.get_instance_comment(instance)
-	
+	user = request.user
+	if not user.is_anonymous() :
+		c,created = PostViews.objects.get_or_create(
+			user=user,
+			post=instance,
+			ip=request.META['REMOTE_ADDR'],
+			session=request.session.session_key
+			)
 	context = {
 		"title": instance.title,
 		"instance": instance,
-		"share_string": share_string,
+		'count' : PostViews.objects.filter(post=instance).count()
 	}
 	return render(request, "blog/post_detail.html", context)
 
@@ -56,7 +63,7 @@ def post_list(request):
 				Q(user__first_name__icontains=query) |
 				Q(user__last_name__icontains=query)
 				).distinct()
-	paginator = Paginator(queryset_list, 8) # Show 25 contacts per page
+	paginator = Paginator(queryset_list, 5) # Show 25 contacts per page
 	page_request_var = "page"
 	page = request.GET.get(page_request_var)
 	try:
@@ -75,9 +82,6 @@ def post_list(request):
 		"page_request_var": page_request_var,
 	}
 	return render(request, "blog/post_list.html", context)
-
-
-
 
 
 def post_update(request, slug=None):
