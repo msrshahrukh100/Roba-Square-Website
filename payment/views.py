@@ -19,3 +19,6 @@ class viewinvoice(PDFTemplateView):
 		)
 
 
+def checkoutpage(request) :
+	pass
+

@@ -39,6 +39,15 @@
 
 {% if type == 1 %}
 
+{% if etype == 1 %}
+<div class="row">
+  <div class="col s12">
+    <div class="container">
+        <a href="{% url 'payment:checkoutpage' %}" class="waves-effect waves-light btn right"><i class="material-icons right">send</i>Check Out</a>
+    </div>
+  </div>
+</div>
+{% endif %}
 
 <div class="row">
 {% if products %}
@@ -114,7 +123,9 @@
     </ul>
   </div>
 
-  
+{% if etype == 1 %}
+        {% elif etype == 2 %}
+        {% else %}  
 <div class="container">
         <h2 class="header">Product suggestions</h2>
 
@@ -141,6 +152,7 @@
 
       </div>
    
+{% endif %}
 
     
 

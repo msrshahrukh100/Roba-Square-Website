@@ -63,7 +63,8 @@ def post_list(request):
 				Q(user__first_name__icontains=query) |
 				Q(user__last_name__icontains=query)
 				).distinct()
-	paginator = Paginator(queryset_list, 5) # Show 25 contacts per page
+	paginator = Paginator(queryset_list, 2) 
+	nopages = paginator.num_pages
 	page_request_var = "page"
 	page = request.GET.get(page_request_var)
 	try:
@@ -80,6 +81,7 @@ def post_list(request):
 		"object_list": queryset, 
 		"title": "List",
 		"my_contributions" : Post.objects.filter(user=request.user),
+		"nopages" : [i for i in range(1,nopages+1)],
 		"page_request_var": page_request_var,
 	}
 	return render(request, "blog/post_list.html", context)
