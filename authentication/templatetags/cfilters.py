@@ -20,3 +20,8 @@ def times(number):
 @register.filter(name="getfullname")
 def getfullname(user) :
 	return get_user_name(user)
+
+
+@register.filter(name="list")
+def list(number) :
+	return [i for i in range(1,number+1)]

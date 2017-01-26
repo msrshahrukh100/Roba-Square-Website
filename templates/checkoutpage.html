@@ -1,0 +1,91 @@
+{% extends "allauth/base.html" %} 
+{% load cfilters %}
+
+
+{% block breadcumb %}
+
+<div class="col s12" style="padding-left:50px;">
+        <a href="/" class="breadcrumb">Home</a>
+        <a class="breadcrumb" href="{% url 'cart:viewcart' %}">Cart</a>
+        <a class="breadcrumb">Checkout</a>
+</div>
+
+{% endblock %}
+
+{% block content %}
+<div class="container">
+	<div class="row">
+		<div class="col s12">
+			<h4 class="center">Checkout</h4>
+	<table class="highlight centered">
+        <thead>
+          <tr>
+              <th data-field="name">Item Name</th>
+              <th data-field="name">Quantity</th>
+              <th data-field="price">Price</th>
+          </tr>
+        </thead>
+
+        <tbody>
+        {% for p in products %}
+          <tr>
+            <td>
+            	<div class="chip transparent black-text">
+	    <img src="{{ p.get_image_url }}" alt="">
+	    <b>{{ p.name }}</b>
+	  </div>
+            </td>
+            <td>
+
+		<div class="input-field col s4 offset-s4">
+		<select id="select{{ p.id }}" data-baseprice="{{ p.price }}" > 
+		<option value="" disabled selected>Select Quantity</option>
+		{% for i in p.stockcount|list %}
+		{% if i == 1 %}
+		<option value="{{ i }}" selected="selected">{{ i }}</option>
+		{% else %}
+		<option value="{{ i }}" >{{ i }}</option>
+		{% endif %}
+		{% endfor %}
+		</select>
+		</div>
+            </td>
+            <td ><input disabled onChange="findtotal()" type="text" id="change{{ p.id }}" name="productprice" class="black-text" /></td>
+			<script type="text/javascript">
+			$(function() { 
+			$('#select{{ p.id }}').change(function() {
+			var bp = Number($(this).attr('data-baseprice'))
+			$('#change{{ p.id }}').val(Number($(this).val()) * bp);
+			findtotal();
+			}).change(); // Trigger the event
+			});
+			</script>
+          </tr>
+          {% endfor %}
+          <tr>
+          	<td></td>
+          	<td></td>
+          	<td>
+          		<h5 class="left" >Total &nbsp <i class="fa fa-inr fa-1x" aria-hidden="true"></i><span id="total"></span></h5>
+          	</td>
+          </tr>
+        </tbody>
+      </table>
+            
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	function findtotal(){
+		var arr = document.getElementsByName('productprice');
+		var tot=0;
+		for(var i=0;i<arr.length;i++){
+		if(parseInt(arr[i].value))
+		tot += parseInt(arr[i].value);
+		}
+		$('#total').html(tot);
+	}
+
+</script>
+{% endblock %}

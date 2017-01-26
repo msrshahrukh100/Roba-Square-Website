@@ -120,7 +120,7 @@ class Products(models.Model) :
 
 	product = models.ForeignKey(ProductDescription,on_delete=models.CASCADE, null=True, related_name="prod")
 	size = models.CharField(max_length=5, choices=size_opt, help_text="Size of the product.")
-	color = models.CharField(max_length=30, help_text="Color of the product")
+	color = models.CharField(max_length=30, help_text="Color of the product", blank=True, null=True)
 	stockcount = models.PositiveIntegerField(default=0, help_text="The number of items which are available in the stock")
 
 	def __unicode__(self) :

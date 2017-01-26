@@ -3,6 +3,7 @@ from io import BytesIO
 from reportlab.pdfgen import canvas
 from django.http import HttpResponse
 from easy_pdf.views import PDFTemplateView
+from shopping.models import ProductDescription
 # Create your views here.
 
 
@@ -20,5 +21,18 @@ class viewinvoice(PDFTemplateView):
 
 
 def checkoutpage(request) :
-	pass
+
+	cart = request.session.get('products',None)
+	print cart
+	products = []
+	if cart :
+		for i in cart :
+			products.append(ProductDescription.objects.filter(id=int(i)).first())
+	context = {
+	'products' : products,
+	"cartcount":len(request.session.get('products',[]))
+	
+	}
+
+	return render(request,"checkoutpage.html",context)
 
