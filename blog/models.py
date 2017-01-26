@@ -16,7 +16,7 @@ def upload_location(instance, filename):
     return "blogimages/%s/%s" %(instance, filename)
 
 class Post(models.Model):
-    user = models.ForeignKey(User, related_name="userblogposts")
+    user = models.ForeignKey(User,on_delete=models.CASCADE, related_name="userblogposts")
     title = models.CharField(max_length=120)
     slug = AutoSlugField(populate_from='title',unique=True)
     image = models.ImageField(upload_to=upload_location, 
@@ -52,8 +52,8 @@ class Post(models.Model):
 
 
 class PostViews(models.Model) :
-    user = models.ForeignKey(User, related_name="userblogviewed")
-    post = models.ForeignKey(Post, related_name="postviews")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="userblogviewed")
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="postviews")
     ip = models.CharField(max_length=100)
     session = models.CharField(max_length=100)
     viewed_on = models.DateTimeField(auto_now=False, auto_now_add=True)

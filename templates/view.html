@@ -228,10 +228,14 @@
         {%  if detailp.new_product %}
           <span class="badge green black-text">New Arrival</span>
           {% endif %}
+          {%  if detailp.has_logo %}
+          <span class="badge red black-text">User Customized</span>
+          {% endif %}
           <span class="badge green black-text">{{ detailp.gender }}</span>      
           </div>
           <p>{{ detailp.description|linebreaks }}</p>
                   <p>R-{{ detailp.price }}</p>
+                  {{ detailp.get_average_rating }}
                 <p>{{ detailp.stockcount }} in stock<p>
           <div class="section">
           {% if friendslikes %}
@@ -298,6 +302,20 @@
 
   </div>
 </div>
+
+{% if request.user.is_authenticated %}
+    {% if detailp.has_logo_variation %}
+<div class="row">
+  <div class="col s12">
+  <div class="container">
+  <h5 class="center">Your Customization</h5>
+  <p class="center"><a id="customizelink" data-url="{% url 'shopping:view_private_item' slug=detailp.slug %}">Click here to customize your product with college logo*</a></p>
+  <p class="center" id="cutomproductmessage"></p>
+  </div>
+  </div>
+</div>
+    {% endif %}
+    {% endif %}
 
 <div class="row">
   <div class="col s12">
@@ -395,5 +413,20 @@
 {% endif %}
 
 {% endif %}
+<script type="text/javascript">
+  $('#customizelink').on('click',function(){
+        var link = $(this).attr('data-url')
+        
+
+        $.ajax({
+          url : link,
+          type: 'GET',
+          success : function(data) {
+            
+            $('#cutomproductmessage').html("<div class='chip'>"+data['msg']+"<i class='close material-icons'>close</i></div>")
+          }
+        });
+  });
+</script>
 
 {% endblock %}

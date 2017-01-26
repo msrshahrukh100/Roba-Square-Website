@@ -9,6 +9,12 @@
 <head>
 	<title>{% block title %}Tijarah{% endblock %}</title>
 
+  <meta charset="UTF-8">
+<!--   <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="author" content=""> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <script src="{% static 'js/jquery-1.12.3.js' %}" integrity="sha256-1XMpEtA4eKXNNpXcJ1pmMPs8JV+nwLdEqwiJeCQEkyc="
   crossorigin="anonymous"></script>
   <script src="{% static 'js/materialize.min.js' %}"></script>
@@ -120,7 +126,7 @@
 
 {% for c in categories %}
   <ul id='{{ c.id }}' class='dropdown-content' data-beloworigin="false">
-  {% for p in c.products_desc.all %}
+  {% for p in c.get_products_to_show %}
     <li><a href="{{ p.get_absolute_url }}">{{ p.name }}</a></li>
   {% endfor %}
   </ul>

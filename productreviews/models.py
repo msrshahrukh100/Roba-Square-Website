@@ -23,7 +23,6 @@ class Reviews(models.Model) :
 
 
 
-
 class ProductSuggestions(models.Model) :
 	user = models.ForeignKey(User, related_name='suggestions', null=True)
 	content = models.TextField()

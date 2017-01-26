@@ -16,8 +16,9 @@
  <meta property="fb:app_id"  content="344946732557346" />
   <meta property="og:title"         content="{{ title }}" />
   <meta property="og:description"   content="Read this blog post on RobaSquare" />
+  {% if instance.image %}
   <meta property="og:image"         content="{{ request.build_absolute_uri }}{{ instance.image.url }}" />
-
+{% endif %}
 
 <style type="text/css">
 	.parallax-container {
@@ -26,7 +27,7 @@
 </style>
 </head>
 <body>
-
+{% if instance.publish_it %}
 <div id="fb-root"></div>
 <script>(function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
@@ -36,8 +37,9 @@
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
 
+{% endif %}
 
-    {% if instance.image %}
+      {% if instance.image %}
  <div class="parallax-container">
       <div class="parallax"><img src="{{ instance.image.url }}"></div>
     </div>
@@ -46,7 +48,12 @@
        <div class="container">
        
 
-<h2>{{ title }}</h2> <span class="badge blue black-text">Viewed {{ count }} times</span>
+<h2>{{ title }}</h2>
+{% if instance.publish_it %}
+<span class="badge blue black-text">Viewed {{ count }} times</span>
+{% else %}
+<span class="badge green black-text">Preview</span>
+{% endif %}
 <p>By <a href="{{ instance.user.user_information.get_absolute_url }}">{{ instance.user|getfullname }}</a></p>
 
 
@@ -75,8 +82,8 @@
             {% endif %}
       <span class="title"><a href="{{ instance.user.user_information.get_absolute_url }}"><b>{{ instance.user|getfullname }}</b></a></span>
       <p> 
-    {% if user.user_information.profession and user.user_information.name_of_institute %}
-                <p>{{ user.user_information.profession }} at {{ user.user_information.name_of_institute }}</p>
+    {% if request.user.user_information.profession and request.user.user_information.name_of_institute %}
+                <p>{{ request.user.user_information.profession }} at {{ request.user.user_information.name_of_institute }}</p>
                 {% endif %} <br>
       </p>
       {% if instance.about_the_author %}
@@ -88,15 +95,23 @@
           
 	</div>
 </div>
+{% if request.user == instance.user %}
+      <p class="center">
+      <a style="text-transform: none;" href="{% url 'blog:update' slug=instance.slug %}">Edit</a>
+      <a style="text-transform: none;" class="red-text" onclick="return confirm('Are you sure you want to delete this post?');" href="{% url 'blog:delete' slug=instance.slug %}">Delete Post?</a>
+      <br>
+      
+{% endif %}
+To contribute for blog posts on Roba Square<a href="{% url 'blog:post_create' %}"> click here</a></p>
 
+{% if instance.publish_it %}
 <div class="container">
-  
 <p>
   <div class="fb-like" data-href="{{ request.build_absolute_uri }}" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
 </p>
 <div class="fb-comments" data-href="{{ request.build_absolute_uri }}" data-numposts="5"></div>
 </div>
-
+{% endif %}
        </div> 
 
 

@@ -11,7 +11,7 @@ from django.views.decorators.cache import never_cache
 def home_page(request) :
 	context = {"slider":Slider.objects.all(),
 	"categories":Categories.objects.all(),
-	"newproducts":ProductDescription.objects.filter(new_product=True),
+	"newproducts":ProductDescription.objects.filter(new_product=True).filter(has_logo=False),
 	"cartcount":len(request.session.get('products',[]))
 	}
 	return render(request,'index.html',context)

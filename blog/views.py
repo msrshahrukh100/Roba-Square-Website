@@ -53,7 +53,7 @@ def post_detail(request, slug=None):
 	return render(request, "blog/post_detail.html", context)
 
 def post_list(request):
-	queryset_list = Post.objects.all() #.order_by("-timestamp")
+	queryset_list = Post.objects.filter(publish_it=True) #.order_by("-timestamp")
 	
 	query = request.GET.get("q")
 	if query:
@@ -79,6 +79,7 @@ def post_list(request):
 	context = {
 		"object_list": queryset, 
 		"title": "List",
+		"my_contributions" : Post.objects.filter(user=request.user),
 		"page_request_var": page_request_var,
 	}
 	return render(request, "blog/post_list.html", context)

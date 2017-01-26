@@ -1,6 +1,6 @@
 from django.contrib import admin
 import nested_admin
-from .models import Categories, ProductDescription, Products, ImagesOfProducts, Slider, DetailsOfProducts
+from .models import Categories, ProductDescription, Products, ImagesOfProducts, Slider, DetailsOfProducts,ProductRelationsForLogo
 from sorl.thumbnail.admin import AdminImageMixin
 # Register your models here.
 
@@ -59,3 +59,4 @@ admin.site.register(Products,ProductsAdmin)
 admin.site.register(ImagesOfProducts,ImagesOfProductsAdmin)
 admin.site.register(Slider,SliderAdmin)
 admin.site.register(DetailsOfProducts)
+admin.site.register(ProductRelationsForLogo)

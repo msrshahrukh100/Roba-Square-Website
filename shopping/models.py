@@ -7,7 +7,6 @@ from sorl.thumbnail import ImageField
 from django.core.cache import cache
 
 
-
 # upload location for the image upload on categories
 def upload_location_cat(instance, filename) :
 	return "category_images/%s/%s" % (instance.category, filename)
@@ -25,6 +24,9 @@ class Categories(models.Model):
 	def __unicode__(self) :
 		return self.category
 
+	@property
+	def get_products_to_show(self) :
+		return self.products_desc.filter(has_logo=False)
 
 	def get_absolute_url(self):
 		return reverse("shopping:view_category_or_item", kwargs={"slug": self.slug,"qtype":"categories"})
@@ -50,6 +52,8 @@ class ProductDescription(models.Model) :
 	stockcount = models.PositiveIntegerField(default=0, help_text="The number of items which are available in the stock")
 	gender = models.CharField(max_length=10, choices=gender_opt,help_text="Gender for whom this product is meant for.")
 	new_product = models.BooleanField(default=False, help_text="Wether this product is newly added or not. New products are separately displayed on the front page.")
+	has_logo = models.BooleanField(default=False,help_text="Check it if the product has logo and is to be shown to the user separately")
+	has_logo_variation = models.BooleanField(default=True,help_text="Check it if the product has a logo variation of itself.")
 	slug = AutoSlugField(populate_from='name',unique=True)
 
 	def __unicode__(self) :
@@ -57,6 +61,7 @@ class ProductDescription(models.Model) :
 
 	def get_absolute_url(self):
 		return reverse("shopping:view_category_or_item", kwargs={"slug": self.slug,"qtype":"product"})
+		
 
 	@property
 	def get_image_url(self) :
@@ -82,6 +87,15 @@ class ProductDescription(models.Model) :
 	@property
 	def get_like_dislike_url(self) :
 		return reverse("social:likedislike", kwargs={"id":self.id})
+
+	@property
+	def get_average_rating(self):
+		total_review = sum([i.rating for i in self.reviews.all()])
+		review_count = self.reviews.all().count()
+		if review_count :
+			return total_review/review_count
+		else :
+			return 0
 
 	class Meta :
 		verbose_name = "Description of the product(Add here)"
@@ -168,6 +182,12 @@ class Slider(models.Model) :
 		verbose_name_plural = "Images on the slider"
 
 
+class ProductRelationsForLogo(models.Model) :
+	product = models.ForeignKey(ProductDescription,related_name="relatedproduct", help_text="Chose the product which has a logo version of itself.")
+	related_to = models.ForeignKey(ProductDescription,related_name="havinglogo", help_text="Choose the product that has a logo.")
+
+	def __unicode__(self) :
+		return self.product.name
 
 
 # @receiver(post_save, sender=Categories)
