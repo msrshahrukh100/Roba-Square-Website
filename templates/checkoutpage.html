@@ -13,6 +13,10 @@
 {% endblock %}
 
 {% block content %}
+
+<a href="" rel="im-checkout" data-behaviour="remote" data-style="light" data-text="Checkout"></a>
+<script src="https://d2xwmjc4uy2hr5.cloudfront.net/im-embed/im-embed.min.js"></script>
+
 <div class="container">
 	<div class="row">
 		<div class="col s12">
@@ -63,14 +67,17 @@
           </tr>
           {% endfor %}
           <tr>
+
           	<td></td>
           	<td></td>
           	<td>
+          	<hr>
           		<h5 class="left" >Total &nbsp <i class="fa fa-inr fa-1x" aria-hidden="true"></i><span id="total"></span></h5>
           	</td>
           </tr>
         </tbody>
       </table>
+      <a class="" href="{% url 'cart:viewcart' %}">Edit Cart</a>
             
 		</div>
 	</div>

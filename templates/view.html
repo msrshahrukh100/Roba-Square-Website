@@ -10,9 +10,20 @@
 {{ block.super }}
 {% endblock %}
 
+{% block facebookplugin %}
+{% endblock %}
+
+{% block facebookpage %}
+{% endblock %}
 
 {% block content %}
-
+<style type="text/css">
+  blockquote{
+  margin: 20px 0;
+  padding-left: 1.5rem;
+  border-left: 5px solid red; /* Just change the color value and that's it*/
+}
+</style>
      {% block breadcumb %}
       {% if type == 1 %}
     <div class="col s12" style="padding-left:50px;">
@@ -53,7 +64,7 @@
 {% if products %}
   {% for p in products %}
   <div class="{% cycle 'col s12 m6 l3 offset-l1' 'col s12 m6 l3' 'col s12 m6 l3 ' %}" >
-    <div class="card medium hoverable" >
+    <div class="card large hoverable" >
       <div class="card-image waves-effect waves-block waves-light" >
         <img  class="activator" src="{{ p.get_image_url }}
 "></div>
@@ -64,12 +75,23 @@
           {%  if p.new_product %}
           <span class="new badge green"></span>
           {% endif %}
+          <p>
+          <b><i class="fa fa-inr fa-1x" aria-hidden="true"></i> {{ p.price }}</b>
+          </p>
         <p>
-          <p>stars</p>
-          <p>R-{{ p.price }}</p>
-          <span class="badge red">{{ p.gender }}</span>
+        {% if p.get_average_rating %}
+            {% for i in p.get_average_rating|list %}
+        <i class="material-icons yellow-text accent-3">star</i>
+        {% endfor %}
 
+      {% for i in p.get_average_rating|subtractfromfive|list %}
+      <i class="material-icons yellow-text accent-3">star_border</i>
+      {% endfor %}
+      {% endif %}
         </p>
+            {% ifnotequal p.gender "0"  %}
+            <span class="badge red">{{ p.gender }}</span>
+            {% endifnotequal %}
         <a data-href='{{ p.get_like_dislike_url  }}' data-position="bottom" data-delay="30" data-tooltip="Like Dislike" class="addtocart btn-floating waves-effect waves-light hoverable tooltipped " ><i class="material-icons ">favorite</i></a>
         {% if incart %}
         <a href='{{ p.get_delete_cart_url  }}' data-position="bottom" data-delay="30" data-tooltip="Remove from cart" class="btn-floating waves-effect waves-light hoverable tooltipped"><i class="material-icons">remove_shopping_cart</i></a>
@@ -81,13 +103,12 @@
         <a href='{{ p.get_delete_wishlist_url }}' data-position="bottom" data-delay="30" data-tooltip="Remove from Wish List" class="btn-floating waves-effect waves-light hoverable tooltipped"><i class="material-icons">redeem</i></a>
         {% endif %}
 
+       {% if p.stockcount %}
+          {% else %}
         {% if request.user and not inwl %}
-
         <a data-href='{{ p.get_add_to_wishlist_url }}' data-position="bottom" data-delay="30" data-tooltip="Add to wishlist" class="addtocart btn-floating waves-effect waves-light hoverable tooltipped"><i class="material-icons">redeem</i></a>
-                                  
-
-
         {% endif %}
+          {% endif %}
 
       </div>
       <div class="card-reveal">
@@ -96,8 +117,12 @@
         </span>
         <p>
           {{ p.description }}
-          <p>{{ p.stockcount }} pieces in stock</p>
         </p>
+          {% if p.stockcount %}
+          <p>In stock<p>
+          {% else %}
+          <p>Comming Soon</p>
+          {% endif %}
       </div>
     </div>
 
@@ -194,18 +219,18 @@
 
      <div class="row">
         <div class="col l6 s6 m6">
+
           <div class="card z-depth-0" style="height: 500px;">
             <div class="card-image">
-
           <div class="slider productslider" >
             <ul class="slides">
               {% for im in detailp.prod.all %}
           {% for image in im.productimages.all %}
-              <li>
+              <li><a href="#{{ image.id }}">
               {% thumbnail image.image "450x500" as img %}
-                <img src="{{ img.url }}" height="500px" width="450px" data-caption="{{ detailp.name }} {{ im.color }} {{ im.size }}" class="responsive-img materialboxed viewimage">
+                <img src="{{ img.url }}" height="500px" width="450px" data-caption="{{ detailp.name }} {{ im.color }} {{ im.size }}" class="responsive-img">
               {% endthumbnail %}
-
+                </a>
                 </li>
               {% endfor %}
           {% endfor %}
@@ -214,6 +239,16 @@
           </div>
 
             </div>
+    {% for im in detailp.prod.all %}
+          {% for image in im.productimages.all %}
+<div id="{{ image.id }}" class="modal">
+    <div class="modal-content">
+     <img src="{{ image.image.url }}">
+    </div>
+  </div>
+  {% endfor %}
+{% endfor %}
+
             <div class="card-action hide-on-med-and-down">
               <a data-href='{{ detailp.get_add_to_cart_url }}' class='addtocart waves-effect waves-light btn'><i class="material-icons left">add_shopping_cart</i>Add to cart</a>
 
@@ -229,6 +264,10 @@
               {% endif %}
             </div>
           </div>
+
+
+          
+
         </div>
 
       <div class="col l5 s6 m5">
@@ -237,6 +276,20 @@
         <h3 class="center">
           {{ detailp.name }}
         </h3>
+        {% if detailp.get_average_rating %}
+        {% for i in detailp.get_average_rating|list %}
+        <i class="material-icons yellow-text accent-3">star</i>
+        {% endfor %}
+
+      {% for i in detailp.get_average_rating|subtractfromfive|list %}
+      <i class="material-icons yellow-text accent-3">star_border</i>
+      {% endfor %}
+        {% endif %}
+
+        {% if reviewcount %}
+        <a href="#reviews">{{ reviewcount }} reviews</a> 
+        {% endif %}
+
         {%  if detailp.new_product %}
           <span class="badge green black-text">New Arrival</span>
           {% endif %}
@@ -245,10 +298,16 @@
           {% endif %}
           <span class="badge green black-text">{{ detailp.gender }}</span>      
           </div>
+          <blockquote >          
           <p>{{ detailp.description|linebreaks }}</p>
-                  <p>R-{{ detailp.price }}</p>
-                  {{ detailp.get_average_rating }}
-                <p>{{ detailp.stockcount }} in stock<p>
+    </blockquote>
+                  <h5 class="center"><i class="fa fa-inr fa-1x" aria-hidden="true"></i> {{ detailp.price }}</h5>
+
+                  {% if detailp.stockcount %}
+                <p>In stock<p>
+                {% else %}
+                <p>Comming Soon</p>
+                {% endif %}
           <div class="section">
           {% if friendslikes %}
           {% for l in friendslikes %}
@@ -331,11 +390,11 @@
 
 <div class="row">
   <div class="col s12">
-      {% if detailp.reviews.all %}
-<div class="section container">
+      {% if reviews %}
+<div class="section container scrollspy" id="reviews">
   <h5 class="center">Product Reviews</h5>
 <ul class="collection">
-{% for review in detailp.reviews.all %}
+{% for review in reviews %}
     <li class="collection-item avatar">
             {% if review.user.socialaccount_set.all.0 %}
             <img src="{{ review.user.socialaccount_set.all.0.get_avatar_url }}" alt="Contact Person" class="circle">
@@ -351,9 +410,16 @@
       {% if request.user == review.user %}
       <a href="{{ review.get_delete_review_url }}">Remove</a> 
       {% endif %}
-      <a href="#!" class="secondary-content">{% for i in review.rating|times %}
-      <i class="material-icons">grade</i>
-      {% endfor %}</a>
+      <a class="secondary-content yellow-text accent-3">
+      {% for i in review.rating|times %}
+      <i class="material-icons">star</i>
+      {% endfor %}
+
+      {% for i in review.rating|subtractfromfive|times %}
+      <i class="material-icons">star_border</i>
+      {% endfor %}
+      
+      </a>
     </li>  
       {% endfor %}
   </ul>

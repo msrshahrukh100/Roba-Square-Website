@@ -25,3 +25,7 @@ def getfullname(user) :
 @register.filter(name="list")
 def list(number) :
 	return [i for i in range(1,number+1)]
+
+@register.filter(name="subtractfromfive")
+def subtractfromfive(number) :
+	return 5 - int(number)

@@ -59,6 +59,8 @@ def view_category_or_item(request, qtype=None, slug=None) :
 		'likes' : likes,
 		'likescount':likescount,
 		'friendslikes' : friendslikes,
+		'reviews' : instance.reviews.all(),
+		'reviewcount' : instance.reviews.all().count(),
 		}
 		return render(request,'view.html',context)
 	else :
