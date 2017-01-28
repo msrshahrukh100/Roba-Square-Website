@@ -64,6 +64,10 @@ class ProductDescription(models.Model) :
 		
 
 	@property
+	def get_sizes_of_product(self) :
+		return self.prod.values_list('size').filter(stockcount__gt=0)
+
+	@property
 	def get_image_url(self) :
 		return self.prod.first().productimages.first().image.url
 

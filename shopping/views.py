@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import Http404
 from django.views.decorators.csrf import csrf_exempt
 from productreviews.forms import Reviewform
@@ -134,3 +134,23 @@ def search(request) :
 
 
 
+@csrf_exempt
+def checkavailability(request) :
+	size = request.POST.get('size',None)
+	pid = request.POST.get('id',None)
+	requirednumber = request.POST.get('requirednumber',None)
+	# instance = ProductDescription.objects.get(id=)
+	instance = get_object_or_404(ProductDescription, id=int(pid))
+	productinstance = instance.prod.get(size=size)
+	data = {}
+	if productinstance :
+		if productinstance.stockcount >= int(requirednumber) :
+			data['type'] = 1
+			data['msg'] = "Success"
+		else : 
+			data['type'] = 0
+			data['msg'] = "Sorry, "+requirednumber + " pieces of this item is not available. Please try with different size or quantity."
+	else :
+		data['type'] = 0
+		data['msg'] = "Sorry, this size is not available."
+	return JsonResponse(data)

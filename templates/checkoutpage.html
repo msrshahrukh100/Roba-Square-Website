@@ -13,9 +13,9 @@
 {% endblock %}
 
 {% block content %}
-
+<!-- 
 <a href="" rel="im-checkout" data-behaviour="remote" data-style="light" data-text="Checkout"></a>
-<script src="https://d2xwmjc4uy2hr5.cloudfront.net/im-embed/im-embed.min.js"></script>
+<script src="https://d2xwmjc4uy2hr5.cloudfront.net/im-embed/im-embed.min.js"></script> -->
 
 <div class="container">
 	<div class="row">
@@ -25,7 +25,8 @@
         <thead>
           <tr>
               <th data-field="name">Item Name</th>
-              <th data-field="name">Quantity</th>
+              <th data-field="quantity">Quantity</th>
+              <th data-field="size">Size</th>
               <th data-field="price">Price</th>
           </tr>
         </thead>
@@ -42,7 +43,7 @@
             <td>
 
 		<div class="input-field col s4 offset-s4">
-		<select id="select{{ p.id }}" data-baseprice="{{ p.price }}" > 
+		<select id="select{{ p.id }}" data-id="{{ p.id }}"" data-baseprice="{{ p.price }}" > 
 		<option value="" disabled selected>Select Quantity</option>
 		{% for i in p.stockcount|list %}
 		{% if i == 1 %}
@@ -54,12 +55,34 @@
 		</select>
 		</div>
             </td>
+                        <td>
+
+                        {% ifnotequal p.get_sizes_of_product.0 "0" %}
+		<div class="input-field col s4 offset-s4">
+		<select id="sizeid{{ p.id }}" onchange="checkavailability($(this).val(),{{ p.id }})" data-baseprice="{{ p.price }}" > 
+		<option value="" disabled selected>Select Size</option>
+		{% for i in p.get_sizes_of_product %}
+		{% if i == p.get_sizes_of_product.0 %}
+		<option value="{{ i.0 }}" selected="selected">{{ i.0 }}</option>
+		{% else %}
+		<option value="{{ i.0 }}" >{{ i.0 }}</option>
+		{% endif %}
+		{% endfor %}
+		</select>
+		</div>
+		{% else %}
+		<b>Not Applicable</b>
+		{% endifnotequal %}
+            </td>
+
             <td ><input disabled onChange="findtotal()" type="text" id="change{{ p.id }}" name="productprice" class="black-text" /></td>
 			<script type="text/javascript">
 			$(function() { 
 			$('#select{{ p.id }}').change(function() {
 			var bp = Number($(this).attr('data-baseprice'))
+			var pid = $(this).attr('data-id')
 			$('#change{{ p.id }}').val(Number($(this).val()) * bp);
+			checkavailability($('#sizeid'+pid).val(),pid)
 			findtotal();
 			}).change(); // Trigger the event
 			});
@@ -70,6 +93,7 @@
 
           	<td></td>
           	<td></td>
+          	<td></td>
           	<td>
           	<hr>
           		<h5 class="left" >Total &nbsp <i class="fa fa-inr fa-1x" aria-hidden="true"></i><span id="total"></span></h5>
@@ -78,7 +102,9 @@
         </tbody>
       </table>
       <a class="" href="{% url 'cart:viewcart' %}">Edit Cart</a>
-            
+            <a id="paynow" class="waves-effect waves-light btn right"><i class="material-icons right">payment</i>Pay Now</a>
+            <p class="red-text" id="errormessage"></p>
+
 		</div>
 	</div>
 </div>
@@ -92,6 +118,30 @@
 		tot += parseInt(arr[i].value);
 		}
 		$('#total').html(tot);
+	}
+
+	function checkavailability(size,id)
+	{
+		var data = {'size':size,'id':id,'requirednumber':$('#select'+id).val()};
+		$.ajax({
+			type : "POST",
+			url : "{% url 'shopping:checkavailability' %}",
+			data : data,
+			beforeSend: function(){$('#paynow').addClass('disabled')},
+			dataType: 'json',
+			success : function(data){
+				if(data['type'] == 1)
+				{
+					$('#paynow').removeClass('disabled');
+					$('#errormessage').html("");
+				}
+				else
+				{
+					$('#errormessage').html(data['msg']);
+				}
+			}
+
+		});
 	}
 
 </script>

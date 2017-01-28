@@ -123,6 +123,13 @@
           {% else %}
           <p>Comming Soon</p>
           {% endif %}
+              {% ifnotequal p.get_sizes_of_product.0 "0" %}
+              <p>Available sizes : 
+              {% for i in p.get_sizes_of_product %}
+              {{ i }}
+              {% endfor %}
+              </p>
+              {% endifnotequal %}
       </div>
     </div>
 
@@ -296,7 +303,9 @@
           {%  if detailp.has_logo %}
           <span class="badge red black-text">User Customized</span>
           {% endif %}
-          <span class="badge green black-text">{{ detailp.gender }}</span>      
+          {% ifnotequal detailp.gender "0" %}
+          <span class="badge green black-text">{{ detailp.gender }}</span>
+          {% endifnotequal %}      
           </div>
           <blockquote >          
           <p>{{ detailp.description|linebreaks }}</p>
@@ -308,6 +317,16 @@
                 {% else %}
                 <p>Comming Soon</p>
                 {% endif %}
+                    {% ifnotequal detailp.get_sizes_of_product.0 "0" %}
+                    <p>Available sizes 
+                    {% for i in detailp.get_sizes_of_product %}
+                    <div class="chip">
+                    <b>{{ i.0 }} </b>
+                    </div>
+                    {% endfor %}
+                    </p>
+                    {% endifnotequal %}
+                    <hr>
           <div class="section">
           {% if friendslikes %}
           {% for l in friendslikes %}
