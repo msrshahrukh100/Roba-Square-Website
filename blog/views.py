@@ -15,7 +15,7 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from .forms import PostForm
-from .models import Post, PostViews
+from .models import Post, PostViews,BlogSlider
 from django.contrib.auth.decorators import login_required
 from django.contrib.contenttypes.models import ContentType
 
@@ -54,7 +54,7 @@ def post_detail(request, slug=None):
 
 def post_list(request):
 	queryset_list = Post.objects.filter(publish_it=True) #.order_by("-timestamp")
-	
+	images = BlogSlider.objects.all().order_by('?')
 	query = request.GET.get("q")
 	if query:
 		queryset_list = queryset_list.filter(
@@ -79,6 +79,7 @@ def post_list(request):
 
 	context = {
 		"object_list": queryset, 
+		"images" : images,
 		"title": "List",
 		"my_contributions" : Post.objects.filter(user=request.user),
 		"nopages" : [i for i in range(1,nopages+1)],

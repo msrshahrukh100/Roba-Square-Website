@@ -13,14 +13,17 @@
 {% endblock %}
 
 {% block content %}
-<!-- 
-<a href="" rel="im-checkout" data-behaviour="remote" data-style="light" data-text="Checkout"></a>
-<script src="https://d2xwmjc4uy2hr5.cloudfront.net/im-embed/im-embed.min.js"></script> -->
+<style type="text/css">
+	#total{	
+    font-size:35px;
+	}
+</style>
 
 <div class="container">
 	<div class="row">
 		<div class="col s12">
 			<h4 class="center">Checkout</h4>
+<form method="POST" action="{% url 'payment:requestpayment' %}">{% csrf_token %}
 	<table class="highlight centered">
         <thead>
           <tr>
@@ -33,6 +36,8 @@
 
         <tbody>
         {% for p in products %}
+        <input type="hidden" name="id" value="{{ p.id }}">
+        <input type="hidden" name="productname" value="{{ p.name }}">
           <tr>
             <td>
             	<div class="chip transparent black-text">
@@ -42,8 +47,8 @@
             </td>
             <td>
 
-		<div class="input-field col s4 offset-s4">
-		<select id="select{{ p.id }}" data-id="{{ p.id }}"" data-baseprice="{{ p.price }}" > 
+		<div class="input-field col s8 offset-s2">
+		<select id="select{{ p.id }}" name="quantity" data-id="{{ p.id }}"" data-baseprice="{{ p.price }}" > 
 		<option value="" disabled selected>Select Quantity</option>
 		{% for i in p.stockcount|list %}
 		{% if i == 1 %}
@@ -56,10 +61,9 @@
 		</div>
             </td>
                         <td>
-
-                        {% ifnotequal p.get_sizes_of_product.0 "0" %}
-		<div class="input-field col s4 offset-s4">
-		<select id="sizeid{{ p.id }}" onchange="checkavailability($(this).val(),{{ p.id }})" data-baseprice="{{ p.price }}" > 
+                        {% ifnotequal p.get_sizes_of_product.0.0 "0" %}
+		<div class="input-field col s8 offset-s2">
+		<select id="sizeid{{ p.id }}" name="size" onchange="checkavailability($(this).val(),{{ p.id }})" data-baseprice="{{ p.price }}" > 
 		<option value="" disabled selected>Select Size</option>
 		{% for i in p.get_sizes_of_product %}
 		{% if i == p.get_sizes_of_product.0 %}
@@ -75,7 +79,9 @@
 		{% endifnotequal %}
             </td>
 
-            <td ><input disabled onChange="findtotal()" type="text" id="change{{ p.id }}" name="productprice" class="black-text" /></td>
+            <td >
+            <input disabled class="input-field col s8 offset-s2 black-text" onChange="findtotal()" type="text" id="change{{ p.id }}" name="productprice"  />
+            </td>
 			<script type="text/javascript">
 			$(function() { 
 			$('#select{{ p.id }}').change(function() {
@@ -93,16 +99,31 @@
 
           	<td></td>
           	<td></td>
-          	<td></td>
+          	<td><h5>Total</h5></td>
           	<td>
-          	<hr>
-          		<h5 class="left" >Total &nbsp <i class="fa fa-inr fa-1x" aria-hidden="true"></i><span id="total"></span></h5>
+          	
+          		<div class="row">
+	        <div class="col s12">
+	        <div class="input-field inline">
+          		<i class="fa fa-inr fa-1x prefix" aria-hidden="true"></i><input readonly name="grandtotal" class="black-text" id="total">
+	        </div>
+        </div>
+        </div>
+<!--           <i class="material-icons prefix">account_circle</i>
+          <input id="icon_prefix" type="text" class="validate">
+ -->
           	</td>
           </tr>
         </tbody>
       </table>
       <a class="" href="{% url 'cart:viewcart' %}">Edit Cart</a>
-            <a id="paynow" class="waves-effect waves-light btn right"><i class="material-icons right">payment</i>Pay Now</a>
+	           
+
+  <button id="paynow" class="btn waves-effect waves-light right" type="submit" name="action">Pay Now
+    <i class="material-icons right">payment</i>
+  </button>
+ </form>
+
             <p class="red-text" id="errormessage"></p>
 
 		</div>
@@ -117,12 +138,14 @@
 		if(parseInt(arr[i].value))
 		tot += parseInt(arr[i].value);
 		}
-		$('#total').html(tot);
+		$('#total').val(tot);
 	}
 
 	function checkavailability(size,id)
 	{
 		var data = {'size':size,'id':id,'requirednumber':$('#select'+id).val()};
+		if(size){
+
 		$.ajax({
 			type : "POST",
 			url : "{% url 'shopping:checkavailability' %}",
@@ -139,9 +162,13 @@
 				{
 					$('#errormessage').html(data['msg']);
 				}
+			},
+			error : function(){
+				$('#errormessage').html("Error occured, Check your connection!");
 			}
 
-		});
+		});//ajax ends
+		}
 	}
 
 </script>

@@ -8,7 +8,7 @@ from autoslug import AutoSlugField
 from django.utils.safestring import mark_safe
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
-
+from sorl.thumbnail import ImageField
 from django.utils.text import slugify
 
 
@@ -63,6 +63,32 @@ class PostViews(models.Model) :
 
     class Meta:
         ordering = ['-id']
+
+
+
+
+def upload_location_blog_promotion(instance,filename) :
+    return "slider_blog_promotion_images/%s"%(filename)
+
+class BlogSlider(models.Model) :
+    view_opt = (('center','center'),('left','left'),('right','right'))
+
+    image = ImageField(upload_to = upload_location_blog_promotion, null=False, blank=False ,height_field="height_field", width_field="width_field",help_text="Images to be displayed on the slider")
+    height_field = models.IntegerField(default=0)
+    width_field = models.IntegerField(default=0)
+    header = models.CharField(max_length=100,help_text="The heading to be displayed on the slider.")
+    content = models.CharField(max_length=150,help_text="The text content which is to be displayed on the slider.")
+    link_text = models.CharField(max_length=100,help_text="The text which is used to link the url, eg. Buy Now, Shop here .")
+    link = models.URLField(max_length=200, help_text="The link of the product or category which is targeted to.")
+    alignment = models.CharField(max_length=10 ,choices=view_opt, default="left", help_text="How you wish the text to appear on the slider?")
+
+    def __unicode__(self) :
+        return self.header
+
+    class Meta :
+        verbose_name = "Images on the blog promotion slider"
+        verbose_name_plural = "Images on the blog promotion slider"
+
 
 
 

@@ -12,7 +12,8 @@ def addreview(request) :
 		rating = request.POST.get('rating',0)
 		product = ProductDescription.objects.filter(id=id).first()
 		Reviews.objects.create(user=request.user,product=product,review=review,rating=rating)
-
+	if product.has_logo :
+		return redirect('shopping:show_private_item' , slug=product.slug, key = request.session.get('privateproduct'))
 	return redirect('shopping:view_category_or_item',qtype = 'product',slug=product.slug)
 
 def deletereview(request, id=None) :

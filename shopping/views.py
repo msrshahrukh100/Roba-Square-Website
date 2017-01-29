@@ -105,6 +105,8 @@ def show_private_item(request,slug=None,key=None) :
 	'likes' : likes,
 	'likescount':likescount,
 	'friendslikes' : friendslikes,
+	'reviews' : instance.reviews.all(),
+	'reviewcount' : instance.reviews.all().count(),
 	}
 	return render(request,'view.html',context)
 
@@ -139,7 +141,6 @@ def checkavailability(request) :
 	size = request.POST.get('size',None)
 	pid = request.POST.get('id',None)
 	requirednumber = request.POST.get('requirednumber',None)
-	# instance = ProductDescription.objects.get(id=)
 	instance = get_object_or_404(ProductDescription, id=int(pid))
 	productinstance = instance.prod.get(size=size)
 	data = {}

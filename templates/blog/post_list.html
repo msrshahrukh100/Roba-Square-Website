@@ -9,6 +9,29 @@
         <a class="breadcrumb" >Blogs</a>
 </div>
 {% endblock %}
+ <div class="slider blog" style="margin-top: -37px; ">
+   <ul class="slides" >
+    {% for image in images %}
+    <li>
+      <img src="{{ image.image.url }}"> <!-- random image -->
+      <div class="caption {{ image.alignment }}-align">
+        <h3>{{ image.header }}</h3>
+        <h5 class="light grey-text text-lighten-3">{{ image.content }}</h5>
+        <h5><a href="{{ image.link }}">{{ image.link_text }}</a><h5>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  <script type="text/javascript">
+  $(document).ready(function(){
+    $('.slider.blog').slider({
+    height:300,
+    indicators:false
+    });
+  });
+  </script>
+
 
 <div class="container">
     
