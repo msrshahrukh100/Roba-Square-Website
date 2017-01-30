@@ -63,7 +63,7 @@ def post_list(request):
 				Q(user__first_name__icontains=query) |
 				Q(user__last_name__icontains=query)
 				).distinct()
-	paginator = Paginator(queryset_list, 2) 
+	paginator = Paginator(queryset_list, 7) 
 	nopages = paginator.num_pages
 	page_request_var = "page"
 	page = request.GET.get(page_request_var)
@@ -75,13 +75,15 @@ def post_list(request):
 	except EmptyPage:
 		# If page is out of range (e.g. 9999), deliver last page of results.
 		queryset = paginator.page(paginator.num_pages)
-
-
+	if not request.user.is_anonymous() :
+		my_contributions = Post.objects.filter(user=request.user)
+	else :
+		my_contributions = []
 	context = {
 		"object_list": queryset, 
 		"images" : images,
 		"title": "List",
-		"my_contributions" : Post.objects.filter(user=request.user),
+		"my_contributions" : my_contributions,
 		"nopages" : [i for i in range(1,nopages+1)],
 		"page_request_var": page_request_var,
 	}

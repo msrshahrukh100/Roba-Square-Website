@@ -3,3 +3,11 @@
 	position: absolute;
 	z-index: 200;
 }
+
+.btn {
+    text-transform: none;
+}
+
+.no-capital {
+	text-transform: none;	
+}

@@ -9,6 +9,7 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 from authentication.username import get_user_name
 from django.views.decorators.csrf import csrf_exempt
+from .models import OnlineTransactionsDetail
 # Create your views here.
 
 
@@ -59,13 +60,12 @@ def requestpayment(request) :
 	webhook = request.build_absolute_uri(reverse("payment:webhook"))
 	response = api.payment_request_create(
 		amount=amount,
-		purpose="purpose",
+		purpose=purpose,
 		buyer_name=get_user_name(request.user),
-		email="msr.concordfly@gmail.com",
-		phone="8376061893",
-		# redirect_url=redirect_url,
-		# webhook=webhook,
-		webhook="http://requestb.in/1ibyspq1",
+		email=request.user.email,
+		phone=request.user.user_information.phonenumber,
+		redirect_url=redirect_url,
+		webhook=webhook,
 		send_email=True,
 		send_sms=True,
 		)
@@ -74,7 +74,33 @@ def requestpayment(request) :
 
 
 def paymentredirect(request):
-	pass
+	api = Instamojo(api_key=settings.API_KEY, auth_token=settings.AUTH_TOKEN, endpoint='https://test.instamojo.com/api/1.1/');
+	payment_id = request.GET.get('payment_id')
+	payment_request_id = request.GET.get('payment_request_id')
+
+	try:
+		response = api.payment_request_payment_status(
+			id=payment_request_id,
+			payment_id=payment_id
+			)
+	except :
+		response = None
+
+	if response :
+		success = response.get('success')
+		if success :
+			context['success'] = "Thank you for shopping with us.You can download your invoice here."
+			context['payment_request'] = response.get('payment_request')
+		else :
+			context['fail'] = response.get('message')
+	else :
+		context['fail'] = "Your transaction failed due to some technical issue like network error."
+
+	return render(request,"paymentredirect.html",context)
+	
+
+
+	
 
 @csrf_exempt
 def webhook(request) :
@@ -93,8 +119,22 @@ def webhook(request) :
 		shorturl = request.POST.get('shorturl')
 		status = request.POST.get('status')
 		
+		OnlineTransactionsDetail.objects.get_or_create(
+			user = request.user,
+			amount=amount,
+			buyer=buyer,
+			buyer_name=buyer_name,
+			buyer_phone=buyer_phone,
+			currency=currency,
+			fees=fees,
+			longurl=longurl,
+			mac=mac,
+			payment_id=payment_id,
+			payment_request_id=payment_request_id,
+			purpose=purpose,
+			shorturl=shorturl,
+			status=status)
 
-	print request.POST
-	return JsonResponse({'msg':'asd'})
+	return JsonResponse({'msg':'Entry added!'})
 
 

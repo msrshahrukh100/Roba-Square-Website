@@ -1,3 +1,33 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 # Create your models here.
+
+class OnlineTransactionsDetail(models.Model) :
+	user = models.ForeignKey(User,related_name="online_transactions")
+	amount = models.CharField(max_length=200)
+	buyer = models.EmailField(max_length=200)
+	buyer_name = models.CharField(max_length=200)
+	buyer_phone = models.CharField(max_length=15,null=True,blank=True)
+	currency = models.CharField(max_length=5)
+	fees = models.CharField(max_length=100)
+	longurl = models.URLField(max_length=200)
+	mac = models.CharField(max_length=100)
+	payment_id = models.CharField(max_length=150)
+	payment_request_id = models.CharField(max_length=150)
+	purpose = models.CharField(max_length=250)
+	shorturl = models.URLField(max_length=100)
+	status = models.CharField(max_length=10)
+	timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
+
+	def __unicode__(self) :
+		return self.buyer
+
+	class Meta:
+		ordering = ['-id']
+
+
+
+
+
+
+
