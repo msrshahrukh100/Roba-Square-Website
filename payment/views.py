@@ -64,8 +64,8 @@ def requestpayment(request) :
 		buyer_name=get_user_name(request.user),
 		email=request.user.email,
 		phone=request.user.user_information.phonenumber,
-		redirect_url=redirect_url,
-		webhook=webhook,
+		# redirect_url=redirect_url,
+		# webhook=webhook,
 		send_email=True,
 		send_sms=True,
 		)
