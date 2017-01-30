@@ -107,7 +107,7 @@ def paymentredirect(request):
 			)
 	except :
 		response = None
-
+	context = {}
 	if response :
 		success = response.get('success')
 		if success :
