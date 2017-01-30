@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from shopping.models import ProductDescription
 # Create your models here.
 
 class OnlineTransactionsDetail(models.Model) :
@@ -24,6 +25,21 @@ class OnlineTransactionsDetail(models.Model) :
 
 	class Meta:
 		ordering = ['-id']
+
+
+class BuyingCart(models.Model) :
+	user = models.ForeignKey(User,related_name="user_bought_cart")
+	product = models.ForeignKey(ProductDescription, related_name="buying_cart")
+	size = models.CharField(max_length=5)
+	quantity = models.CharField(max_length=3)
+	instamojo_request_id = models.CharField(max_length=150) 
+	status = models.CharField(max_length=10, default="Pending")
+	timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
+
+	def __unicode__(self):
+		return str(self.id)
+	
+
 
 
 

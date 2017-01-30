@@ -9,7 +9,9 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 from authentication.username import get_user_name
 from django.views.decorators.csrf import csrf_exempt
-from .models import OnlineTransactionsDetail
+from .models import OnlineTransactionsDetail, BuyingCart
+from django.contrib.auth.decorators import login_required
+
 # Create your views here.
 
 
@@ -25,7 +27,7 @@ class viewinvoice(PDFTemplateView):
 		**kwargs
 		)
 
-
+@login_required
 def checkoutpage(request) :
 
 	cart = request.session.get('products',None)
@@ -42,6 +44,7 @@ def checkoutpage(request) :
 
 	return render(request,"checkoutpage.html",context)
 
+@login_required
 def requestpayment(request) :
 	api = Instamojo(api_key=settings.API_KEY, auth_token=settings.AUTH_TOKEN, endpoint='https://test.instamojo.com/api/1.1/');
 	data = dict(request.POST)
@@ -51,28 +54,47 @@ def requestpayment(request) :
 	quantity = data.get('quantity')
 	a = data.get('grandtotal')
 	amount = max(list(a))
-	p = " -- ".join(productnames)
 	i = " -- ".join(ids)
 	s = " -- ".join(size)
 	q = " -- ".join(quantity)
-	purpose = "'"+i + " | " + p + " | " + q + " | " + s + "'"
+	purpose = "|".join(ids)
 	redirect_url = request.build_absolute_uri(reverse("payment:paymentredirect"))
 	webhook = request.build_absolute_uri(reverse("payment:webhook"))
+	if request.user.user_information.phonenumber :
+		phone = request.user.user_information.phonenumber
+	else :
+		phone = "+919999999999"
+	if request.user.email != "" :
+		email = request.user.email
+	else :
+		email = "foo@example.com"
+
 	response = api.payment_request_create(
 		amount=amount,
-		purpose="purpose",
+		purpose=purpose,
 		buyer_name=get_user_name(request.user),
-		email=request.user.email,
-		phone=request.user.user_information.phonenumber,
-		# redirect_url=redirect_url,
-		# webhook=webhook,
+		email=email,
+		phone=phone,
+		redirect_url=redirect_url,
+		webhook=webhook,
+		allow_repeated_payments=False,
 		send_email=True,
 		send_sms=True,
 		)
+	for i in range(len(ids)) :
+		instance = ProductDescription.objects.get(id=ids[i])
+		BuyingCart.objects.create(
+			user=request.user,
+			product=instance,
+			size=size[i],
+			quantity=quantity[i],
+			instamojo_request_id=response['payment_request']['id']
+			)
+
 	return redirect(response['payment_request']['longurl']+"?embed=form")
 
 
-
+@login_required
 def paymentredirect(request):
 	api = Instamojo(api_key=settings.API_KEY, auth_token=settings.AUTH_TOKEN, endpoint='https://test.instamojo.com/api/1.1/');
 	payment_id = request.GET.get('payment_id')
