@@ -60,7 +60,7 @@ def requestpayment(request) :
 	webhook = request.build_absolute_uri(reverse("payment:webhook"))
 	response = api.payment_request_create(
 		amount=amount,
-		purpose=purpose,
+		purpose="purpose",
 		buyer_name=get_user_name(request.user),
 		email=request.user.email,
 		phone=request.user.user_information.phonenumber,
