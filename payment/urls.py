@@ -3,7 +3,7 @@ from .views import viewinvoice, checkoutpage, requestpayment, paymentredirect, w
 
 urlpatterns = [
 
-    url(r'^viewinvoice/$', viewinvoice.as_view()),
+    url(r'^viewinvoice/$', viewinvoice.as_view(), name="viewinvoice"),
     url(r'^checkoutpage/$', checkoutpage, name='checkoutpage'),
     url(r'^requestpayment/$', requestpayment, name='requestpayment'),
     url(r'^paymentredirect/$', paymentredirect, name='paymentredirect'),

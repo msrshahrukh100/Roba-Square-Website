@@ -24,7 +24,7 @@
 		<div class="col s12">
 			<h4 class="center">Checkout</h4>
 <form method="POST" action="{% url 'payment:requestpayment' %}">{% csrf_token %}
-	<table class="highlight centered">
+	<table class="highlight centered responsive-table">
         <thead>
           <tr>
               <th data-field="name">Item Name</th>
@@ -100,7 +100,7 @@
 
           	<td></td>
           	<td></td>
-          	<td><h5>Total</h5></td>
+          	<td><h4>Total</h4></td>
           	<td>
           	
           		<div class="row">
@@ -120,16 +120,104 @@
       <a class="" href="{% url 'cart:viewcart' %}">Edit Cart</a>
 	           
 
-  <button id="paynow" class="btn waves-effect waves-light right" type="submit" name="action">Pay Now
-    <i class="material-icons right">payment</i>
-  </button>
- </form>
+  
 
             <p class="red-text" id="errormessage"></p>
 
 		</div>
 	</div>
+
+	<div class="row">
+		<div class="col s12">
+			<h5 class="center">Address</h5>
+			<div class="container">
+			<p class="grey-text">Select a address where the product is to be delivered</p>
+			{% for i in address %}
+			<p>
+			<input class="addresscheckbox" {% if forloop.counter == 1 %} checked {% endif %} name="address" type="radio" id="{{ forloop.counter }}"  value="{{ i }}" />
+			<label for="{{ forloop.counter }}">{{ i }}</label>
+			</p>
+			{% endfor %}
+			<p>
+			<input class="addresscheckbox" name="address" type="radio" id="userpreference"  value="0" />
+			<label for="userpreference">Add a new address for Delivery</label>
+			</p>
+			<div class="input-field col s12">
+			<input required="false" name="newaddress" id="newaddress" type="text" class="validate" >
+			<label for="newaddress">Add Address</label>
+			</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+	<div class="col s12">
+	<div class="container">
+	<h5 class="center">Phone Number</h5>	
+		<div class="input-field col s12">
+		<input required id="phonenumber" name="phonenumber" type="text" class="validate" {% if request.user.user_information.phonenumber %} value="{{ request.user.user_information.phonenumber }}" {% endif %}>
+		<label for="phonenumber">Add or modify Phone Number</label>
+		</div>	
+	</div>
+	</div>
+	</div>
+<input type="hidden" name="type" id="type">
+	<div class="row">
+		<div class="col s12">
+		<div class="container">
+			
+		<h5 class="center">Method of Payment</h5>
+      <ul class="tabs">
+        <li class="tab col s6"><a class="active" id="default" data-value="online" href="#online">Online Payment</a></li>
+        <li class="tab col s6"><a href="#cod" data-value="cod" >Cash On Delivery</a></li>
+      </ul>
+    <div id="online" class="col s12">
+    <div class="container center" style="padding-top: 20px;">
+	<button id="paynow" class="btn waves-effect waves-light center" type="submit" name="action">Pay Now
+	<i class="material-icons right">payment</i>
+	</button>
+    </div>
+    </div>
+    <div id="cod" class="col s12">
+    	<div class="container center" style="padding-top: 20px;">
+	<button id="paycod" class="btn waves-effect waves-light center" type="submit" name="action">Cash on Delivery
+	<i class="material-icons right">attach_money</i>
+	</button>
+	</div>
+    </div>
+	</div>			
+	</div>
+	</div>
+	
+
+
+ </form>
+
 </div>
+<script type="text/javascript">
+	$('.addresscheckbox').on('change',function () {
+		console.log("changed")
+	if( $('#userpreference').is(":checked") )
+	{
+	$('#newaddress').prop('required',true);
+	console.log("added")
+	}
+	else 
+	{
+	$('#newaddress').prop('required',false);
+	console.log("removed")
+	}
+	
+	});
+</script>
+<script type="text/javascript">
+	  $(document).ready(function(){
+	  	$('#default').trigger('click');
+ $('ul.tabs').on('click', 'a', function(e) {
+ 	$('#type').val($(this).attr('data-value'))
+});
+  });
+</script>
 
 <script type="text/javascript">
 	function findtotal(){

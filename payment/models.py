@@ -27,7 +27,7 @@ class OnlineTransactionsDetail(models.Model) :
 		ordering = ['-id']
 
 
-class BuyingCart(models.Model) :
+class OnlineBuyingCart(models.Model) :
 	user = models.ForeignKey(User,related_name="user_bought_cart")
 	product = models.ForeignKey(ProductDescription, related_name="buying_cart")
 	size = models.CharField(max_length=5)

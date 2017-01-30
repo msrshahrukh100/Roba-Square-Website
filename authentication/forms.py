@@ -29,6 +29,8 @@ class UserInfoForm(forms.ModelForm) :
 		return self.cleaned_data
 
 class AddressForm(forms.ModelForm) :
+	pincode = forms.IntegerField()
+	pincode.widget=forms.NumberInput(attrs={'min': 100000,})
 	class Meta :
 		model = Addresses
 		fields = ('address','city','pincode','nearest_landmark')

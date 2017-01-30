@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import OnlineTransactionsDetail,BuyingCart
+from .models import OnlineTransactionsDetail,OnlineBuyingCart
 # Register your models here.
 
 class OnlineTransactionDetailAdmin(admin.ModelAdmin) :
@@ -9,14 +9,14 @@ class OnlineTransactionDetailAdmin(admin.ModelAdmin) :
 		model = OnlineTransactionsDetail
 
 
-class BuyingCartAdmin(admin.ModelAdmin) :
+class OnlineBuyingCartAdmin(admin.ModelAdmin) :
 	list_display = ["user","product","size","quantity","status","timestamp"]
 	list_filter = ["timestamp","status","user","product"]
 	class Meta:
-		model = BuyingCart
+		model = OnlineBuyingCart
 
 
 admin.site.register(OnlineTransactionsDetail,OnlineTransactionDetailAdmin)
 
 
-admin.site.register(BuyingCart, BuyingCartAdmin)
+admin.site.register(OnlineBuyingCart, OnlineBuyingCartAdmin)
