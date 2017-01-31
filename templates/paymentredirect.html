@@ -4,19 +4,30 @@
 
 <div class="col s12" style="padding-left:50px;">
         <a href="/" class="breadcrumb">Home</a>
-        <a class="breadcrumb">Payment Status</a>
+        <a class="breadcrumb">Shopping Status</a>
 </div>
 
 {% endblock %}
 
 
 {% block content %}
+
 {% if success %}
 {{ success }}
 <p>{{ payment_request }}</p>
 {% endif %}
 {% if fail %}
 {{ fail }}
+
+{% endif %}
+{% if type == 1 %}
+<div class="container">
+<h4 class="center"><p>Thank You for shopping with us.</p><p>Contact us in case of any query</p></h4>
+<p class="center"><a class="waves-effect waves-light btn" href = "{{ url }}" target="_blank"><i class="material-icons left">cloud</i>Download your Invoice</a>
+</p>
+	
+</div>
+
 {% endif %}
 
 {% endblock %}

@@ -1,30 +1,18 @@
 from django.shortcuts import render, redirect
 from reportlab.pdfgen import canvas
-from django.http import HttpResponse, JsonResponse
-from easy_pdf.views import PDFTemplateView
+from django.http import HttpResponse, JsonResponse, Http404
 from shopping.models import ProductDescription
 from instamojo_wrapper import Instamojo
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from authentication.username import get_user_name
 from django.views.decorators.csrf import csrf_exempt
-from .models import OnlineTransactionsDetail, OnlineBuyingCart
+from .models import OnlineTransactionsDetail, BuyingCart
 from django.contrib.auth.decorators import login_required
-from easy_pdf.rendering import render_to_pdf, render_to_pdf_response
+from easy_pdf.rendering import render_to_pdf_response
+import uuid
 # Create your views here.
 
-
-class viewinvoice(PDFTemplateView):
-
-	template_name = 'hello.html'
-	title = "Shahrukh is gooooood"
-	def get_context_data(self, pagesize,title,data, **kwargs):
-		return super(viewinvoice, self).get_context_data(
-		pagesize=pagesize,
-		title=title,
-		data=data,
-		**kwargs
-		)
 
 @login_required
 def checkoutpage(request) :
@@ -52,12 +40,32 @@ def checkoutpage(request) :
 	return render(request,"checkoutpage.html",context)
 
 @login_required
+def generateinvoice(request) :
+	t = request.GET.get('type')
+	id = request.GET.get('id')
+	if t == "cod" :
+		cart = BuyingCart.objects.filter(cod_unique_id=id)
+		total = 0
+		for i in cart :
+			total += int(i.price)
+		if cart.first().user != request.user :#or not (request.user.is_staff() or request.user.is_superuser()) :
+			raise Http404
+		context = {'cart':cart,'total':total}
+		# return render_to_pdf('invoice/invoice.html',{'pagesize':'A4','cart': cart})
+		return render_to_pdf_response(request,"invoice/invoice.html",context)
+
+
+	return JsonResponse({'sad':'asd'})
+
+
+@login_required
 def requestpayment(request) :
 	data = dict(request.POST)
 	productnames = data.get('productname')
 	ids = data.get('id')
 	size = data.get('size')
 	quantity = data.get('quantity')
+	price = data.get('productprice')
 	if data.get('address')[0] == "0" :
 		address = data.get('newaddress')[0]
 	else :
@@ -79,7 +87,28 @@ def requestpayment(request) :
 		paymenttype = t[0]
 
 	if paymenttype == "cod" :
-		return render(request,"paymentredirect.html",{})
+		cod_unique_id = uuid.uuid4()
+		for i in range(len(ids)) :
+			instance = ProductDescription.objects.get(id=ids[i])
+			product = instance.prod.get(size=size[i])
+			product.stockcount = product.stockcount - int(quantity[i])
+			product.save()
+			BuyingCart.objects.get_or_create(
+				user=request.user,
+				product=instance,
+				size=size[i],
+				quantity=quantity[i],
+				price = price[i],
+				method_of_payment="COD",
+				address=address,
+				phonenumber=phone,
+				status="Done",
+				cod_unique_id=cod_unique_id
+				)
+		url = reverse("payment:generateinvoice")[:-1] + "?type=cod&id=" + str(cod_unique_id)
+		print url
+		context = {"type" : 1,"url":url}
+		return render(request,"paymentredirect.html",context)
 		
 	api = Instamojo(api_key=settings.API_KEY, auth_token=settings.AUTH_TOKEN, endpoint='https://test.instamojo.com/api/1.1/');
 	purpose = " | ".join(ids)
@@ -101,16 +130,16 @@ def requestpayment(request) :
 	if response.get('success') :
 		for i in range(len(ids)) :
 			instance = ProductDescription.objects.get(id=ids[i])
-			print instance.name
-			print size[i]
 			product = instance.prod.get(size=size[i])
 			product.stockcount = product.stockcount - int(quantity[i])
 			product.save()
-			OnlineBuyingCart.objects.get_or_create(
+			BuyingCart.objects.get_or_create(
 				user=request.user,
 				product=instance,
 				size=size[i],
 				quantity=quantity[i],
+				price = price[i],
+				method_of_payment="Online Payment",
 				address=address,
 				phonenumber=phone,
 				instamojo_request_id=response['payment_request']['id']
