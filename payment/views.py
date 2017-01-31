@@ -10,19 +10,19 @@ from authentication.username import get_user_name
 from django.views.decorators.csrf import csrf_exempt
 from .models import OnlineTransactionsDetail, OnlineBuyingCart
 from django.contrib.auth.decorators import login_required
-
+from easy_pdf.rendering import render_to_pdf, render_to_pdf_response
 # Create your views here.
 
 
 class viewinvoice(PDFTemplateView):
 
-	template_name = 'abc.html'
-
-	def get_context_data(self, **kwargs):
+	template_name = 'hello.html'
+	title = "Shahrukh is gooooood"
+	def get_context_data(self, pagesize,title,data, **kwargs):
 		return super(viewinvoice, self).get_context_data(
-		pagesize="A4",
-		title="Hi there!",
-		data="thats really cool",
+		pagesize=pagesize,
+		title=title,
+		data=data,
 		**kwargs
 		)
 
@@ -46,7 +46,8 @@ def checkoutpage(request) :
 	"address" : address,
 	}
 
-
+	# for generating pdf
+	# return render_to_pdf_response(request,"hello.html",{"data":"shahrukh"})
 
 	return render(request,"checkoutpage.html",context)
 
@@ -70,7 +71,16 @@ def requestpayment(request) :
 		email = request.user.email
 	else :
 		email = "foo@example.com"
-	
+	print data
+	t = data.get('type')
+	if t[0] == "" :
+		paymenttype = "online"
+	else :
+		paymenttype = t[0]
+
+	if paymenttype == "cod" :
+		return render(request,"paymentredirect.html",{})
+		
 	api = Instamojo(api_key=settings.API_KEY, auth_token=settings.AUTH_TOKEN, endpoint='https://test.instamojo.com/api/1.1/');
 	purpose = " | ".join(ids)
 	redirect_url = request.build_absolute_uri(reverse("payment:paymentredirect"))
@@ -81,8 +91,8 @@ def requestpayment(request) :
 		buyer_name=get_user_name(request.user),
 		email=email,
 		phone=phone,
-		# redirect_url=redirect_url,
-		# webhook=webhook,
+		redirect_url=redirect_url,
+		webhook=webhook,
 		allow_repeated_payments=False,
 		send_email=True,
 		send_sms=True,
@@ -108,7 +118,7 @@ def requestpayment(request) :
 	else :
 		return JsonResponse({'message' : response['message']})
 
-	# return redirect(response['payment_request']['longurl']+"?embed=form")
+	return redirect(response['payment_request']['longurl']+"?embed=form")
 
 
 @login_required

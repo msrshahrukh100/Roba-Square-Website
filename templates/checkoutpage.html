@@ -173,14 +173,14 @@
       </ul>
     <div id="online" class="col s12">
     <div class="container center" style="padding-top: 20px;">
-	<button id="paynow" class="btn waves-effect waves-light center paynow" type="submit" name="action">Pay Now
+	<button id="paynow" class="btn waves-effect waves-light center" type="submit" name="action">Pay Now
 	<i class="material-icons right">payment</i>
 	</button>
     </div>
     </div>
     <div id="cod" class="col s12">
     	<div class="container center" style="padding-top: 20px;">
-	<button id="paycod" class="btn waves-effect waves-light center paynow" type="submit" name="action">Cash on Delivery
+	<button id="paycod" class="btn waves-effect waves-light center" type="submit" name="action">Cash on Delivery
 	<i class="material-icons right">attach_money</i>
 	</button>
 	</div>
@@ -236,12 +236,13 @@
 			type : "POST",
 			url : "{% url 'shopping:checkavailability' %}",
 			data : data,
-			beforeSend: function(){$('.paynow').addClass('disabled')},
+			beforeSend: function(){$('#paynow').addClass('disabled'); $('#paycod').addClass('disabled')},
 			dataType: 'json',
 			success : function(data){
 				if(data['type'] == 1)
 				{
 					$('#paynow').removeClass('disabled');
+					$('#paycod').removeClass('disabled');
 					$('#errormessage').html("");
 				}
 				else
