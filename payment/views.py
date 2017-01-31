@@ -57,46 +57,58 @@ def requestpayment(request) :
 	ids = data.get('id')
 	size = data.get('size')
 	quantity = data.get('quantity')
+	if data.get('address')[0] == "0" :
+		address = data.get('newaddress')[0]
+	else :
+		address = data.get('address')[0]
+	phone = data.get('phonenumber')[0]
+
 	a = data.get('grandtotal')
 	amount = max(list(a))
-	if request.user.user_information.phonenumber :
-		phone = request.user.user_information.phonenumber
-	else :
-		phone = "+919999999999"
+
 	if request.user.email != "" :
 		email = request.user.email
 	else :
 		email = "foo@example.com"
 	
-	print data
+	api = Instamojo(api_key=settings.API_KEY, auth_token=settings.AUTH_TOKEN, endpoint='https://test.instamojo.com/api/1.1/');
+	purpose = " | ".join(ids)
+	redirect_url = request.build_absolute_uri(reverse("payment:paymentredirect"))
+	webhook = request.build_absolute_uri(reverse("payment:webhook"))
+	response = api.payment_request_create(
+		amount=amount,
+		purpose=purpose,
+		buyer_name=get_user_name(request.user),
+		email=email,
+		phone=phone,
+		# redirect_url=redirect_url,
+		# webhook=webhook,
+		allow_repeated_payments=False,
+		send_email=True,
+		send_sms=True,
+		)
+	print response
+	if response.get('success') :
+		for i in range(len(ids)) :
+			instance = ProductDescription.objects.get(id=ids[i])
+			print instance.name
+			print size[i]
+			product = instance.prod.get(size=size[i])
+			product.stockcount = product.stockcount - int(quantity[i])
+			product.save()
+			OnlineBuyingCart.objects.get_or_create(
+				user=request.user,
+				product=instance,
+				size=size[i],
+				quantity=quantity[i],
+				address=address,
+				phonenumber=phone,
+				instamojo_request_id=response['payment_request']['id']
+				)
+	else :
+		return JsonResponse({'message' : response['message']})
 
-	# api = Instamojo(api_key=settings.API_KEY, auth_token=settings.AUTH_TOKEN, endpoint='https://test.instamojo.com/api/1.1/');
-	# purpose = " | ".join(ids)
-	# redirect_url = request.build_absolute_uri(reverse("payment:paymentredirect"))
-	# webhook = request.build_absolute_uri(reverse("payment:webhook"))
-	# response = api.payment_request_create(
-	# 	amount=amount,
-	# 	purpose=purpose,
-	# 	buyer_name=get_user_name(request.user),
-	# 	email=email,
-	# 	phone=phone,
-	# 	redirect_url=redirect_url,
-	# 	webhook=webhook,
-	# 	allow_repeated_payments=False,
-	# 	send_email=True,
-	# 	send_sms=True,
-	# 	)
-	for i in range(len(ids)) :
-		instance = ProductDescription.objects.get(id=ids[i])
-		OnlineBuyingCart.objects.create(
-			user=request.user,
-			product=instance,
-			size=size[i],
-			quantity=quantity[i],
-			instamojo_request_id=response['payment_request']['id']
-			)
-
-	return redirect(response['payment_request']['longurl']+"?embed=form")
+	# return redirect(response['payment_request']['longurl']+"?embed=form")
 
 
 @login_required

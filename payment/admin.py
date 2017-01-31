@@ -10,7 +10,7 @@ class OnlineTransactionDetailAdmin(admin.ModelAdmin) :
 
 
 class OnlineBuyingCartAdmin(admin.ModelAdmin) :
-	list_display = ["user","product","size","quantity","status","timestamp"]
+	list_display = ["user","product","size","quantity","address","phonenumber","status","timestamp"]
 	list_filter = ["timestamp","status","user","product"]
 	class Meta:
 		model = OnlineBuyingCart

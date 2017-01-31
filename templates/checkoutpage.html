@@ -75,7 +75,7 @@
 		</select>
 		</div>
 		{% else %}
-		<input readonly type="hidden" class="input-field col s8 offset-s2 black-text" value="N/A" name="size">
+		<input readonly type="hidden" class="input-field col s8 offset-s2 black-text" value="0" name="size">
 		<b>Not applicable</b>
 		{% endifnotequal %}
             </td>
@@ -143,7 +143,7 @@
 			<label for="userpreference">Add a new address for Delivery</label>
 			</p>
 			<div class="input-field col s12">
-			<input required="false" name="newaddress" id="newaddress" type="text" class="validate" >
+			<input name="newaddress" id="newaddress" type="text" class="validate" >
 			<label for="newaddress">Add Address</label>
 			</div>
 			</div>
@@ -173,14 +173,14 @@
       </ul>
     <div id="online" class="col s12">
     <div class="container center" style="padding-top: 20px;">
-	<button id="paynow" class="btn waves-effect waves-light center" type="submit" name="action">Pay Now
+	<button id="paynow" class="btn waves-effect waves-light center paynow" type="submit" name="action">Pay Now
 	<i class="material-icons right">payment</i>
 	</button>
     </div>
     </div>
     <div id="cod" class="col s12">
     	<div class="container center" style="padding-top: 20px;">
-	<button id="paycod" class="btn waves-effect waves-light center" type="submit" name="action">Cash on Delivery
+	<button id="paycod" class="btn waves-effect waves-light center paynow" type="submit" name="action">Cash on Delivery
 	<i class="material-icons right">attach_money</i>
 	</button>
 	</div>
@@ -196,16 +196,13 @@
 </div>
 <script type="text/javascript">
 	$('.addresscheckbox').on('change',function () {
-		console.log("changed")
 	if( $('#userpreference').is(":checked") )
 	{
 	$('#newaddress').prop('required',true);
-	console.log("added")
 	}
 	else 
 	{
 	$('#newaddress').prop('required',false);
-	console.log("removed")
 	}
 	
 	});
@@ -239,7 +236,7 @@
 			type : "POST",
 			url : "{% url 'shopping:checkavailability' %}",
 			data : data,
-			beforeSend: function(){$('#paynow').addClass('disabled')},
+			beforeSend: function(){$('.paynow').addClass('disabled')},
 			dataType: 'json',
 			success : function(data){
 				if(data['type'] == 1)

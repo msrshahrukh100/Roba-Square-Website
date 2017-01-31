@@ -32,6 +32,8 @@ class OnlineBuyingCart(models.Model) :
 	product = models.ForeignKey(ProductDescription, related_name="buying_cart")
 	size = models.CharField(max_length=5)
 	quantity = models.CharField(max_length=3)
+	address = models.CharField(max_length=150)
+	phonenumber = models.CharField(max_length=15)
 	instamojo_request_id = models.CharField(max_length=150) 
 	status = models.CharField(max_length=10, default="Pending")
 	timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
