@@ -1,9 +1,10 @@
 <!doctype html>
+{% load cfilters %}
 <html>
 <head>
     <meta charset="utf-8">
     <title>Robasquare Invoice</title>
-    
+
     <style>
     .invoice-box{
         max-width:800px;
@@ -76,19 +77,19 @@
 <body>
 
     <div class="invoice-box">
-        <table cellpadding="0" cellspacing="0">
-            <tr class="top">
-                <td colspan="2">
+        <table>
+            <tr >
+                <td colspan="4">
                     <table>
                         <tr>
-                            <td class="title">
-                                <!-- <img src="http://nextstepwebs.com/images/logo.png" style="width:100%; max-width:300px;"> -->
+                            <td>
+                            <h1 >Roba Square</h1>
+                            <p style="padding-top: -20px;">Tagline</p>
                             </td>
                             
                             <td>
-                                Invoice #: 123<br>
-                                Created: January 1, 2015<br>
-                                Due: February 1, 2015
+                                Invoice #: {{ cart.0.id }}<br>
+                                Created: {{ cart.0.timestamp }}
                             </td>
                         </tr>
                     </table>
@@ -96,19 +97,18 @@
             </tr>
             
             <tr class="information">
-                <td colspan="2">
+                <td colspan="4">
                     <table>
                         <tr>
                             <td>
-                                Next Step Webs, Inc.<br>
-                                12345 Sunny Road<br>
-                                Sunnyville, TX 12345
+                                {{ cart.0.address|linebreaks }}
                             </td>
                             
                             <td>
-                                Acme Corp.<br>
-                                John Doe<br>
-                                john@example.com
+                                {{ cart.0.user|getfullname }}<br>
+                                {{ cart.0.phonenumber }}
+                                <br>
+                                {{ cart.0.user.email }}
                             </td>
                         </tr>
                     </table>
@@ -116,23 +116,30 @@
             </tr>
             
             <tr class="heading">
-                <td>
+                <td colspan="2">
                     Payment Method
                 </td>
                 
-                <td>
-                    Check #
+                <td colspan="2">
+                    {{ cart.0.method_of_payment }}
                 </td>
             </tr>
             
           
             <tr class="heading">
                 <td>
-                    Item
+                    <u>Item</u>
                 </td>
-                
+
                 <td>
-                    Price(in rupees)
+                    <u>Size</u>
+                </td>
+                <td>
+                    <u>Quantity</u>
+                </td>
+
+                <td>
+                    <u>Price(in rupees)</u>
                 </td>
             </tr>
           {% for i in cart %}  
@@ -140,37 +147,26 @@
                 <td>
                     {{ i.product.name }}
                 </td>
+                <td>
+
+                {% ifnotequal i.size "0" %}{{ i.size }}{% else %}N/A{% endifnotequal %}
+                </td>
+                <td>
+                    {{ i.quantity }}
+                </td>
                 
                 <td>
                     {{ i.price }}
                 </td>
             </tr>
             {% endfor %}
-            <tr class="item">
-                <td>
-                    Hosting (3 months)
-                </td>
-                
-                <td>
-                    $75.00
-                </td>
-            </tr>
             
-            <tr class="item last">
-                <td>
-                    Domain name (1 year)
-                </td>
-                
-                <td>
-                    $10.00
-                </td>
-            </tr>
             
             <tr class="total">
-                <td></td>
+                <td></td><td></td><td></td>
                 
                 <td>
-                   Total: $385.00
+                   Total: <b>{{ total }} rupees</b>
                 </td>
             </tr>
         </table>

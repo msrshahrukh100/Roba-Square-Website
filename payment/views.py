@@ -54,6 +54,17 @@ def generateinvoice(request) :
 		# return render_to_pdf('invoice/invoice.html',{'pagesize':'A4','cart': cart})
 		return render_to_pdf_response(request,"invoice/invoice.html",context)
 
+	else :
+		cart = BuyingCart.objects.filter(instamojo_request_id=id)
+		total = 0
+		for i in cart :
+			total += int(i.price)
+		if cart.first().user != request.user :#or not (request.user.is_staff() or request.user.is_superuser()) :
+			raise Http404
+		context = {'cart':cart,'total':total}
+		# return render_to_pdf('invoice/invoice.html',{'pagesize':'A4','cart': cart})
+		return render_to_pdf_response(request,"invoice/invoice.html",context)
+
 
 	return JsonResponse({'sad':'asd'})
 
@@ -79,7 +90,7 @@ def requestpayment(request) :
 		email = request.user.email
 	else :
 		email = "foo@example.com"
-	print data
+
 	t = data.get('type')
 	if t[0] == "" :
 		paymenttype = "online"
@@ -106,7 +117,6 @@ def requestpayment(request) :
 				cod_unique_id=cod_unique_id
 				)
 		url = reverse("payment:generateinvoice")[:-1] + "?type=cod&id=" + str(cod_unique_id)
-		print url
 		context = {"type" : 1,"url":url}
 		return render(request,"paymentredirect.html",context)
 		
@@ -126,7 +136,7 @@ def requestpayment(request) :
 		send_email=True,
 		send_sms=True,
 		)
-	print response
+
 	if response.get('success') :
 		for i in range(len(ids)) :
 			instance = ProductDescription.objects.get(id=ids[i])
@@ -173,10 +183,14 @@ def paymentredirect(request):
 			for i in buyingcart :
 				i.status = "Done"
 				i.save()
+			context['type'] = 1
+			context['url'] = reverse("payment:generateinvoice")[:-1] + "?type=online&id=" + str(context['payment_request']['id'])
 		else :
 			context['fail'] = response.get('message')
+			context['type'] = 0
 	else :
 		context['fail'] = "Your transaction failed due to some technical issue like network error."
+		context['type'] = 0
 
 	return render(request,"paymentredirect.html",context)
 	

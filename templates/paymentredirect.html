@@ -25,9 +25,14 @@
 <h4 class="center"><p>Thank You for shopping with us.</p><p>Contact us in case of any query</p></h4>
 <p class="center"><a class="waves-effect waves-light btn" href = "{{ url }}" target="_blank"><i class="material-icons left">cloud</i>Download your Invoice</a>
 </p>
+
 	
 </div>
+ {% else %}
 
+<div class="container">
+	<h4 class="center">{{ fail }}</h4>
+</div>
 {% endif %}
 
 {% endblock %}
