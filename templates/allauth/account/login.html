@@ -7,70 +7,74 @@
 {% block head_title %}{% trans "Sign In" %}{% endblock %}
 
 {% block breadcumb %}
-
 <div class="col s12" style="padding-left:50px;">
-        <a href="/" class="breadcrumb">Home</a>
-        <a class="breadcrumb" >Login</a>
+  <a href="/" class="breadcrumb">Home</a>
+  <a class="breadcrumb" >Login</a>
 </div>
-
 {% endblock %}
 
 {% block content %}
 <div class="container">
-<h4>{% trans "Sign In" %}</h4>
+  <h4>{% trans "Sign In" %}</h4>
+  {% get_providers as socialaccount_providers %}
+  <div class="row">
+    <div class="col s12">
 
-{% get_providers as socialaccount_providers %}
-<div class="row">
-  <div class="col s12">
-
-  <form class="login" method="POST" action="{% url 'account_login' %}">
-  {% csrf_token %} 
+      <form class="login" method="POST" action="{% url 'account_login' %}">
+        {% csrf_token %} 
   {{ form|crispy }}
   
   {% if redirect_field_value %}
-  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-  {% endif %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+        {% endif %}
+        <br/>
 
-  <br/>
-  
-  <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a><br/>
-  
-  <button id="login_button" class="btn waves-effect waves-light primaryAction right" type="submit" name="action">Sign In
-    <i class="material-icons right">send</i>
-  </button>
-</form>
+        <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+        <br/>
 
+        <button id="login_button" class="btn waves-effect waves-light primaryAction right" type="submit" name="action">
+          Sign In <i class="material-icons right">send</i>
+        </button>
+      </form>
+
+    </div>
   </div>
-</div>
 
-<div class="row">
-  <div class="col s12">
-<div class="divider"></div>
-<p class="center">OR</p>
-<p class="center">Log in with you favourite social website.</p>
-{% if socialaccount_providers %}
+  <div class="row">
+    <div class="col s12">
+      <div class="divider"></div>
+      <p class="center">OR</p>
+      <p class="center">Log in with you favourite social website.</p>
+      {% if socialaccount_providers %}
 {% load socialaccount %}
 {% providers_media_js %}
-<div class="center">
-  
-<a href='{% provider_login_url "google" method="oauth2" %}' class="waves-effect red darken-1 waves-light btn center"><i class="fa fa-google-plus-official fa-2x left" aria-hidden="true"></i></i>Google</a>
+      <div class="center">
 
-<a href='{% provider_login_url "facebook" method="oauth2" %}' class="waves-effect blue darken-3 waves-light btn center"><i class="fa fa-facebook-official fa-2x left" aria-hidden="true"></i>Facebook</a>
+        <a href='{% provider_login_url "google" method="oauth2" %}' class="waves-effect red darken-1 waves-light btn center"> <i class="fa fa-google-plus-official fa-2x left" aria-hidden="true"></i></i> 
+        Google
+      </a>
 
-</div>
-
-
-{% else %}
-<p>{% blocktrans %}If you have not created an account yet, then please
-<a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
-{% endif %}
-    
+      <a href='{% provider_login_url "facebook" method="oauth2" %}' class="waves-effect blue darken-3 waves-light btn center">
+        <i class="fa fa-facebook-official fa-2x left" aria-hidden="true"></i>
+        Facebook
+      </a>
+    </div>
+    {% else %}
+    <p>
+      {% blocktrans %}If you have not created an account yet, then please
+      <a href="{{ signup_url }}">sign up</a>
+      first.{% endblocktrans %}
+    </p>
+    {% endif %}
   </div>
 </div>
 
-<p class="center">Don't have a Robasquare account?<a href="{{ signup_url }}"> Sign up</a>
- here.</p>
-
+<p class="center">
+  Don't have a Robasquare account?
+  <a href="{{ signup_url }}">Sign up</a>
+  here.
+</p>
+</div>
 <script type="text/javascript">
 $(function(){
     $("#id_login").removeAttr('placeholder');

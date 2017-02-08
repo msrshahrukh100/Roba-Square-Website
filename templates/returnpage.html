@@ -1,0 +1,26 @@
+{% extends "allauth/base.html" %}
+{% block breadcumb %}
+{% load thumbnail %}
+<div class="col s12" style="padding-left:50px;">
+        <a href="/" class="breadcrumb">Home</a>
+        <a class="breadcrumb">Return {{ item.product.name }}</a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+<div class="row" style="padding-top: 20px;">
+  <div class="col l6 s12 m12">
+    <img src="{{ item.product.get_image_url }}">
+  </div>
+  <div class="col l6 s12 m12">
+    <h3>{{ item.product.name }}</h3>
+    <form method="POST" action=".">
+      <input type="" name="reason">
+    </form>
+  </div>
+</div>
+
+</div>
+
+{% endblock %}

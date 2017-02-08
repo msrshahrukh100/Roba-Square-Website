@@ -1,0 +1,32 @@
+{% extends "allauth/base.html" %}
+{% block breadcumb %}
+{% load thumbnail %}
+<div class="col s12" style="padding-left:50px;">
+        <a href="/" class="breadcrumb">Home</a>
+        <a class="breadcrumb">My Orders</a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+<ul class="collection">
+{% for i in items %}
+    <li class="collection-item avatar">
+    {% thumbnail i.product.prod.all.0.productimages.all.0.image "64x64" as im %}
+            <img src="{{ im.url }}" alt="Contact Person" class="circle">
+              {% endthumbnail %}
+      <a href="{{ i.product.get_absolute_url }}"><b class="title">{{ i.product.name }}</b></a>
+      <p>Size: {% ifnotequal i.size "0" %}{{ i.size }}{% else %}N/A{% endifnotequal %} <br>
+         Quantity: {{ i.quantity }}<br>
+         Date: {{ i.timestamp }}<br>
+         Method of Payment: {{ i.method_of_payment }}<br>
+      </p>
+      <a href="{{ i.get_return_url }}" class="return-button secondary-content waves-effect waves-light btn">Return</a>
+    </li>
+    {% endfor %}
+    </ul>	
+
+</div>
+
+{% endblock %}

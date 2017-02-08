@@ -12,7 +12,18 @@
     <title>{% block head_title %}{% endblock %}</title>
     {% block extra_head %}
     {% endblock %}
+<style type="text/css">
+    body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+  }
 
+  main {
+    flex: 1 0 auto;
+  }
+
+</style>
 
   <script src="{% static 'js/jquery-1.12.3.js' %}"
   integrity="sha256-1XMpEtA4eKXNNpXcJ1pmMPs8JV+nwLdEqwiJeCQEkyc="
@@ -94,30 +105,22 @@
 
     </div>
   </nav>
-  
-    {% block body %}
+  <main>
+    
 
     
 
-    <div>
-<!--       <strong>Menu:</strong>
-      <ul>
-  {% if user.is_authenticated %}
-  <li class="transparent"><a class="waves-effect waves-light btn" href="{% url 'account_email' %}">Change E-mail</a></li>
-  <li class="transparent"><a class="waves-effect waves-light btn" href="{% url 'account_logout' %}">Sign Out</a></li>
-  <a class="waves-effect waves-light btn-large" href="#">Wave</a>
-  {% endif %} 
-      </ul>-->
-    </div>
     {% block content %}
     {% endblock %}
     
-    {% endblock %}
 
     {% block extra_body %}
     {% endblock %}
   
 
+  </main>
+
+  </body>
  <footer class="page-footer">
           <div class="container">
             <div class="row">
@@ -143,6 +146,4 @@
             </div>
           </div>
         </footer>
-
-  </body>
 </html>

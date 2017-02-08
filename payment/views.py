@@ -196,6 +196,13 @@ def paymentredirect(request):
 	
 
 
+
+@login_required
+def myorders(request) :
+	items = BuyingCart.objects.filter(user=request.user).order_by("-id")
+
+	context = {"items":items}
+	return render(request,"myorders.html",context)
 	
 
 @csrf_exempt
@@ -234,3 +241,12 @@ def webhook(request) :
 	return JsonResponse({'msg':'Entry added!'})
 
 
+@login_required
+def returns(request,id=None) :
+	if request.method == 'POST' :
+		pass
+
+	item = BuyingCart.objects.get(id=id)
+	context = {"item":item, "id":id}
+	return render(request, 'returnpage.html', context)
+	

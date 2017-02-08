@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from shopping.models import ProductDescription
+from django.core.urlresolvers import reverse
 # Create your models here.
 
 class OnlineTransactionsDetail(models.Model) :
@@ -40,10 +41,23 @@ class BuyingCart(models.Model) :
 	cod_unique_id = models.CharField(max_length=150,null=True,blank=True) 
 	status = models.CharField(max_length=10, default="Pending")
 	timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
-	invoice = models.FileField(blank=True,null=True)
 
 	def __unicode__(self):
 		return str(self.id)
+
+	def get_return_url(self) :
+		return reverse("payment:returns" , kwargs={"id":self.id})
+
+
+
+
+class Refunds(models.Model) :
+	refund_item = models.ForeignKey(BuyingCart,on_delete=models.CASCADE, related_name="refunds")
+	refund_amount_to_user = models.BooleanField(default=False)
+
+	def __unicode__(self) :
+		return str(self.id)
+
 	
 
 
