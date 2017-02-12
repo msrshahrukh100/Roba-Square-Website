@@ -2,6 +2,10 @@ from django.db import models
 from django.contrib.auth.models import User
 from shopping.models import ProductDescription
 from django.core.urlresolvers import reverse
+from django.db.models.signals import pre_save
+from django.conf import settings
+from django.http import Http404
+from instamojo_wrapper import Instamojo
 # Create your models here.
 
 class OnlineTransactionsDetail(models.Model) :
@@ -37,7 +41,8 @@ class BuyingCart(models.Model) :
 	address = models.CharField(max_length=150)
 	phonenumber = models.CharField(max_length=15)
 	method_of_payment = models.CharField(max_length=20)
-	instamojo_request_id = models.CharField(max_length=150,null=True,blank=True) 
+	instamojo_request_id = models.CharField(max_length=150,null=True,blank=True)
+	paymentid = models.CharField(max_length=150,null=True,blank=True)
 	cod_unique_id = models.CharField(max_length=150,null=True,blank=True) 
 	status = models.CharField(max_length=10, default="Pending")
 	timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
@@ -51,12 +56,58 @@ class BuyingCart(models.Model) :
 
 
 
-class Refunds(models.Model) :
+class Refund_requests(models.Model) :
 	refund_item = models.ForeignKey(BuyingCart,on_delete=models.CASCADE, related_name="refunds")
-	refund_amount_to_user = models.BooleanField(default=False)
+	reason = models.CharField(max_length=200)
+	refund_amount_to_user = models.BooleanField(default=False,help_text="Setting this field to true refunds the amount to the user.")
 
 	def __unicode__(self) :
 		return str(self.id)
+
+class RefundsHistory(models.Model) :
+	refundid = models.CharField(max_length=50)
+	payment_id = models.CharField(max_length=150)
+	status = models.CharField(max_length=20)
+	refundtype = models.CharField(max_length=5)
+	body = models.CharField(max_length=200)
+	refund_amount = models.CharField(max_length=50)
+	total_amount = models.CharField(max_length=50)
+	created_at = models.CharField(max_length=100)
+
+
+def refund_amount(sender, instance, **kwargs):
+	if instance.refund_amount_to_user :
+		if instance.refund_item.method_of_payment == "Online Payment" :
+			print "online pay"
+			try : 
+				api = Instamojo(api_key=settings.API_KEY, auth_token=settings.AUTH_TOKEN, endpoint='https://test.instamojo.com/api/1.1/')
+				api.refund_create(instance.refund_item.paymentid,"QFL",instance.reason,instance.refund_item.price)
+				x = api.refund_detail(instance.refund_item.paymentid)
+				if x.get('success') :
+					refundid = x['refund'].get('id')
+					payment_id = x['refund'].get('payment_id')
+					status = x['refund'].get('status')
+					refundtype = x['refund'].get('type')
+					body = x['refund'].get('body')
+					refund_amount = x['refund'].get('refund_amount')
+					total_amount = x['refund'].get('total_amount')
+					created_at = x['refund'].get('created_at')
+					RefundsHistory.objects.get_or_create(
+						refundid=refundid,
+						payment_id=payment_id,
+						status=status,
+						refundtype=refundtype,
+						body=body,
+						refund_amount=refund_amount,
+						total_amount=total_amount,
+						created_at=created_at)
+				else :
+					raise Http404
+			except :
+				raise Http404
+
+pre_save.connect(refund_amount, sender=Refund_requests)
+
 
 	
 

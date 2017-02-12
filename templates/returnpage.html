@@ -15,12 +15,27 @@
   </div>
   <div class="col l6 s12 m12">
     <h3>{{ item.product.name }}</h3>
-    <form method="POST" action=".">
-      <input type="" name="reason">
+    <form method="POST" action="" id="form">{% csrf_token %}
+        <div class="input-field col s12">
+          <input id="first_name" type="text" name="reason" class="validate" required>
+          <label for="first_name">Please tell us the reason for return</label>
+        </div>
+        <input type="hidden" name="id" value="{{ id }}">
+         <button class="btn waves-effect waves-light" type="submit" name="action">Return
+    <i class="material-icons right">send</i>
+  </button>
     </form>
   </div>
 </div>
 
 </div>
 
+<script type="text/javascript">
+  
+  $('#form').submit(function() {
+    confirm("Are you sure you want to return this product?")
+    return true; 
+});
+
+</script>
 {% endblock %}

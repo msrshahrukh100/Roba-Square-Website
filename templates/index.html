@@ -49,22 +49,23 @@
 {% endblock %}
 
 
-  <nav class="nav-extended">
+  <nav class="nav-extended transparent z-depth-0">
     <div class="nav-wrapper">
-      <a href="#" class="brand-logo center"><h3>Roba Square</h3></a>
+      <a href="#" class="brand-logo center black-text">
+<img class="responsive-img" height="100" width="200" src="{% static 'images/logo.png' %}"></a>
       
 
       <ul id="nav-mobile" class="right">
         <li>
-          <a href="{% url 'cart:viewcart' %}" class="waves-effect waves-light btn-large transparent z-depth-0"><i class="material-icons left">shopping_cart</i><span id="cartcount" style="margin-left:-15px;">{{ request.session.products|length }}</span></a>
+          <a href="{% url 'cart:viewcart' %}" class="waves-effect waves-light btn-large transparent z-depth-0 teal-text text-darken-3"><i class="material-icons left teal-text text-darken-3">shopping_cart</i><span id="cartcount" style="margin-left:-15px;">{{ request.session.products|length }}</span></a>
           
             
         </li>
         {% if user_display %}
         <li style="margin-left: -50px;">
-          <a onclick="readall()" class="waves-effect waves-light btn-large transparent z-depth-0 dropdown-button" data-activates='nl' data-beloworigin="true" data-constrainwidth="false"><i class="material-icons left">notifications</i>
+          <a onclick="readall()" class="waves-effect waves-light btn-large transparent z-depth-0 dropdown-button" data-activates='nl' data-beloworigin="true" data-constrainwidth="false"><i class="material-icons left teal-text text-darken-3">notifications</i>
           <span style="margin-left:-15px;">&nbsp
-            {% live_notify_badge  badge_id='notifications' classes='green-text' %}
+            {% live_notify_badge  badge_id='notifications' classes='teal-text text-darken-3' %}
           </span></a>
           
         </li>
@@ -78,7 +79,7 @@
         {% if user_display %}
         <li style="margin-left: -70px;">
           <a class='dropdown-button btn transparent z-depth-0' data-gutter="10px" data-beloworigin="true" href='#' data-activates='dropdown-user'>
-            <div class="chip transparent ">
+            <div class="chip transparent teal-text text-darken-3">
             {% if user.socialaccount_set.all.0 %}
                   <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" alt="Contact Person">
             {% else %}
@@ -93,12 +94,12 @@
               {{ user_display }}<br/>
             </div></a>
             <ul id='dropdown-user' class='dropdown-content'>
-              
-              <li><a href="{% url 'cart:viewwishlist' %}">My Wish List</a></li>
-              <li><a href="{% url 'social:myprofile' %}">My Profile</a></li>
-              <li><a href="{% url 'social:viewallusers' %}">Social</a></li>
-              <li><a href="{% url 'authentication:change_settings' %}">Settings</a></li>
-              <li><a href="{% url 'account_logout' %}">Logout</a></li>
+              <li><a href="{% url 'payment:myorders' %}" class="teal-text text-darken-3">My Orders</a></li>
+              <li><a href="{% url 'cart:viewwishlist' %}" class="teal-text text-darken-3">My Wish List</a></li>
+              <li><a href="{% url 'social:myprofile' %}" class="teal-text text-darken-3">My Profile</a></li>
+              <li><a href="{% url 'social:viewallusers' %}" class="teal-text text-darken-3">Social</a></li>
+              <li><a href="{% url 'authentication:change_settings' %}" class="teal-text text-darken-3">Settings</a></li>
+              <li><a href="{% url 'account_logout' %}" class="teal-text text-darken-3">Logout</a></li>
             </ul>
           </li>
 
@@ -111,14 +112,13 @@
        </ul>
 
 {% block browser %}
-       <div class="row">
+       <div class="row" style="padding-top: 100px;">
         <div class="col s12 center">
           <ul style="padding-top: 10px;">
           {% for c in categories %}
-          <a class="waves-effect waves-light dropdown-button1" data-constrainwidth="false" href="{{ c.get_absolute_url }}" data-activates='{{ c.id }}' data-beloworigin="true" >{{ c.category }}</a>
+          <a class="waves-effect waves-light dropdown-button1 teal-text text-darken-3" data-constrainwidth="false" href="{{ c.get_absolute_url }}" data-activates='{{ c.id }}' data-beloworigin="true" >{{ c.category }}</a>
           {% endfor %}
-          <a class="waves-effect waves-light dropdown-button1" href="{% url 'blog:list' %}" data-activates='{{ c.id }}'  >Blogs</a>
-            
+          <a class="waves-effect waves-light dropdown-button1 teal-text text-darken-3" href="{% url 'blog:list' %}" data-activates='{{ c.id }}'  >Blogs</a>  
           </ul>
         </div>
       </div>
@@ -128,7 +128,7 @@
 {% for c in categories %}
   <ul id='{{ c.id }}' class='dropdown-content' data-beloworigin="false">
   {% for p in c.get_products_to_show %}
-    <li><a href="{{ p.get_absolute_url }}">{{ p.name }}</a></li>
+    <li><a href="{{ p.get_absolute_url }}" class="teal-text text-darken-3">{{ p.name }}</a></li>
   {% endfor %}
   </ul>
 {% endfor %}
@@ -160,6 +160,7 @@
 
 {% block content %}
   
+
   <div class="slider">
    <ul class="slides">
     {% for image in slider %}
@@ -274,11 +275,12 @@
 </div>
 {% endblock %}
 
-    <footer class="page-footer">
+    <footer class="page-footer grey darken-3">
       <div class="container">
         <div class="row">
           <div class="col l6 s12">
-            <h5 class="white-text">Footer Content</h5>
+          <img class="responsive-img" height="100" width="200" src="{% static 'images/logo.png' %}">
+            <h5 class="orange-text text-lighten-3">Footer Content</h5>
             <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
           </div>
           <div class="col l4 offset-l2 s12">

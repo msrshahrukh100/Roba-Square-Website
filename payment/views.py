@@ -7,7 +7,7 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 from authentication.username import get_user_name
 from django.views.decorators.csrf import csrf_exempt
-from .models import OnlineTransactionsDetail, BuyingCart
+from .models import OnlineTransactionsDetail, BuyingCart, Refund_requests
 from django.contrib.auth.decorators import login_required
 from easy_pdf.rendering import render_to_pdf_response
 import uuid
@@ -130,8 +130,8 @@ def requestpayment(request) :
 		buyer_name=get_user_name(request.user),
 		email=email,
 		phone=phone,
-		redirect_url=redirect_url,
-		webhook=webhook,
+		# redirect_url=redirect_url,
+		# webhook=webhook,
 		allow_repeated_payments=False,
 		send_email=True,
 		send_sms=True,
@@ -182,6 +182,7 @@ def paymentredirect(request):
 			buyingcart = BuyingCart.objects.filter(instamojo_request_id=context['payment_request']['id'])
 			for i in buyingcart :
 				i.status = "Done"
+				i.paymentid = payment_id
 				i.save()
 			context['type'] = 1
 			context['url'] = reverse("payment:generateinvoice")[:-1] + "?type=online&id=" + str(context['payment_request']['id'])
@@ -244,7 +245,10 @@ def webhook(request) :
 @login_required
 def returns(request,id=None) :
 	if request.method == 'POST' :
-		pass
+		item = BuyingCart.objects.get(id=request.POST.get('id'))
+		reason = request.POST.get('reason')
+		Refund_requests.objects.get_or_create(refund_item=item,reason=reason)
+		return redirect("/")
 
 	item = BuyingCart.objects.get(id=id)
 	context = {"item":item, "id":id}
