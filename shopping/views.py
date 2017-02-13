@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import login_required
 from notifications.signals import notify
 from django.core.urlresolvers import reverse
 from random import randint
+from sorl.thumbnail import get_thumbnail
 # Create your views here.
 
 
@@ -118,7 +119,8 @@ def search(request) :
 	categoryitems = []
 	for i in categoryquery :
 		c = i.category
-		iu = i.image.url
+		im = get_thumbnail(i.image, '100x100')
+		iu = im.url
 		u = i.get_absolute_url()
 		temp = {'category':c,'url':u,'imageurl':iu}
 		categoryitems.append(temp)
@@ -127,7 +129,8 @@ def search(request) :
 	productitems = []
 	for i in productquery :
 		n = i.name
-		iu = i.get_image_url
+		im = get_thumbnail(i.prod.first().productimages.first().image, '100x100')
+		iu = im.url
 		u = i.get_absolute_url()
 		temp = {'name':n,'url':u,'imageurl':iu}
 		productitems.append(temp)
