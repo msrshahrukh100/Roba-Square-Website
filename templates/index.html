@@ -7,7 +7,7 @@
 {% user_display user as user_display %}
 <html>
 <head>
-	<title>{% block title %}Tijarah{% endblock %}</title>
+	<title>{% block title %}Roba Square{% endblock %}</title>
 
   <meta charset="UTF-8">
 <!--   <meta name="description" content="">
@@ -48,8 +48,37 @@
 <!-- for the fb plugin -->
 {% endblock %}
 
+ <nav class="nav-extended transparent z-depth-0 hide-on-large-only">
+    <div class="nav-wrapper">
+      <a class="brand-logo"><img class="responsive-img" height="50" width="100" src="{% static 'images/logo.png' %}"></a>
+      <a href="#" data-activates="mobile-demo" class="button-collapse teal-text text-darken-3"><i class="material-icons">menu</i></a>
+      <ul class="side-nav" id="mobile-demo">
+        {% if user_display %}
+        {% if user.socialaccount_set.all.0 %}
+                  <li><div class="chip transparent teal-text text-darken-3"><img class='circle' height="50" width="50" src="{{ user.socialaccount_set.all.0.get_avatar_url }}" alt="Contact Person"></div>{{ user_display }}<br/></li>
+            {% else %}
+            {% thumbnail user.user_information.change_profile_pic "50x50" as im %}
+            <li><a href=""><div class="chip transparent teal-text text-darken-3"><img class="circle" src="{{ im.url }}" alt="Contact Person">{{ user_display }}
+            <br/></div></a></li>
+              {% endthumbnail %}
+            {% endif %}
+            <li><a href="{% url 'payment:myorders' %}" class="teal-text text-darken-3"><i class="material-icons teal-text text-darken-3 left">shopping_basket</i>My Orders</a></li>
+              <li><a href="{% url 'cart:viewwishlist' %}" class="teal-text text-darken-3"><i class="material-icons teal-text text-darken-3 left">loyalty</i>My Wish List</a></li>
+              <li><a href="{% url 'social:myprofile' %}" class="teal-text text-darken-3"><i class="material-icons teal-text text-darken-3 left">person</i>My Profile</a></li>
+              <li><a href="{% url 'social:viewallusers' %}" class="teal-text text-darken-3"><i class="material-icons teal-text text-darken-3 left">people</i>Social</a></li>
+              <li><a href="{% url 'authentication:change_settings' %}" class="teal-text text-darken-3"><i class="material-icons teal-text text-darken-3 left">settings</i>Settings</a></li>
+              <li><a href="{% url 'account_logout' %}" class="teal-text text-darken-3"><i class="material-icons teal-text text-darken-3 left">power_settings_new</i>Logout</a></li>
+        {% else %}
+        <li>
+           <a href = "{% url 'account_login' %}" class="waves-effect waves-light btn"><i class="material-icons teal-text text-darken-3">menu</i>Login or Signup</a>
+         </li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+        
 
-  <nav class="nav-extended transparent z-depth-0">
+  <nav class="nav-extended transparent z-depth-0 hide-on-med-and-down">
     <div class="nav-wrapper">
       <a href="#" class="brand-logo center black-text">
 <img class="responsive-img" height="100" width="200" src="{% static 'images/logo.png' %}"></a>
@@ -94,12 +123,12 @@
               {{ user_display }}<br/>
             </div></a>
             <ul id='dropdown-user' class='dropdown-content'>
-              <li><a href="{% url 'payment:myorders' %}" class="teal-text text-darken-3">My Orders</a></li>
-              <li><a href="{% url 'cart:viewwishlist' %}" class="teal-text text-darken-3">My Wish List</a></li>
-              <li><a href="{% url 'social:myprofile' %}" class="teal-text text-darken-3">My Profile</a></li>
-              <li><a href="{% url 'social:viewallusers' %}" class="teal-text text-darken-3">Social</a></li>
-              <li><a href="{% url 'authentication:change_settings' %}" class="teal-text text-darken-3">Settings</a></li>
-              <li><a href="{% url 'account_logout' %}" class="teal-text text-darken-3">Logout</a></li>
+              <li><a href="{% url 'payment:myorders' %}" class="teal-text text-darken-3"><i class="material-icons left">shopping_basket</i>My Orders</a></li>
+              <li><a href="{% url 'cart:viewwishlist' %}" class="teal-text text-darken-3"><i class="material-icons left">loyalty</i>My Wish List</a></li>
+              <li><a href="{% url 'social:myprofile' %}" class="teal-text text-darken-3"><i class="material-icons left">person</i>My Profile</a></li>
+              <li><a href="{% url 'social:viewallusers' %}" class="teal-text text-darken-3"><i class="material-icons left">people</i>Social</a></li>
+              <li><a href="{% url 'authentication:change_settings' %}" class="teal-text text-darken-3"><i class="material-icons left">settings</i>Settings</a></li>
+              <li><a href="{% url 'account_logout' %}" class="teal-text text-darken-3"><i class="material-icons left">power_settings_new</i>Logout</a></li>
             </ul>
           </li>
 

@@ -21,6 +21,9 @@
           <label for="first_name">Please tell us the reason for return</label>
         </div>
         <input type="hidden" name="id" value="{{ id }}">
+        <div class="chip">
+    We will collect the product within 7 days of making a request for return.
+  </div>
          <button class="btn waves-effect waves-light" type="submit" name="action">Return
     <i class="material-icons right">send</i>
   </button>
@@ -30,12 +33,4 @@
 
 </div>
 
-<script type="text/javascript">
-  
-  $('#form').submit(function() {
-    confirm("Are you sure you want to return this product?")
-    return true; 
-});
-
-</script>
 {% endblock %}

@@ -247,7 +247,7 @@ def returns(request,id=None) :
 	if request.method == 'POST' :
 		item = BuyingCart.objects.get(id=request.POST.get('id'))
 		reason = request.POST.get('reason')
-		Refund_requests.objects.get_or_create(refund_item=item,reason=reason)
+		Refund_requests.objects.get_or_create(user=request.user,refund_item=item,reason=reason)
 		return redirect("/")
 
 	item = BuyingCart.objects.get(id=id)

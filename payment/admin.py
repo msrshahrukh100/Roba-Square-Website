@@ -1,6 +1,6 @@
 from django.contrib import admin
 import nested_admin
-from .models import OnlineTransactionsDetail,BuyingCart, Refund_requests
+from .models import OnlineTransactionsDetail,BuyingCart, Refund_requests, RefundsHistory
 # Register your models here.
 
 class OnlineTransactionDetailAdmin(admin.ModelAdmin) :
@@ -34,7 +34,10 @@ class ReturnsAdmin(admin.ModelAdmin) :
 	def method(self,obj) :
 		return obj.refund_item.method_of_payment
 
-	# inlines = [ReturnsInline]
+
+class RefundHistoryAdmin(admin.ModelAdmin) :
+	list_display = ['user','status','body','refund_amount','total_amount','created_at']
+admin.site.register(RefundsHistory,RefundHistoryAdmin)
 
 admin.site.register(Refund_requests, ReturnsAdmin)
 

@@ -57,14 +57,16 @@ class BuyingCart(models.Model) :
 
 
 class Refund_requests(models.Model) :
+	user = models.ForeignKey(User,on_delete=models.CASCADE,related_name='refundrequest')
 	refund_item = models.ForeignKey(BuyingCart,on_delete=models.CASCADE, related_name="refunds")
 	reason = models.CharField(max_length=200)
-	refund_amount_to_user = models.BooleanField(default=False,help_text="Setting this field to true refunds the amount to the user.")
+	refund_amount_to_user = models.BooleanField(default=False,help_text="Setting this field to true refunds the amount to the user's account.Set it to true only after you receive the products")
 
 	def __unicode__(self) :
 		return str(self.id)
 
 class RefundsHistory(models.Model) :
+	user = models.ForeignKey(User,on_delete=models.CASCADE,related_name='refundhistory')
 	refundid = models.CharField(max_length=50)
 	payment_id = models.CharField(max_length=150)
 	status = models.CharField(max_length=20)
@@ -93,6 +95,7 @@ def refund_amount(sender, instance, **kwargs):
 					total_amount = x['refund'].get('total_amount')
 					created_at = x['refund'].get('created_at')
 					RefundsHistory.objects.get_or_create(
+						user=instance.user,
 						refundid=refundid,
 						payment_id=payment_id,
 						status=status,

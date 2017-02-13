@@ -44,7 +44,9 @@
 
   <nav>
     <div class="nav-wrapper">
-   
+   <a href="#" class="brand-logo center black-text">
+<img class="responsive-img" height="70" width="150" src="{% static 'images/logo.png' %}"></a>
+
       <ul id="nav-mobile" class="right">
         <li>
           <a href="{% url 'cart:viewcart' %}" class="waves-effect waves-light btn-large transparent z-depth-0"><i class="material-icons left">shopping_cart</i><span id="cartcount" style="margin-left:-15px;">{{ request.session.products|length }}</span></a>
@@ -81,12 +83,12 @@
               {{ request.user|getfullname }}<br/>
             </div></a>
             <ul id='dropdown-user' class='dropdown-content'>
-              <li><a href="{% url 'payment:myorders' %}" class="teal-text text-darken-3">My Orders</a></li>
-              <li><a href="{% url 'cart:viewwishlist' %}">Wish List</a></li>
-              <li><a href="{% url 'social:myprofile' %}">My Profile</a></li>
-              <li><a href="{% url 'social:viewallusers' %}">Social</a></li>
-              <li><a href="{% url 'authentication:change_settings' %}">Settings</a></li>
-              <li><a href="{% url 'account_logout' %}">Logout</a></li>
+              <li><a href="{% url 'payment:myorders' %}" class="teal-text text-darken-3"><i class="material-icons left">shopping_basket</i>My Orders</a></li>
+              <li><a href="{% url 'cart:viewwishlist' %}" class="teal-text text-darken-3"><i class="material-icons left">loyalty</i>My Wish List</a></li>
+              <li><a href="{% url 'social:myprofile' %}" class="teal-text text-darken-3"><i class="material-icons left">person</i>My Profile</a></li>
+              <li><a href="{% url 'social:viewallusers' %}" class="teal-text text-darken-3"><i class="material-icons left">people</i>Social</a></li>
+              <li><a href="{% url 'authentication:change_settings' %}" class="teal-text text-darken-3"><i class="material-icons left">settings</i>Settings</a></li>
+              <li><a href="{% url 'account_logout' %}" class="teal-text text-darken-3"><i class="material-icons left">power_settings_new</i>Logout</a></li>
             </ul>
           </li>
 
