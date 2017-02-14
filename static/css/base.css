@@ -12,3 +12,10 @@
 	text-transform: none;	
 }
 
+.breadcrumb:before {
+    color: #00796b ;
+}
+
+.breadcrumb, .breadcrumb:last-child {
+   color: #00695c;
+}
