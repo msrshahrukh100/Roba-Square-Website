@@ -19,7 +19,7 @@ $(function(){
       $('.parallax').parallax();
       $('ul.tabs').tabs();
       $('.modal').modal();
-
+      $(".button-collapse").sideNav();
 
      $('.dropdown-button1').dropdown({
       inDuration: 300,
