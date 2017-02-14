@@ -12,15 +12,7 @@ $(function(){
     $('.scrollspy').scrollSpy();
         
       // $('.slider').slider();
-      $('.slider').slider({
-        height:500
-      });
-
-      $('.parallax').parallax();
-      $('ul.tabs').tabs();
-      $('.modal').modal();
-      $(".button-collapse").sideNav();
-
+      
      $('.dropdown-button1').dropdown({
       inDuration: 300,
       outDuration: 225,
@@ -78,6 +70,14 @@ $(function(){
     });
  });
 
+$('.slider').slider({
+        height:500
+      });
+
+      $('.parallax').parallax();
+      $('ul.tabs').tabs();
+      $('.modal').modal();
+      $(".button-collapse").sideNav();
 
 
 });
