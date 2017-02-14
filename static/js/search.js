@@ -5,7 +5,7 @@ $(function(){
 		$('.dropdown-content.autocomplete-content').html("")
 
 		var query = $('.autocomplete').val()
-		console.log(query)
+		
 		if (query != ""){
 
 		var data = {'query':query}

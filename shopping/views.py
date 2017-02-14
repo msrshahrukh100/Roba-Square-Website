@@ -129,7 +129,8 @@ def search(request) :
 	productitems = []
 	for i in productquery :
 		n = i.name
-		im = get_thumbnail(i.prod.first().productimages.first().image, '100x100')
+		img = i.prod.first().productimages.first().image
+		im = get_thumbnail(img, '100x100')
 		iu = im.url
 		u = i.get_absolute_url()
 		temp = {'name':n,'url':u,'imageurl':iu}
