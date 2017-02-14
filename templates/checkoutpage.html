@@ -20,9 +20,8 @@
 </style>
 
 <div class="container">
-	<div class="row">
+	<div class="row" style="padding-top: 40px;">
 		<div class="col s12">
-			<h4 class="center">Checkout</h4>
 <form method="POST" action="{% url 'payment:requestpayment' %}">{% csrf_token %}
 	<table class="highlight centered responsive-table">
         <thead>
