@@ -25,16 +25,11 @@
 
 </style>
 
-  <script src="{% static 'js/jquery-1.12.3.js' %}"
-  integrity="sha256-1XMpEtA4eKXNNpXcJ1pmMPs8JV+nwLdEqwiJeCQEkyc="
-  crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{% static 'css/materialize.min.css' %}">
-  <script src="{% static 'js/materialize.min.js' %}"></script>
-    <script src="https://use.fontawesome.com/6dc1b79a56.js"></script>
-
   <link href="{% static 'css/icons.css' %}" rel="stylesheet">
   <link href="{% static 'css/base.css' %}" rel="stylesheet">
-  <script src="{% static 'js/main.js' %}"></script>
+  
+
   <script src="{% static 'js/notif.js' %}"></script>
   <script src="{% static 'notifications/notify.js' %}" type="text/javascript"></script>
   {% register_notify_callbacks refresh_period=50 badge_id='notifications' callbacks='fill_notification_badge,my_notification_callback' %}
@@ -152,7 +147,6 @@
 
   </main>
 
-  </body>
  <footer class="page-footer">
           <div class="container">
             <div class="row">
@@ -178,4 +172,12 @@
             </div>
           </div>
         </footer>
+
+              <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="{% static 'js/materialize.min.js' %}"></script>
+
+  <script src="{% static 'js/main.js' %}"></script>
+    <script src="https://use.fontawesome.com/6dc1b79a56.js"></script>
+
+  </body>
 </html>
