@@ -62,6 +62,7 @@
             <br/></div></li><hr>
               {% endthumbnail %}
             {% endif %}
+            <li><a href="{% url 'cart:viewcart' %}" class="teal-text text-darken-3"><i class="material-icons teal-text text-darken-3 left">shopping_cart</i><span class="right cartcount">{{ request.session.products|length }}</span> My Cart</a></li>
             <li><a href="{% url 'payment:myorders' %}" class="teal-text text-darken-3"><i class="material-icons teal-text text-darken-3 left">shopping_basket</i>My Orders</a></li>
               <li><a href="{% url 'cart:viewwishlist' %}" class="teal-text text-darken-3"><i class="material-icons teal-text text-darken-3 left">loyalty</i>My Wish List</a></li>
               <li><a href="{% url 'social:myprofile' %}" class="teal-text text-darken-3"><i class="material-icons teal-text text-darken-3 left">person</i>My Profile</a></li>

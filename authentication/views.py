@@ -41,13 +41,13 @@ def change_settings(request) :
 		# print userinfoform.is_valid()
 		if userinfoform.is_valid():
 			formdata = userinfoform.cleaned_data
-			if userinfo : 
-				UserInformation.objects.update(
-					date_of_birth=formdata['date_of_birth'],
-					phonenumber=formdata['phonenumber'],
-					profession=formdata['profession'],
-					name_of_institute=formdata['name_of_institute']
-				 	)
+			print formdata['profession']
+			if userinfo :
+				userinfo.date_of_birth=formdata['date_of_birth']
+				userinfo.phonenumber=formdata['phonenumber']
+				userinfo.profession=formdata['profession']
+				userinfo.name_of_institute=formdata['name_of_institute']
+				userinfo.save()
 			else :
 				instance = UserInformation(					
 					user=user,

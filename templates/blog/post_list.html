@@ -1,7 +1,5 @@
 {% extends "allauth/base.html" %}
-{% block content %}
 {% load cfilters %}
-
 {% block breadcumb %}
 
 <div class="col s12" style="padding-left:50px;">
@@ -9,7 +7,9 @@
         <a class="breadcrumb" >Blogs</a>
 </div>
 {% endblock %}
- <div class="slider blog" style="margin-top: -37px; ">
+
+{% block content %}
+ <div class="slider blog" style="margin-top: 37px; ">
    <ul class="slides" >
     {% for image in images %}
     <li>

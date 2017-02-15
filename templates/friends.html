@@ -20,7 +20,9 @@
     <div class="input-field col l6 s12 offset-l3">
       <i class="material-icons prefix">search</i>
       <label for="icon_prefix" class="center">Find Friends</label>
-      <input id="icon_prefix" type="text"  class="validate">
+      <input id="icon_prefix" type="text"  class="autocomplete searchfriends">
+      <ul class="autocomplete-content dropdown-content people-dropdown">
+    </ul>
     </div>
   </div>
 {% endblock %}
@@ -48,10 +50,11 @@
               <span class="card-title"></span>
             </div>
             <div class="card-content">
+            <a href="{% url 'social:viewuser' slug=user.user_information.slug %}">{{ user|getfullname }}</a>
             {% if user.user_information.profession and user.user_information.name_of_institute %}
               <p>{{ user.user_information.profession }} at {{ user.user_information.name_of_institute }}</p>
               {% endif %}
-              <a href="{% url 'social:viewuser' slug=user.user_information.slug %}">{{ user|getfullname }}</a>
+              
             </div>
             <div class="card-action" id="arc">
 
@@ -67,6 +70,32 @@
           </div>
         </div>
         {% endfor %}
+</div>
+
+<div class="row">
+  <div class="container">
+    <ul class="pagination center">
+  {% if users.has_previous %}
+            <li class="waves-effect"><a href="?{{ page_request_var }}={{ users.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"><i class="material-icons">chevron_left</i></a></li>
+      {% else %}
+    <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+  {% endif %}
+  {% for i in nopages %}
+  {% if i == users.number %}
+    <li class="active"><a href="#!">{{ i }}</a></li>
+    {% else %}
+    <li class="waves-effect"><a href="?{{ page_request_var }}={{ i }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ i }}</a></li>
+    {% endif %}
+    {% endfor %}
+
+    {% if users.has_next %}
+    <li class="waves-effect"><a href="?{{ page_request_var }}={{ users.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"><i class="material-icons">chevron_right</i></a></li>
+    {% else %}
+    <li class="disabled"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+        {% endif %}
+  </ul>
+
+  </div>
 </div>
 
 {% endblock %}

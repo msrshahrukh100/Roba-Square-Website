@@ -1,6 +1,6 @@
 from django.conf.urls import include, url
 from django.contrib import admin
-from .views import (viewallusers, addconnection, removeconnection, myprofile, viewuser, readallnotifications, likedislike)
+from .views import (viewallusers, addconnection, removeconnection, myprofile, viewuser, readallnotifications, likedislike,search)
 
 urlpatterns = [
 
@@ -11,6 +11,6 @@ urlpatterns = [
     url(r'^viewuser/(?P<slug>[\w-]+)$', viewuser, name='viewuser'),
     url(r'^readallnotifications/$', readallnotifications, name='readallnotifications'),
     url(r'^likedislike/(?P<id>\d+)$', likedislike, name='likedislike'),
-
+    url(r'^search/',search,name='search'),
     
 ]

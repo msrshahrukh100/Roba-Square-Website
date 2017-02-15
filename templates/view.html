@@ -225,7 +225,7 @@
 
 
      <div class="row">
-        <div class="col l6 s6 m6">
+        <div class="col l6 s12 m6">
 
           <div class="card z-depth-0" style="height: 500px;">
             <div class="card-image">
@@ -260,26 +260,29 @@
             <div class="card-action hide-on-med-and-down">
               <a data-href='{{ detailp.get_add_to_cart_url }}' class='addtocart waves-effect waves-light btn'><i class="material-icons left">add_shopping_cart</i>Add to cart</a>
 
+              {% if detailp.stockcount %}
+          {% else %}
               {% if request.user %}
               <a data-href='{{ detailp.get_add_to_wishlist_url }}' class='addtocart waves-effect waves-light btn'><i class="material-icons left">redeem</i>Add to wishlist</a>
+              {% endif %}
               {% endif %}
             </div>
             <div class="card-action hide-on-large-only">
               <a data-href='{{ detailp.get_add_to_cart_url }}' class='addtocart waves-effect waves-light btn'><i class="material-icons left">add_shopping_cart</i></a>
 
+              {% if detailp.stockcount %}
+          {% else %}
               {% if request.user %}
               <a data-href='{{ detailp.get_add_to_wishlist_url }}' class='addtocart waves-effect waves-light btn'><i class="material-icons left">redeem</i></a>
               {% endif %}
+              {% endif %}
             </div>
           </div>
-
-
-          
-
         </div>
 
-      <div class="col l5 s6 m5">
+      <div class="col l6 s12 m6">
         <div class="card-panel white card z-depth-0">
+<div class="hide-on-med-and-up" style="padding-top: 100px;"></div>
           <div class="row">
         <h3 class="center">
           {{ detailp.name }}
@@ -488,19 +491,22 @@
 <h5 class="center">Recently viewed products</h5 >
       <div class="row">
       {% for p in recentlyviewed %}
-          <div class="col l3 s2 m3">
+          <div class="col l3 s6 m6">
           <div class="card z-depth-0">
             <div class="card-image">
               <img src="{{ p.product.get_image_url }}">
             </div>
             <div class="card-action">
-            {{ p.product.name }}
-              <a href="#">This is a link</a>
+            
+              <a href="{{ p.product.get_absolute_url }}" class="black-text" style="text-transform: none;">{{ p.product.name }}</a>
+              <br>
               <a data-href='{{ p.product.get_add_to_cart_url }}' class='addtocart'>Add to cart</a>
 
+              {% if p.product.stockcount %}
+          {% else %}
               {% if request.user %}
               <a data-href='{{ p.product.get_add_to_wishlist_url }}' class='addtocart'>Add to wishlist</a>
-              {{ p.product.get_add_to_wishlist_url }}
+              {% endif %}
               {% endif %}
             </div>
           </div>

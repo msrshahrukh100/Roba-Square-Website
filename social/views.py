@@ -8,6 +8,12 @@ from shopping.models import ProductDescription
 from notifications.signals import notify
 from authentication.username import get_user_name
 from django.views.decorators.cache import never_cache
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import Q
+from sorl.thumbnail import get_thumbnail
+from authentication.username import get_user_name
+from django.views.decorators.csrf import csrf_exempt
+
 
 # Create your views here.
 @never_cache
@@ -15,10 +21,24 @@ from django.views.decorators.cache import never_cache
 def viewallusers(request) :
 	user = request.user
 	# .filter(is_superuser=False).filter(is_staff=False)
-	users = User.objects.order_by('-id')
+	users = User.objects.order_by('?')
+
+	paginator = Paginator(users, 24) 
+	nopages = paginator.num_pages
+	page_request_var = "people"
+	page = request.GET.get(page_request_var)
+	try:
+		queryset = paginator.page(page)
+	except PageNotAnInteger:
+		# If page is not an integer, deliver first page.
+		queryset = paginator.page(1)
+	except EmptyPage:
+		# If page is out of range (e.g. 9999), deliver last page of results.
+		queryset = paginator.page(paginator.num_pages)
+
 	ids = Connections.objects.values_list('following').filter(user=user)
 	connections = User.objects.filter(id__in=ids)
-	context = {'users':users,'connections':connections}
+	context = {'users':queryset,'connections':connections,'page_request_var':page_request_var,"nopages" : [i for i in range(1,nopages+1)],}
 	return render(request,'friends.html',context)
 
 @login_required
@@ -110,6 +130,36 @@ def likedislike(request, id=None) :
 		return JsonResponse({'msg':'You liked this product'})
 	l.delete()
 	return JsonResponse({'msg':'You unliked this product'})
+
+
+
+@csrf_exempt
+def search(request) :
+	query = request.POST.get('query')
+	peoplequery = User.objects.filter(
+		Q(first_name__icontains=query)|
+		Q(last_name__icontains=query)|
+		Q(email__icontains=query)
+		)[:2]
+	
+	searchusers = []
+	for i in peoplequery :
+		if i.socialaccount_set.all().first() :
+			iu = i.socialaccount_set.all().first().get_avatar_url()
+		else :
+			iu = get_thumbnail(i.user_information.change_profile_pic, '100x100').url
+		name = get_user_name(i)
+		if  i.user_information.profession != "" and i.user_information.name_of_institute != "" :
+			about = i.user_information.profession + " at " +i.user_information.name_of_institute
+		else :
+			about = ""
+		url = i.user_information.get_absolute_url()
+		temp = {'name':name,'imageurl':iu,'about':about,'url':url}
+		searchusers.append(temp)
+		 
+	return JsonResponse({'searchusers':searchusers})
+
+
 
 
 
