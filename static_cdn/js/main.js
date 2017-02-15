@@ -45,7 +45,9 @@ $(function(){
       Materialize.toast(data['msg'], 4000)
       $(this).toggleClass('green')
       if (data['count']) {
-      $('#cartcount').text(data['count'])
+
+      $('#cartcount').html(data['count']);
+
       } 
     }
 
