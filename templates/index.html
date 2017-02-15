@@ -5,6 +5,7 @@
 {% load notifications_tags %}
 {% load thumbnail %}
 {% user_display user as user_display %}
+{% notifications_unread as unread_count %}
 <html>
 <head>
 	<title>{% block title %}Roba Square{% endblock %}</title>
@@ -63,6 +64,7 @@
               {% endthumbnail %}
             {% endif %}
             <li><a href="{% url 'cart:viewcart' %}" class="teal-text text-darken-3"><i class="material-icons teal-text text-darken-3 left">shopping_cart</i><span class="right cartcount">{{ request.session.products|length }}</span> My Cart</a></li>
+            <li><a href="{% url 'social:myprofile' %}" class="teal-text text-darken-3"><i class="material-icons teal-text text-darken-3 left">notifications</i><span class="right cartcount">{{ unread_count }}</span>Notifications</a></li>
             <li><a href="{% url 'payment:myorders' %}" class="teal-text text-darken-3"><i class="material-icons teal-text text-darken-3 left">shopping_basket</i>My Orders</a></li>
               <li><a href="{% url 'cart:viewwishlist' %}" class="teal-text text-darken-3"><i class="material-icons teal-text text-darken-3 left">loyalty</i>My Wish List</a></li>
               <li><a href="{% url 'social:myprofile' %}" class="teal-text text-darken-3"><i class="material-icons teal-text text-darken-3 left">person</i>My Profile</a></li>
@@ -73,6 +75,8 @@
         <li>
            <a href = "{% url 'account_login' %}" class="waves-effect waves-light btn"><i class="material-icons teal-text text-darken-3">menu</i>Login or Signup</a>
          </li>
+         <li><a href="{% url 'cart:viewcart' %}" class="teal-text text-darken-3"><i class="material-icons teal-text text-darken-3 left">shopping_cart</i><span class="right cartcount">{{ request.session.products|length }}</span> My Cart</a></li>
+
         {% endif %}
       </ul>
     </div>
@@ -305,36 +309,71 @@
 </div>
 {% endblock %}
 
-    <footer class="page-footer  teal darken-4 white-text">
+    <footer class="page-footer  teal darken-2 white-text">
+      <div class="row teal darken-3" style="margin-top: -20px;">
       <div class="container">
+        
+        <div class="col l6 s12">
         <div class="row">
-          <div class="col l6 s12">
-            <h5>Roba Square</h5>
-            <p class="grey-text text-lighten-4">Legacy gets you going.</p>
-            <i style="padding-left: 10px;" class="fa fa-instagram fa-2x black-text" aria-hidden="true"></i>
-            <i style="padding-left: 10px;" class="fa fa-facebook fa-2x black-text" aria-hidden="true"></i>
-            <i style="padding-left: 10px;" class="fa fa-google fa-2x black-text" aria-hidden="true"></i>
-            <i style="padding-left: 10px;" class="fa fa-twitter fa-2x black-text" aria-hidden="true"></i>
+          <div class="col s6">
+          <img class="responsive-img" height="70" width="120" src="{% static 'images/logotransparent.png' %}">
           </div>
-          <div class="col l4 offset-l2 s12">
-            <h5 class="white-text">Links</h5>
+          <div class="col s6 black-text" style="padding-top: 50px; margin-left: -100px;">
+          Legacy gets you going.
+          </div>
+        </div>
+        </div>
+        <div class="col l6 s12">
+        <div class="hide-on-med-and-down" style="padding-top: 40px;"></div>
+            <i style="padding-left: 10px;" class="fa fa-instagram fa-2x black-text right" aria-hidden="true"></i>
+            <i style="padding-left: 10px;" class="fa fa-twitter fa-2x black-text right" aria-hidden="true"></i>
+            <i style="padding-left: 10px;" class="fa fa-youtube fa-2x black-text right" aria-hidden="true"></i>
+            <i style="padding-left: 10px;" class="fa fa-google fa-2x black-text right" aria-hidden="true"></i>
+            <i style="padding-left: 10px;" class="fa fa-facebook fa-2x black-text right" aria-hidden="true"></i>
+        </div>
+      </div>
+      </div>
+
+      <div class="row black-text">
+      <div class="container">
+          <div class="col l4">
+            <b>Robasquare</b>
             <ul>
-              <li><a class="grey-text text-lighten-3" href="#!">Terms and Conditions</a></li>
-              <li><a class="grey-text text-lighten-3" href="#!">Privacy Policy</a></li>
-              <li><a class="grey-text text-lighten-3" href="#!">Contact Us</a></li>
-              
+              <li><i class="fa fa-users fa-1x black-text left" aria-hidden="true"></i>About Us</li>
+              <li><i class="fa fa-rss fa-1x black-text left" aria-hidden="true"></i>Blogs</li>
+              <li><i class="fa fa-list fa-1x black-text left" aria-hidden="true"></i>Community Guidelines</li>
             </ul>
-            {% block facebookpage %}
-              <li><a class="grey-text text-lighten-3" href="#!">Help</a></li>
-            <div class="fb-page" data-href="https://www.facebook.com/facebook" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/facebook" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/facebook">Facebook</a></blockquote></div>
+          </div>
+          <div class="col l4">
+            <b>Customer Service</b>
+            <ul>
+              <li><i class="fa fa-undo fa-1x black-text left" aria-hidden="true"></i>Return and Exchange</li>
+              <li><i class="fa fa-truck fa-1x black-text left" aria-hidden="true"></i>Shipping</li>
+              <li><i class="fa fa-info fa-1x black-text left" aria-hidden="true"></i>Help</li>
+              <li><i class="fa fa-exclamation fa-1x black-text left" aria-hidden="true"></i>Disclaimer</li>
+            </ul>
+          </div>
+          <div class="col l4">
+            <b>Get to Know us</b>
+            <ul>
+              <li><i class="fa fa-phone fa-1x black-text left" aria-hidden="true"></i>Phone: +91-99999999999</li>
+              <li><i class="fa fa-envelope  fa-1x black-text left" aria-hidden="true"></i>Email: care@robasquare.com</li>
+              <li>
+                {% block facebookpage %}
+              
+            <div class="fb-page" data-href="https://www.facebook.com/RobaSquare" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/RobaSquare" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/RobaSquare">Roba Square</a></blockquote></div>
             {% endblock %}
+              </li>
+            </ul>
           </div>
         </div>
       </div>
+
       <div class="footer-copyright">
-        <div class="container grey-text">
+        <div class="container black-text">
           © 2017 Copyright Roba Square
-          <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+          <a class="black-text right" href="#!" style="padding-left: 20px;">Terms of Use</a> 
+          <a class="black-text right" href="">Privacy Policy</a> 
         </div>
       </div>
     </footer>

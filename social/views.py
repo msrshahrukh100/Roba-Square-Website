@@ -140,7 +140,7 @@ def search(request) :
 		Q(first_name__icontains=query)|
 		Q(last_name__icontains=query)|
 		Q(email__icontains=query)
-		)[:2]
+		)[:6]
 	
 	searchusers = []
 	for i in peoplequery :
