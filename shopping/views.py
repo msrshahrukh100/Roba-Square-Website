@@ -1,8 +1,8 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import Http404
 from django.views.decorators.csrf import csrf_exempt
 from productreviews.forms import Reviewform
-from .models import Categories, ProductDescription, ProductRelationsForLogo
+from .models import Categories, ProductDescription, ProductRelationsForLogo, BulkOrders
 from cart.models import Cart
 from social.models import RecentlyViewed, Connections
 from django.contrib.auth.models import User
@@ -13,6 +13,7 @@ from notifications.signals import notify
 from django.core.urlresolvers import reverse
 from random import randint
 from sorl.thumbnail import get_thumbnail
+from notifications.signals import notify
 # Create your views here.
 
 
@@ -163,6 +164,27 @@ def checkavailability(request) :
 @login_required
 def bulkorders(request) :
 	if request.method == 'POST' :
-		pass
+		data = request.POST
+		if data.get('product') == '1' :
+			product = 'Polo T-shirt'
+		elif data.get('product') == '2' :
+			product = 'Hoody'
+		elif data.get('product') == '3' :
+			product = 'Round Neck T-shirt'
+		elif data.get('product') == '4' :
+			product = 'Coffee Mugs'
+		pic = request.FILES.get('pic')
+		obj, created = BulkOrders.objects.get_or_create(
+			user=request.user,
+			product=product,
+			base=data.get('baseproduct'),
+			quantity=data.get('quantity'),
+			description=data.get('description'),
+			phone=data.get('phone'),
+			image=pic
+			)
+		verb = "Your bulk order has been received, we'll get back to you shortly."
+		notify.send(request.user, recipient=request.user, verb=verb, url='/', imageurl=obj.image.url)
+		return redirect('/')
 
 	return render(request,'bulkorders.html',{})

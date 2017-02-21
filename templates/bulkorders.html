@@ -12,14 +12,15 @@
 {% block content %}
 
 <div class="container">
-<form action="" method="POST">{% csrf_token %}
+<a class="waves-effect waves-light btn right">My Bulk Orders</a>
+<form action="." enctype='multipart/form-data' method="POST">{% csrf_token %}
 <div class="row">
 	
- <div class="input-field col s6 offset-s3">
-    <select onchange="showhide()" id="base" required>
+ <div class="input-field col l6 s12 offset-l3">
+    <select onchange="showhide()" id="base" required name="product">
     <option value="" selected disabled>Choose Base</option>
       <option value="1">Polo T-shirt</option>
-      <option value="2">Hoddy</option>
+      <option value="2">Hoody</option>
       <option value="3">Round Neck T-shirt</option>
       <option value="4">Coffee Mugs</option>
     </select>
@@ -27,80 +28,81 @@
   </div>
 <div style="height: 150px;"></div>
 <div class="col s12 images center polo" style="padding-top: 70px;">
-      <input name="baseproduct" type="radio" id="test1" />
+      <input name="baseproduct" value="Grey Polo T-shirt" type="radio" id="test1" />
       <label for="test1">
-	<img class="responsive-img" src="{% static 'images/bulkorders/collartshirt/1.jpg' %}"><br>Grey Polo T-shirt
+	<img class="responsive-img" src="{% static 'images/bulkorders/collartshirt/1.jpg' %}"><br>Grey Polo T-shirt<br><a href="{% static 'images/bulkorders/collartshirt/1.jpg' %}" target="_blank">Download</a>
       </label>
 </div>
 
 <div class="col s12 images center polo" style="padding-top: 70px;">
-      <input name="baseproduct" type="radio" id="test2" />
+      <input name="baseproduct" value="Black Polo T-shirt" type="radio" id="test2" />
       <label for="test2">
-	<img class="responsive-img" src="{% static 'images/bulkorders/collartshirt/2.jpg' %}"><br>Black Polo T-shirt
+	<img class="responsive-img" src="{% static 'images/bulkorders/collartshirt/2.jpg' %}"><br>Black Polo T-shirt<br><a href="{% static 'images/bulkorders/collartshirt/2.jpg' %}" target="_blank">Download</a>
       </label>
 </div>
 
 <div class="col s12 images center polo" style="padding-top: 70px;">
-      <input name="baseproduct" type="radio" id="test3" />
+      <input name="baseproduct" value="Blue Polo T-shirt" type="radio" id="test3" />
       <label for="test3">
-	<img class="responsive-img" src="{% static 'images/bulkorders/collartshirt/3.jpg' %}"><br>Blue Polo T-shirt
+	<img class="responsive-img" src="{% static 'images/bulkorders/collartshirt/3.jpg' %}"><br>Blue Polo T-shirt<br><a href="{% static 'images/bulkorders/collartshirt/3.jpg' %}" target="_blank">Download</a>
       </label>
 </div>
 
 <div class="col s12 images center hoody" style="padding-top: 70px;">
-      <input name="baseproduct" type="radio" id="test4" />
+      <input name="baseproduct" value="Dark Grey Hoody" type="radio" id="test4" />
       <label for="test4">
 	<img class="responsive-img" src="{% static 'images/bulkorders/hoody/1.jpg' %}"><br>Dark Grey Hoody
+	<br><a href="{% static 'images/bulkorders/hoody/1.jpg' %}" target="_blank">Download</a>
       </label>
 </div>
 
 <div class="col s12 images center hoody" style="padding-top: 70px;">
-      <input name="baseproduct" type="radio" id="test5" />
+      <input name="baseproduct" value="Black Hoody" type="radio" id="test5" />
       <label for="test5">
-	<img class="responsive-img" src="{% static 'images/bulkorders/hoody/2.jpg' %}"><br>Black Hoody
+	<img class="responsive-img" src="{% static 'images/bulkorders/hoody/2.jpg' %}"><br>Black Hoody<br><a href="{% static 'images/bulkorders/hoody/2.jpg' %}" target="_blank">Download</a>
       </label>
 </div>
 
 <div class="col s12 images center roundneck" style="padding-top: 70px;">
-      <input name="baseproduct" type="radio" id="test6" />
+      <input name="baseproduct" value="Black Round-neck T-shirt" type="radio" id="test6" />
       <label for="test6">
-	<img class="responsive-img" src="{% static 'images/bulkorders/roundnecktshirt/1.jpg' %}"><br>Black Round-neck T-shirt
+	<img class="responsive-img" src="{% static 'images/bulkorders/roundnecktshirt/1.jpg' %}"><br>Black Round-neck T-shirt<br><a href="{% static 'images/bulkorders/roundnecktshirt/1.jpg' %}" target="_blank">Download</a>
       </label>
 </div>
 <div class="col s12 images center roundneck" style="padding-top: 70px;">
-      <input name="baseproduct" type="radio" id="test7" />
+      <input name="baseproduct" type="radio" id="test7" value="Grey Round-neck T-shirt" />
       <label for="test7">
-	<img class="responsive-img" src="{% static 'images/bulkorders/roundnecktshirt/2.jpg' %}"><br>Grey Round-neck T-shirt
+	<img class="responsive-img" src="{% static 'images/bulkorders/roundnecktshirt/2.jpg' %}"><br>Grey Round-neck T-shirt<br><a href="{% static 'images/bulkorders/roundnecktshirt/2.jpg' %}" target="_blank">Download</a>
       </label>
 </div>
 <div class="col s12 images center roundneck" style="padding-top: 70px;">
-      <input name="baseproduct" type="radio" id="test8" />
+      <input name="baseproduct" value="Navy Blue Round-neck T-shirt" type="radio" id="test8" />
       <label for="test8">
-	<img class="responsive-img" src="{% static 'images/bulkorders/roundnecktshirt/3.jpg' %}"><br>Navy Blue Round-neck T-shirt
+	<img class="responsive-img" src="{% static 'images/bulkorders/roundnecktshirt/3.jpg' %}"><br>Navy Blue Round-neck T-shirt<br><a href="{% static 'images/bulkorders/roundnecktshirt/3.jpg' %}" target="_blank">Download</a>
       </label>
 </div>
 <div class="col s12 images center roundneck" style="padding-top: 70px;">
-      <input name="baseproduct" type="radio" id="test9" />
+      <input name="baseproduct" value="Red Round-neck T-shirt" type="radio" id="test9" />
       <label for="test9">
-	<img class="responsive-img" src="{% static 'images/bulkorders/roundnecktshirt/4.jpg' %}"><br>Red Round-neck T-shirt
+	<img class="responsive-img" src="{% static 'images/bulkorders/roundnecktshirt/4.jpg' %}"><br>Red Round-neck T-shirt<br><a href="{% static 'images/bulkorders/roundnecktshirt/4.jpg' %}" target="_blank">Download</a>
       </label>
 </div>
 
 <div class="col s12 images center mug" style="padding-top: 70px;">
-      <input name="baseproduct" type="radio" id="test10" />
+      <input name="baseproduct" value="Black Coffee Mug" type="radio" id="test10" />
       <label for="test10">
-	<img style="width:190px; height: 200px;" class="responsive-img" src="{% static 'images/bulkorders/coffeemugs/1.jpg' %}"><br>Black Coffee Mug
+	<img style="width:190px; height: 200px;" class="responsive-img" src="{% static 'images/bulkorders/coffeemugs/1.jpg' %}"><br>Black Coffee Mug<br><a href="{% static 'images/bulkorders/coffeemugs/1.jpg' %}" target="_blank">Download</a>
       </label>
 </div>
 <div class="col s12 images center mug" style="padding-top: 70px;">
-      <input name="baseproduct" type="radio" id="test11" />
+      <input name="baseproduct" value="White Coffee Mug" type="radio" id="test11" />
       <label for="test11">
-	<img style="width:190px; height: 200px;" class="responsive-img" src="{% static 'images/bulkorders/coffeemugs/2.jpg' %}"><br>White Coffee Mug
+	<img style="width:190px; height: 200px;" class="responsive-img" src="{% static 'images/bulkorders/coffeemugs/2.jpg' %}"><br>White Coffee Mug<br><a href="{% static 'images/bulkorders/coffeemugs/2.jpg' %}" target="_blank">Download</a>
       </label>
 </div>
 
- <div class="input-field col s6 offset-s3">
-    <select required>
+ <div class="input-field col l6 s12 offset-l3">
+    <select required name="quantity">
       <option value="" disabled selected>Select Quantity</option>
       <option value="25-30">25-30</option>
       <option value="30-35">30-35</option>
@@ -109,20 +111,30 @@
     <label>Tell us the approx. number of items you want</label>
   </div>
 
-<div class="input-field col s6 offset-s3">
+<div class="input-field col l6 s12 offset-l3">
           <i class="material-icons prefix">mode_edit</i>
-          <textarea id="icon_prefix2" class="materialize-textarea"></textarea>
+          <textarea id="icon_prefix2" class="materialize-textarea" name="description"></textarea>
           <label for="icon_prefix2">Description</label>
 </div>
 
- <div class="input-field col s6 offset-s3">
+ <div class="input-field col l6 s12 offset-l3">
           <i class="material-icons prefix">phone</i>
-          <input id="icon_telephone" type="tel" class="validate" required>
-          <label for="icon_telephone">Telephone</label>
+          <input id="icon_telephone" type="tel" class="validate" required name="phone">
+          <label for="icon_telephone">Phone</label>
 </div>
 
+<div class="file-field input-field col l6 s12 offset-l3">
+      <div class="btn">
+        <span>Pic of your design</span>
+        <input type="file" name="pic">
+      </div>
+      <div class="file-path-wrapper">
+        <input class="file-path validate" type="text" name="picpath">
+      </div>
+    </div>
+
 </div>
-<div class="center">
+<div class="center" style="padding-top: 70px;">
  <button class="btn waves-effect waves-light" type="submit" name="action">Submit
     <i class="material-icons right">send</i>
   </button>

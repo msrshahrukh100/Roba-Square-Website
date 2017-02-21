@@ -1,6 +1,6 @@
 from django.contrib import admin
 import nested_admin
-from .models import Categories, ProductDescription, Products, ImagesOfProducts, Slider, DetailsOfProducts,ProductRelationsForLogo
+from .models import Categories, ProductDescription, Products, ImagesOfProducts, Slider, DetailsOfProducts,ProductRelationsForLogo, BulkOrders
 from sorl.thumbnail.admin import AdminImageMixin
 # Register your models here.
 
@@ -52,6 +52,13 @@ class ProductsAdmin(admin.ModelAdmin) :
 	class Meta:
 		model=Products
 
+class BulkOrdersAdmin(AdminImageMixin,admin.ModelAdmin) :
+	list_display = ['product','base','user_email','phone','quantity','description','image']
+	class Meta :
+		model = BulkOrders
+
+	def user_email(self,obj) :
+		return obj.user.email
 
 admin.site.register(Categories,CategoriesAdmin)
 admin.site.register(ProductDescription,ProductsDescriptionAdmin)
@@ -60,3 +67,4 @@ admin.site.register(ImagesOfProducts,ImagesOfProductsAdmin)
 admin.site.register(Slider,SliderAdmin)
 admin.site.register(DetailsOfProducts)
 admin.site.register(ProductRelationsForLogo)
+admin.site.register(BulkOrders,BulkOrdersAdmin)

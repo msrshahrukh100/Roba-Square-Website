@@ -193,13 +193,21 @@ class ProductRelationsForLogo(models.Model) :
 	def __unicode__(self) :
 		return self.product.name
 
+
+
+def upload_location_bulk(instance,filename) :
+	return "bulkorderimages/%s"%(filename)
+
 class BulkOrders(models.Model) :
 	user = models.ForeignKey(User, related_name='bulkorders')
 	product = models.CharField(max_length=20)
 	base = models.CharField(max_length=50)
-	quantity = models.PositiveIntegerField()
+	quantity = models.CharField(max_length=10)
 	description = models.TextField()
 	phone = models.CharField(max_length=15)
+	image = ImageField(upload_to = upload_location_bulk, null=False, blank=False ,height_field="height_field", width_field="width_field",help_text="Image of the design")
+	height_field = models.IntegerField(default=0)
+	width_field = models.IntegerField(default=0)
 
 	def __unicode__(self) :
 		return str(self.id)
