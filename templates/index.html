@@ -67,7 +67,9 @@
             <li><a href="{% url 'social:myprofile' %}" class="teal-text text-darken-3"><i class="material-icons teal-text text-darken-3 left">notifications</i><span class="right cartcount">{{ unread_count }}</span>Notifications</a></li>
             <li><a href="{% url 'payment:myorders' %}" class="teal-text text-darken-3"><i class="material-icons teal-text text-darken-3 left">shopping_basket</i>My Orders</a></li>
               <li><a href="{% url 'cart:viewwishlist' %}" class="teal-text text-darken-3"><i class="material-icons teal-text text-darken-3 left">loyalty</i>My Wish List</a></li>
+              <li><a href="{% url 'shopping:bulkorders' %}" class="teal-text text-darken-3"><i class="material-icons teal-text text-darken-3 left">layers</i>Bulk Orders</a></li>
               <li><a href="{% url 'social:myprofile' %}" class="teal-text text-darken-3"><i class="material-icons teal-text text-darken-3 left">person</i>My Profile</a></li>
+              <li><a href="{% url 'blog:list' %}" class="teal-text text-darken-3"><i class="material-icons teal-text text-darken-3 left">speaker_notes</i>Blogs</a></li>
               <li><a href="{% url 'social:viewallusers' %}" class="teal-text text-darken-3"><i class="material-icons teal-text text-darken-3 left">people</i>Social</a></li>
               <li><a href="{% url 'authentication:change_settings' %}" class="teal-text text-darken-3"><i class="material-icons teal-text text-darken-3 left">settings</i>Settings</a></li>
               <li><a href="{% url 'account_logout' %}" class="teal-text text-darken-3"><i class="material-icons teal-text text-darken-3 left">power_settings_new</i>Logout</a></li>
@@ -152,7 +154,8 @@
           {% for c in categories %}
           <a class="waves-effect waves-light dropdown-button1 teal-text text-darken-3" data-constrainwidth="false" href="{{ c.get_absolute_url }}" data-activates='{{ c.id }}' data-beloworigin="true" >{{ c.category }}</a>
           {% endfor %}
-          <a class="waves-effect waves-light dropdown-button1 teal-text text-darken-3" href="{% url 'blog:list' %}" data-activates='{{ c.id }}'  >Blogs</a>  
+          <a class="waves-effect waves-light dropdown-button1 teal-text text-darken-3" href="{% url 'shopping:bulkorders' %}">Bulk Orders</a>
+          <a class="waves-effect waves-light dropdown-button1 teal-text text-darken-3" href="{% url 'blog:list' %}"   >Blogs</a>  
           </ul>
         </div>
       </div>

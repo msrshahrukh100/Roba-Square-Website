@@ -5,7 +5,7 @@ from autoslug import AutoSlugField
 from django.core.urlresolvers import reverse
 from sorl.thumbnail import ImageField
 from django.core.cache import cache
-
+from django.contrib.auth.models import User
 
 # upload location for the image upload on categories
 def upload_location_cat(instance, filename) :
@@ -192,6 +192,17 @@ class ProductRelationsForLogo(models.Model) :
 
 	def __unicode__(self) :
 		return self.product.name
+
+class BulkOrders(models.Model) :
+	user = models.ForeignKey(User, related_name='bulkorders')
+	product = models.CharField(max_length=20)
+	base = models.CharField(max_length=50)
+	quantity = models.PositiveIntegerField()
+	description = models.TextField()
+	phone = models.CharField(max_length=15)
+
+	def __unicode__(self) :
+		return str(self.id)
 
 
 # @receiver(post_save, sender=Categories)

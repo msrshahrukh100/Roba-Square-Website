@@ -159,3 +159,10 @@ def checkavailability(request) :
 		data['type'] = 0
 		data['msg'] = "Sorry, this size is not available."
 	return JsonResponse(data)
+
+@login_required
+def bulkorders(request) :
+	if request.method == 'POST' :
+		pass
+
+	return render(request,'bulkorders.html',{})

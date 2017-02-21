@@ -61,7 +61,9 @@
             <li><a href="{% url 'cart:viewcart' %}" class="teal-text text-darken-3"><i class="material-icons teal-text text-darken-3 left">shopping_cart</i><span class="right ">{{ request.session.products|length }}</span> My Cart</a></li>
             <li><a href="{% url 'payment:myorders' %}" class="teal-text text-darken-3"><i class="material-icons teal-text text-darken-3 left">shopping_basket</i>My Orders</a></li>
               <li><a href="{% url 'cart:viewwishlist' %}" class="teal-text text-darken-3"><i class="material-icons teal-text text-darken-3 left">loyalty</i>My Wish List</a></li>
+              <li><a href="{% url 'shopping:bulkorders' %}" class="teal-text text-darken-3"><i class="material-icons teal-text text-darken-3 left">layers</i>Bulk Orders</a></li>
               <li><a href="{% url 'social:myprofile' %}" class="teal-text text-darken-3"><i class="material-icons teal-text text-darken-3 left">person</i>My Profile</a></li>
+              <li><a href="{% url 'blog:list' %}" class="teal-text text-darken-3"><i class="material-icons teal-text text-darken-3 left">speaker_notes</i>Blogs</a></li>
               <li><a href="{% url 'social:viewallusers' %}" class="teal-text text-darken-3"><i class="material-icons teal-text text-darken-3 left">people</i>Social</a></li>
               <li><a href="{% url 'authentication:change_settings' %}" class="teal-text text-darken-3"><i class="material-icons teal-text text-darken-3 left">settings</i>Settings</a></li>
               <li><a href="{% url 'account_logout' %}" class="teal-text text-darken-3"><i class="material-icons teal-text text-darken-3 left">power_settings_new</i>Logout</a></li>
@@ -143,7 +145,8 @@
   <main>
     
 
-    
+    <div style="height: 100px;"></div>
+
 
     {% block content %}
     {% endblock %}

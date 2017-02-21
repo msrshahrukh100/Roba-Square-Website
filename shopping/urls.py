@@ -1,6 +1,6 @@
 from django.conf.urls import include, url
 from django.contrib import admin
-from .views import view_category_or_item,search, view_private_item, show_private_item, checkavailability
+from .views import view_category_or_item,search, view_private_item, show_private_item, checkavailability,bulkorders
 
 urlpatterns = [
 
@@ -9,4 +9,6 @@ urlpatterns = [
     url(r'^view/customizedproduct/(?P<slug>[\w-]+)/(?P<key>\d+)$', show_private_item, name='show_private_item'),
     url(r'^search/',search,name='search'),
     url(r'^checkavailability/',checkavailability,name='checkavailability'),
+    url(r'^bulkorders/',bulkorders,name='bulkorders'),
+
 ]
