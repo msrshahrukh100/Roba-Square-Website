@@ -1,6 +1,7 @@
 {% load staticfiles %}
 {% load socialaccount %}
 {% load account %}
+{% load cfilters %}
 {% load i18n %}
 {% load notifications_tags %}
 {% load thumbnail %}
@@ -51,7 +52,7 @@
 
  <nav class="nav-extended transparent z-depth-0 hide-on-large-only">
     <div class="nav-wrapper">
-      <a class="brand-logo"><img class="responsive-img" height="50" width="100" src="{% static 'images/logo.png' %}"></a>
+      <a  href="/" class="brand-logo"><img class="responsive-img" height="50" width="100" src="{% static 'images/logo.png' %}"></a>
       <a href="#" data-activates="mobile-demo" class="button-collapse teal-text text-darken-3"><i class="material-icons">menu</i></a>
       <ul class="side-nav" id="mobile-demo">
         {% if user_display %}
@@ -87,7 +88,7 @@
 
   <nav class="nav-extended transparent z-depth-0 hide-on-med-and-down">
     <div class="nav-wrapper">
-      <a href="#" class="brand-logo center black-text">
+      <a href="/" class="brand-logo center black-text">
 <img class="responsive-img" height="100" width="200" src="{% static 'images/logo.png' %}"></a>
       
 
@@ -218,11 +219,10 @@
 
   <div class="section white">
     <div class="row container">
-      <h5 class="header">Products</h5>
       <div class="row">
       {% for category in categories %}
         <div class="col s12 m12 l6">
-          <div class="card large">
+          <div class="card">
             <div class="card-image">
 
                 {% thumbnail category.image "400x250" as im %}
@@ -232,7 +232,7 @@
               <span class="card-title">{{ category.category }}</span>
             </div>
             <div class="card-content">
-              <p>{{ category.category_description|linebreaks }}</p>
+              <p>{{ category.category_description|linebreaks|truncatechars:300 }}</p>
             </div>
             <div class="card-action">
               <a href="{{ category.get_absolute_url }}">{{ category.link_text }}</a>
@@ -241,8 +241,8 @@
         </div>
         {% endfor %}
         </div>
-
-        <h2 class="header">New Products</h2>
+<div style="height: 70px;"></div>
+        <h5 class="header center">Featured Products</h5>
 
         <div class="row">
           {% for product in newproducts %}
@@ -255,6 +255,7 @@
               </div>
               <div class="card-content">
                 <a href="{{ product.get_absolute_url }}">{{ product.name }}</a>
+                <p>{{ product.description|linebreaks|truncatechars:100 }}</p>
               </div>
               
             </div>
@@ -270,26 +271,62 @@
     </div>
 
     <div class="container">
-      <h2 class="header">Pic of the week</h2>
-    
-
-
+<div style="height: 70px;"></div>
+  
     <div class="row">
      <div class="col s12 m12 l6">
       <div class="card">
         <div class="card-image">
-          <img src="{% static 'images/1.jpeg' %}">
-          <span class="card-title">Card Title</span>
+          {% thumbnail picoftheweek.image "750x450" as im %}
+            <img class="responsive-img" src="{{ im.url }}" >
+              {% endthumbnail %}
         </div>
         <div class="card-content">
-          <p>I am a very simple card. I am good at containing small bits of information.
-            I am convenient because I require little markup to use effectively.</p>
+        <p><a href="{{ picoftheweek.user.user_information.get_absolute_url }}">{{ picoftheweek.user|getfullname }}</a></p>
+          <p>{{ picoftheweek.description|linebreaks }}</p>
           </div>
+          {% if request.user.is_anonymous %}
+          {% else %}
           <div class="card-action">
-            <a href="#">This is a link</a>
+            <a style="text-transform: none;" href="#modalpic">Send Us your pic</a> &nbsp
+            <a style="text-transform: none;" href="{% url 'social:viewpicofweek' %}">View all</a>
           </div>
+          {% endif %}
         </div>
       </div>
+
+  <!-- Modal Structure -->
+  <div id="modalpic" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <h4>Send us your pic</h4>
+      <p>
+      <form action="{% url 'social:addpicofweek' %}" method="POST" enctype='multipart/form-data'>{% csrf_token %}
+        <div class="row">
+        <div class="input-field col s10 offset-s1">
+          <input id="first_name" type="text" name="description" class="validate" required>
+          <label for="first_name">Description</label>
+        </div>
+        </div>
+        <div class="file-field input-field">
+      <div class="btn">
+        <span>Your pic here</span>
+        <input type="file" name="pic" required>
+      </div>
+      <div class="file-path-wrapper">
+        <input class="file-path validate" type="text">
+      </div>
+    </div>
+    <div class="center">
+    <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+    <i class="material-icons right">send</i>
+  </button>
+    </div>
+       </form>
+      </p>
+    </div>
+  </div>
+          
+
 
       <div class="col s12 m12 l6">
         <div class="card">

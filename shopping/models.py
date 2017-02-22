@@ -212,6 +212,9 @@ class BulkOrders(models.Model) :
 	def __unicode__(self) :
 		return str(self.id)
 
+	def get_delete_url(self) :
+		return reverse('shopping:deletebulkorder' ,kwargs={'id':self.id})
+
 
 # @receiver(post_save, sender=Categories)
 # def clear_cache_when_new_added(sender, instance, **kwargs):

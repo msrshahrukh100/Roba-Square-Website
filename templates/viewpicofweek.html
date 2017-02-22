@@ -1,0 +1,50 @@
+{% extends 'allauth/base.html' %}
+{% load cfilters %}
+{% load thumbnail %}
+{% block breadcumb %}
+<div class="col s12" style="padding-left:50px;">
+        <a href="/" class="breadcrumb">Home</a>
+        <a href="{% url 'shopping:bulkorders' %}" class="breadcrumb">Bulk Orders</a>
+        <a class="breadcrumb">My Bulk Orders</a>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.8&appId=344946732557346";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+<div class="container">
+{% for i in pics %}
+	<div class="row">
+        <div class="col s10 l8 offset-l2 offset-s1">
+          <div class="card">
+            <div class="card-image">
+            {% thumbnail i.image "750x450" as im %}
+            <img class="responsive-img" src="{{ im.url }}" >
+              {% endthumbnail %}
+              <span class="card-title"><a href="{{ i.user.user_information.get_absolute_url }}" class="white-text">{{ i.user|getfullname }}</a></span>
+            </div>
+            <div class="card-content">
+              <p>{{ i.description|linebreaks }}</p>
+            </div>
+            <div class="card-action">
+              <p>
+  <div class="fb-like" data-href="{{ i.get_fb_link }}" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="false"></div>
+</p>
+<div class="fb-comments" data-href="{{ i.get_fb_link }}" data-numposts="5"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+{% endfor %}
+            
+</div>
+{% endblock %}

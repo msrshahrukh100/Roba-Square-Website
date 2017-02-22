@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from .forms import UserInfoForm,AddressForm
 from .models import UserInformation, Addresses
+from social.models import PicOfTheWeek
 from django.views.decorators.cache import never_cache
 
 
@@ -12,7 +13,8 @@ def home_page(request) :
 	context = {"slider":Slider.objects.all(),
 	"categories":Categories.objects.all(),
 	"newproducts":ProductDescription.objects.filter(new_product=True).filter(has_logo=False),
-	"cartcount":len(request.session.get('products',[]))
+	"cartcount":len(request.session.get('products',[])),
+	"picoftheweek" : PicOfTheWeek.objects.filter(publish_it=True).order_by('-id').first()
 	}
 	return render(request,'index.html',context)
 

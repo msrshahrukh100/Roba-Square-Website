@@ -184,7 +184,23 @@ def bulkorders(request) :
 			image=pic
 			)
 		verb = "Your bulk order has been received, we'll get back to you shortly."
-		notify.send(request.user, recipient=request.user, verb=verb, url='/', imageurl=obj.image.url)
+		url = reverse("shopping:viewbulkorders")
+		notify.send(request.user, recipient=request.user, verb=verb, url=url, imageurl=obj.image.url)
 		return redirect('/')
 
 	return render(request,'bulkorders.html',{})
+
+
+@login_required
+def viewbulkorders(request) :
+	user = request.user
+	context = {'bulkorders':BulkOrders.objects.filter(user=user).order_by('-id')}
+	return render(request,'viewbulkorders.html', context)
+
+
+
+@login_required
+def deletebulkorder(request,id) :
+	x = get_object_or_404(BulkOrders,id=id)
+	x.delete()
+	return redirect('shopping:viewbulkorders')

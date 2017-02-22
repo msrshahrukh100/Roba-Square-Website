@@ -1,6 +1,6 @@
 from django.conf.urls import include, url
 from django.contrib import admin
-from .views import view_category_or_item,search, view_private_item, show_private_item, checkavailability,bulkorders
+from .views import view_category_or_item,search, view_private_item, show_private_item, checkavailability,bulkorders,viewbulkorders,deletebulkorder
 
 urlpatterns = [
 
@@ -10,5 +10,7 @@ urlpatterns = [
     url(r'^search/',search,name='search'),
     url(r'^checkavailability/',checkavailability,name='checkavailability'),
     url(r'^bulkorders/',bulkorders,name='bulkorders'),
+    url(r'^viewbulkorders/',viewbulkorders,name='viewbulkorders'),
+    url(r'^deletebulkorder/(?P<id>\d+)$', deletebulkorder, name='deletebulkorder'),
 
 ]

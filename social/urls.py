@@ -1,6 +1,6 @@
 from django.conf.urls import include, url
 from django.contrib import admin
-from .views import (viewallusers, addconnection, removeconnection, myprofile, viewuser, readallnotifications, likedislike,search)
+from .views import (viewallusers, addconnection, removeconnection, myprofile, viewuser, readallnotifications, likedislike,search,addpicofweek, viewpicofweek)
 
 urlpatterns = [
 
@@ -12,5 +12,7 @@ urlpatterns = [
     url(r'^readallnotifications/$', readallnotifications, name='readallnotifications'),
     url(r'^likedislike/(?P<id>\d+)$', likedislike, name='likedislike'),
     url(r'^search/',search,name='search'),
+    url(r'^addpicofweek/',addpicofweek,name='addpicofweek'),
+    url(r'^viewpicofweek/',viewpicofweek,name='viewpicofweek'),
     
 ]

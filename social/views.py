@@ -1,8 +1,8 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from .models import Connections, RecentlyViewed, Likes
+from .models import Connections, RecentlyViewed, Likes, PicOfTheWeek
 from authentication.models import UserInformation
 from shopping.models import ProductDescription
 from notifications.signals import notify
@@ -13,6 +13,8 @@ from django.db.models import Q
 from sorl.thumbnail import get_thumbnail
 from authentication.username import get_user_name
 from django.views.decorators.csrf import csrf_exempt
+from notifications.signals import notify
+
 
 
 # Create your views here.
@@ -160,7 +162,21 @@ def search(request) :
 	return JsonResponse({'searchusers':searchusers})
 
 
+@login_required
+def addpicofweek(request) :
+	if request.method == 'POST' :
+		obj, created = PicOfTheWeek.objects.get_or_create(
+			user=request.user,
+			description = request.POST.get('description'),
+			image = request.FILES.get('pic')
+			)
+		if created :
+			verb = "Thank You for sending your pic. We will publish it shortly."
+			url = '/'
+			notify.send(request.user, recipient=request.user, verb=verb, url=url, imageurl=obj.image.url)
+	return redirect("/")
 
-
-
-	
+@login_required
+def viewpicofweek(request) :
+	context = {'pics': PicOfTheWeek.objects.filter(publish_it=True)}
+	return render(request,'viewpicofweek.html',context)
