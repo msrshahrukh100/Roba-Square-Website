@@ -9,6 +9,17 @@ from social.models import PicOfTheWeek
 from django.views.decorators.cache import never_cache
 
 
+# from django.core.mail import EmailMessage
+# email = EmailMessage(
+# subject='Hello',
+# body='Body goes here',
+# from_email='care@robasquare.com',
+# to=['msr.concordfly@gmail.com'],
+# headers={'Content-Type': 'text/plain'},
+# )
+# email.send()
+
+
 def home_page(request) :
 	context = {"slider":Slider.objects.all(),
 	"categories":Categories.objects.all(),

@@ -4,8 +4,6 @@
 
 {% block head_title %}{% trans "Account" %}{% endblock %}
 
-{% block content %}
-<div class="container">
 {% block breadcumb %}
 
 <div class="col s12" style="padding-left:50px;">
@@ -15,11 +13,14 @@
 </div>
 
 {% endblock %}
+
+{% block content %}
+<div class="container">
 <div class="row">
   <div class="col s12 m9 l10">
     <div id="introduction" class="section scrollspy">
 
-      <h1>{% trans "E-mail Addresses" %}</h1>
+      <h5>{% trans "E-mail Addresses" %}</h5>
       {% if user.emailaddress_set.all %}
       <p>
         {% trans 'The following e-mail addresses are associated with your account:' %}
@@ -59,12 +60,12 @@
         {% trans "You currently do not have any e-mail address set up. You should really add an e-mail address so you can receive notifications, reset your password, etc." %}
       </p>
       {% endif %}
-      <h2>{% trans "Add E-mail Address" %}</h2>
+      <b>{% trans "Add E-mail Address" %}</b>
 
       <form method="post" action="{% url 'account_email' %}" class="add_email">
         {% csrf_token %}
         {{ form.as_p }}
-        <button class="waves-effect waves-teal btn-flat" name="action_add" type="submit">{% trans "Add E-mail" %}</button>
+        <button class="btn waves-effect waves-light" name="action_add" type="submit">{% trans "Add E-mail" %}</button>
       </form>
 
     </div>

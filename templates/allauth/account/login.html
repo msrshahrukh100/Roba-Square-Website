@@ -15,9 +15,9 @@
 
 {% block content %}
 <div class="container">
-  <h4>{% trans "Sign In" %}</h4>
+  <h5>{% trans "Sign In" %}</h5>
   {% get_providers as socialaccount_providers %}
-  <div class="row">
+  <div class="row" style="padding-top: 30px;">
     <div class="col s12">
 
       <form class="login" method="POST" action="{% url 'account_login' %}">

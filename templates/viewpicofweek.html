@@ -37,9 +37,9 @@
             </div>
             <div class="card-action">
               <p>
-  <div class="fb-like" data-href="{{ i.get_fb_link }}" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="false"></div>
+  <div class="fb-like" data-href="{{ request.build_absolute_uri }}{{ i.get_fb_link }}" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="false"></div>
 </p>
-<div class="fb-comments" data-href="{{ i.get_fb_link }}" data-numposts="5"></div>
+<div class="fb-comments" data-href="{{ request.build_absolute_uri }}{{ i.get_fb_link }}" data-numposts="5"></div>
             </div>
           </div>
         </div>
