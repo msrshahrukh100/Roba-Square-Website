@@ -31,7 +31,7 @@
             <div class="row">
           <form method='POST' action="{% url 'authentication:change_dp' %}" enctype='multipart/form-data'>{% csrf_token %}
             <div class="file-field input-field">
-            <div class="btn waves-effect waves-teal btn-flat">
+            <div class="btn waves-effect waves-teal btn-flat white-text">
             <span>Update pic</span>
             <input type="file" name="ppic" required>
             </div>
@@ -52,11 +52,11 @@
 </div>
 <div class="col s12 l9 m9" style="padding-top: 20px;">
       <ul class="tabs">
-        <li class="tab col s3"><a class="active" href="#test2">Following</a></li>
-        <li class="tab col s3"><a href="#test4">Followers</a></li>
-        <li class="tab col s3"><a href="#test1">Products Viewed</a></li>
+        <li class="tab col s3"><a class="teal-text text-darken-3 active" href="#test2">Following</a></li>
+        <li class="tab col s3"><a class="teal-text text-darken-3" href="#test4">Followers</a></li>
+        <li class="tab col s3"><a class="teal-text text-darken-3" href="#test1">Products Viewed</a></li>
         {% if notifications %}
-        <li class="tab col s3"><a href="#test3">Notifications</a></li>
+        <li class="tab col s3"><a class="teal-text text-darken-3" href="#test3">Notifications</a></li>
         {% endif %}
       </ul>
 
@@ -71,14 +71,10 @@
               <img src="{{ p.product.get_image_url }}">
             </div>
             <div class="card-action">
-            {{ p.product.name }}
-              <a href="#">This is a link</a>
-              <a data-href='{{ p.product.get_add_to_cart_url }}' class='addtocart'>Add to cart</a>
+            
+              <a class="teal-text text-darken-4" href="{{ p.product.get_absolute_url }}">{{ p.product.name }}</a>
 
-              {% if request.user %}
-              <a data-href='{{ p.product.get_add_to_wishlist_url }}' class='addtocart'>Add to wishlist</a>
-              {{ p.product.get_add_to_wishlist_url }}
-              {% endif %}
+            
             </div>
           </div>
         </div>
@@ -99,19 +95,19 @@
           <div class="card">
             <div class="card-image">
               <img src="{{ user.user_information.get_image_url }}">
-              <span class="card-title">{{ user.username }}</span>
+              <span class="card-title"></span>
             </div>
             <div class="card-content">
+            <a class="teal-text text-darken-4" href="{% url 'social:viewuser' slug=user.user_information.slug %}">{{ user|getfullname }}</a>
               <p>{{ user.user_information.profession }} at {{ user.user_information.name_of_institute }}</p>
-              <a href="{% url 'social:viewuser' slug=user.user_information.slug %}">View User</a>
             </div>
             <div class="card-action" id="arc">
 
             <span id="addorremove{{ user.id }}">
             {% if user in connections %}
-              <a data-id="{{ user.id }}" data-href="{% url 'social:removeconnection' id=user.id %}" class="addremoveconnection">Remove from connections</a>
+              <a data-id="{{ user.id }}" style="text-transform: none;" data-href="{% url 'social:removeconnection' id=user.id %}" class="teal-text text-darken-3 addremoveconnection">Remove from connections</a>
               {% else %}
-              <a data-id="{{ user.id }}" data-href="{% url 'social:addconnection' id=user.id %}" class="addremoveconnection" >Add to connections</a>
+              <a style="text-transform: none;" data-id="{{ user.id }}" data-href="{% url 'social:addconnection' id=user.id %}" class="teal-text text-darken-3 addremoveconnection" >Add to connections</a>
             {% endif %}
             </span>
 
@@ -131,7 +127,7 @@
         {% if notifications %}
         {% for i in notifications %}
         <ul class='collection'>
-        <a href="{{ i.data.url }}"><li class="collection-item avatar">
+        <a class="teal-text text-darken-3 " href="{{ i.data.url }}"><li class="collection-item avatar">
         <img src="{{ i.data.imageurl }}" class="circle">
         <b class="title">@{{ i.actor }}</b> {{ i.verb }}</br>{{ i.timestamp|timesince }} ago
         </li></a>
@@ -148,19 +144,19 @@
           <div class="card">
             <div class="card-image">
               <img src="{{ user.user_information.get_image_url }}">
-              <span class="card-title">{{ user.username }}</span>
+              <span class="card-title"></span>
             </div>
             <div class="card-content">
+            <a class="teal-text text-darken-3" href="{% url 'social:viewuser' slug=user.user_information.slug %}">{{ user|getfullname }}</a>
               <p>{{ user.user_information.profession }} at {{ user.user_information.name_of_institute }}</p>
-              <a href="{% url 'social:viewuser' slug=user.user_information.slug %}">View User</a>
             </div>
             <div class="card-action" id="arc">
 
             <span id="addorremove{{ user.id }}">
             {% if user in connections %}
-              <a data-id="{{ user.id }}" data-href="{% url 'social:removeconnection' id=user.id %}" class="addremoveconnection">Remove from connections</a>
+              <a data-id="{{ user.id }}" data-href="{% url 'social:removeconnection' id=user.id %}" class="addremoveconnection teal-text text-darken-3" style="text-transform: none;">Remove from connections</a>
               {% else %}
-              <a data-id="{{ user.id }}" data-href="{% url 'social:addconnection' id=user.id %}" class="addremoveconnection" >Add to connections</a>
+              <a data-id="{{ user.id }}" data-href="{% url 'social:addconnection' id=user.id %}" class="addremoveconnection teal-text text-darken-3" style="text-transform: none;" >Add to connections</a>
             {% endif %}
             </span>
 

@@ -6,6 +6,7 @@
 
 .btn {
     text-transform: none;
+    background-color:#004d40; 
 }
 
 .no-capital {
@@ -19,3 +20,18 @@
 .breadcrumb, .breadcrumb:last-child {
    color: #00695c;
 }
+
+.tabs .indicator {
+    background-color: #4db6ac;
+}
+
+.tabs 
+{
+	color: #00695c;
+}
+
+ .table-of-contents a.active {
+    font-weight: 500;
+    padding-left: 18px;
+    border-bottom: 2px solid white;
+  }

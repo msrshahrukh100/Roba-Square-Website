@@ -50,7 +50,7 @@
               <span class="card-title"></span>
             </div>
             <div class="card-content">
-            <a href="{% url 'social:viewuser' slug=user.user_information.slug %}">{{ user|getfullname }}</a>
+            <a class="teal-text text-darken-3" href="{% url 'social:viewuser' slug=user.user_information.slug %}">{{ user|getfullname }}</a>
             {% if user.user_information.profession and user.user_information.name_of_institute %}
               <p>{{ user.user_information.profession }} at {{ user.user_information.name_of_institute }}</p>
               {% endif %}
@@ -60,9 +60,9 @@
 
             <span id="addorremove{{ user.id }}">
             {% if user in connections %}
-              <a data-id="{{ user.id }}" data-href="{% url 'social:removeconnection' id=user.id %}" class="addremoveconnection">Remove from connections</a>
+              <a style="text-transform: none;" data-id="{{ user.id }}" data-href="{% url 'social:removeconnection' id=user.id %}" class="teal-text text-darken-3 addremoveconnection">Remove from connections</a>
               {% else %}
-              <a data-id="{{ user.id }}" data-href="{% url 'social:addconnection' id=user.id %}" class="addremoveconnection" >Add to connections</a>
+              <a style="text-transform: none;" data-id="{{ user.id }}" data-href="{% url 'social:addconnection' id=user.id %}" class="teal-text text-darken-3 addremoveconnection" >Add to connections</a>
             {% endif %}
             </span>
 
@@ -82,7 +82,7 @@
   {% endif %}
   {% for i in nopages %}
   {% if i == users.number %}
-    <li class="active"><a href="#!">{{ i }}</a></li>
+    <li class="active teal darken-4"><a href="#!">{{ i }}</a></li>
     {% else %}
     <li class="waves-effect"><a href="?{{ page_request_var }}={{ i }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ i }}</a></li>
     {% endif %}

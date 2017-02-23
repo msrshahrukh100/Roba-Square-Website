@@ -121,6 +121,40 @@ To contribute for blog posts on Roba Square<a href="{% url 'blog:post_create' %}
 {% endif %}
        </div> 
 
+<div class="container">
+{% for obj in posts %}
+  <div class="row">
+        <div class="col s12 m12">
+          <div class="card small">
+            <div class="card-image">
+                {% if obj.image %}
+                 <img src='{{ obj.image.url }}' class='responsive-img' />
+                {% endif %}
+            </div>
+            <div class="card-action">
+              <span class="badge blue black-text">Viewed {{ obj.get_views_count }} times</span>
+              <p>
+              <h5><a style="text-transform: none;" href='{{ obj.get_absolute_url }}'>{{ obj.title }}</a></h5>
+
+              {% if request.user == obj.user %}
+              <a style="text-transform: none;" href="{% url 'blog:update' slug=obj.slug %}">Edit</a>
+              <a style="text-transform: none;" class="red-text" onclick="return confirm('Are you sure you want to delete this post?');" href="{% url 'blog:delete' slug=obj.slug %}">Delete Post?</a>
+              <br>
+              {% endif %}
+              By <a style="text-transform: none;" class="green-text" href="{{ obj.user.user_information.get_absolute_url }}">{{ obj.user|getfullname }}</a><span class="right grey-text">Pubished: {{ obj.timestamp|timesince }} ago</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+{% endfor %}
+<div class="center" style="padding-bottom:  70px;">
+<a class="center" href="{% url 'blog:list' %}">Show all</a> |
+<a class="center" href="/">Home</a>
+</div>
+</div>
+
+
+
 <div class="row">
   <div class="col s10 offset-s1">
     <div class="container center">

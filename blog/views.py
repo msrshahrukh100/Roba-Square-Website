@@ -46,6 +46,7 @@ def post_detail(request, slug=None):
 			session=request.session.session_key
 			)
 	context = {
+		"posts" : Post.objects.filter(publish_it=True).order_by('?')[:3] ,
 		"title": instance.title,
 		"instance": instance,
 		'count' : PostViews.objects.filter(post=instance).count()
