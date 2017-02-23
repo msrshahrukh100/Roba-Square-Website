@@ -159,7 +159,7 @@
         {% elif etype == 2 %}
         {% else %}  
 <div class="container">
-        <h2 class="header">Product suggestions</h2>
+        <h5 class="header center">Product suggestions</h5>
 
         <div class="row">
           <form class="col s12" method="POST" onsubmit="return false" id="suggestionform">{% csrf_token %}
@@ -193,9 +193,10 @@
   $(function(){
 
     $('#suggestionsubmit').on('click',function(){
-
+      
        var temp = {'X-CSRFToken': document.getElementsByName('csrfmiddlewaretoken')[0].value};
-
+       if($('#suggestions').val() != "")
+       {
       $.ajax({
         url : "{% url 'review:productsuggestion' %}",
         type : 'POST',
@@ -210,6 +211,12 @@
 
         }
       });
+    }
+
+    else
+    {
+      console.log("Empty values")
+    }
 
 
 

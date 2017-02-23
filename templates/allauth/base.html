@@ -159,7 +159,7 @@
   </main>
 
 <footer class="page-footer  teal darken-2 white-text">
-      <div class="row teal darken-3" style="margin-top: -20px;">
+      <div class="row teal darken-3" style="margin-top: -20px; height: 140px;">
       <div class="container">
         
         <div class="col l6 s12">
@@ -167,11 +167,13 @@
           <div class="col s6">
           <img class="responsive-img" height="70" width="120" src="{% static 'images/logotransparent.png' %}">
           </div>
-          <div class="col s6 black-text" style="padding-top: 50px; margin-left: -100px;">
+          <div style="padding-top: 50px; "></div>
+          <div class="col s6 black-text" >
           Legacy gets you going.
           </div>
         </div>
         </div>
+
         <div class="col l6 s12">
         <div class="hide-on-med-and-down" style="padding-top: 40px;"></div>
             <i style="padding-left: 10px;" class="fa fa-instagram fa-2x black-text right" aria-hidden="true"></i>
@@ -207,7 +209,11 @@
             <ul>
               <li><i class="fa fa-phone fa-1x black-text left" aria-hidden="true"></i>Phone: +91-99999999999</li>
               <li><i class="fa fa-envelope  fa-1x black-text left" aria-hidden="true"></i>Email: care@robasquare.com</li>
-             
+              <li>
+                {% block facebookpage %}
+         
+            {% endblock %}
+              </li>
             </ul>
           </div>
         </div>

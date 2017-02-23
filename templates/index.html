@@ -36,20 +36,8 @@
    
 </head>
 <body>
-  
   {% block facebookplugin %}
-<!-- for the fb plugin -->
-<div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.8&appId=344946732557346";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
-<!-- for the fb plugin -->
 {% endblock %}
-
  <nav class="nav-extended transparent z-depth-0 hide-on-large-only">
     <div class="nav-wrapper">
       <a  href="/" class="brand-logo"><img class="responsive-img" height="50" width="100" src="{% static 'images/logo.png' %}"></a>
@@ -350,7 +338,7 @@
 {% endblock %}
 
     <footer class="page-footer  teal darken-2 white-text">
-      <div class="row teal darken-3" style="margin-top: -20px;">
+      <div class="row teal darken-3" style="margin-top: -20px; height: 120px;">
       <div class="container">
         
         <div class="col l6 s12">
@@ -358,11 +346,13 @@
           <div class="col s6">
           <img class="responsive-img" height="70" width="120" src="{% static 'images/logotransparent.png' %}">
           </div>
-          <div class="col s6 black-text" style="padding-top: 50px; margin-left: -100px;">
+          <div style="padding-top: 50px; "></div>
+          <div class="col s6 black-text" >
           Legacy gets you going.
           </div>
         </div>
         </div>
+
         <div class="col l6 s12">
         <div class="hide-on-med-and-down" style="padding-top: 40px;"></div>
             <i style="padding-left: 10px;" class="fa fa-instagram fa-2x black-text right" aria-hidden="true"></i>
@@ -400,8 +390,7 @@
               <li><i class="fa fa-envelope  fa-1x black-text left" aria-hidden="true"></i>Email: care@robasquare.com</li>
               <li>
                 {% block facebookpage %}
-              
-            <div class="fb-page" data-href="https://www.facebook.com/RobaSquare" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/RobaSquare" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/RobaSquare">Roba Square</a></blockquote></div>
+         
             {% endblock %}
               </li>
             </ul>

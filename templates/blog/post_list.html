@@ -33,6 +33,20 @@
   </script>
 
 
+
+
+<!-- for the fb plugin -->
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.8&appId=344946732557346";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<!-- for the fb plugin -->
+
+
 <div class="container">
     
 
@@ -103,10 +117,23 @@
         {% endif %}
   </ul>
             
+
+<div class="row">
+  <div class="col s12">
+    <div class="container center">
+           
+            <div class="fb-page" data-href="https://www.facebook.com/RobaSquare" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/RobaSquare" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/RobaSquare">Roba Square</a></blockquote></div>
+    </div>
+  </div>
+</div>
+
+
             <hr/>
 
+
+
+<h5 class="center">My Contributions</h5>
 {% for obj in my_contributions %}
-<h4>My Contributions</h4>
 <div class="row">
         <div class="col s12 m12">
           <div class="card small" style="max-height: 170px;">
@@ -136,7 +163,6 @@
 
 
 </div>
-
 
 
 {% endblock content %}

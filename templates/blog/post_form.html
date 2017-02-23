@@ -1,7 +1,5 @@
 {% extends "allauth/base.html" %}
 <!-- {% block extra_header %} {{ form.media }} {% endblock %} -->
-{% block content %}
-
 {% block breadcumb %}
 
 <div class="col s12" style="padding-left:50px;">
@@ -11,11 +9,13 @@
 </div>
 
 {% endblock %}
+{% block content %}
+
 
 {% load wysiwyg %}
 {% wysiwyg_setup %}
 <div class='container'>
-<h4>Write your blog here</h4>
+<h5>Write your blog here</h5>
 
 <form method='POST' action='' enctype='multipart/form-data'>{% csrf_token %}
 <p>	
