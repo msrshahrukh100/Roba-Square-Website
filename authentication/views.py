@@ -110,6 +110,7 @@ def change_privacy_settings(request) :
 	userinfo.showrecentlyviewed = request.POST.get('recentlyviewed',False)
 	userinfo.showfollowers = request.POST.get('followers',False)
 	userinfo.showfollowing = request.POST.get('following',False)
+	userinfo.showdob = request.POST.get('showdob',False)
 	userinfo.save()
 	response = {'type': 1,
 			'msg' : "Changes Saved!"

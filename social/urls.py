@@ -1,6 +1,6 @@
 from django.conf.urls import include, url
 from django.contrib import admin
-from .views import (viewallusers, addconnection, removeconnection, myprofile, viewuser, readallnotifications, likedislike,search,addpicofweek, viewpicofweek)
+from .views import (viewallusers, addconnection, removeconnection, myprofile, viewuser, readallnotifications, likedislike,search,addpicofweek, viewpicofweek,showallnotifications,deletehistory)
 
 urlpatterns = [
 
@@ -14,5 +14,7 @@ urlpatterns = [
     url(r'^search/',search,name='search'),
     url(r'^addpicofweek/',addpicofweek,name='addpicofweek'),
     url(r'^viewpicofweek/',viewpicofweek,name='viewpicofweek'),
+    url(r'^showallnotifications/',showallnotifications,name='showallnotifications'),
+    url(r'^deletehistory/',deletehistory,name='deletehistory'),
     
 ]

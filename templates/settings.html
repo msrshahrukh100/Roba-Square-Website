@@ -106,6 +106,17 @@ input[type=number] {
       <h5>Privacy Settings</h5>
 <form method="post" onsubmit="return false" id="privacysettingsform">{% csrf_token %}
     <ul class="collection">
+    <li class="collection-item">
+            Show your Date of Birth on profile page &nbsp
+            <div class="switch right">
+            <label>
+            No
+            <input name="showdob" type="checkbox" class="inline" {% if userinfo.showdob %} checked="checked" {% endif %}>
+            <span class="lever"></span>
+            Yes
+            </label>
+            </div>
+      </li>
       <li class="collection-item">
             Show your recently viewed products to other users &nbsp
             <div class="switch right">

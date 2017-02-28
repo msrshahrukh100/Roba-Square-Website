@@ -8,7 +8,7 @@
         {% if request.user == user %}
         <a class="breadcrumb" >My profile</a>
         {% else %}
-        <a href="{% url 'social:viewallusers' %}" class="breadcrumb" >All Shoppers</a>
+        <a href="{% url 'social:viewallusers' %}" class="breadcrumb" >Shoppers</a>
         <a class="breadcrumb" >{{ user|getfullname }}</a>
         {% endif %}
 
@@ -27,6 +27,10 @@
             {% else %}
             <img class="responsive-img" src="{{ user.user_information.change_profile_pic.url }}" alt="Contact Person">
             <h5>{{ user|getfullname }}</h5>
+
+            {% if user.user_information.showdob %}
+            <i class="material-icons left teal-text text-darken-3">cake</i> {{ user.user_information.date_of_birth }}
+            {% endif %}
             {% if request.user == user %}
             <div class="row">
           <form method='POST' action="{% url 'authentication:change_dp' %}" enctype='multipart/form-data'>{% csrf_token %}
@@ -65,7 +69,7 @@
 <div class="section">
       <div class="row">
       {% for p in recentlyviewed %}
-          <div class="col l3 s2 m3">
+          <div class="col l3 s6 m6">
           <div class="card z-depth-0">
             <div class="card-image">
               <img src="{{ p.product.get_image_url }}">
@@ -79,6 +83,10 @@
           </div>
         </div>
       {% endfor %}
+        </div>
+        <div class="center">
+          <a href="{% url 'social:deletehistory' %}" onclick="return confirm('Are you sure you want to clear your browsing history?');" class="waves-effect waves-light btn">Clear</a>
+
         </div>
 </div>
 {% else %}
@@ -133,6 +141,11 @@
         </li></a>
         </ul>
         {% endfor %}
+        <div class="center">
+        <a href="{% url 'social:showallnotifications' %}" class="teal-text text-darken-3">Show all</a>
+        </div>
+        {% else %}
+        <h5 class="grey-text center">No Notifications yet</h5>
         {% endif %}
       </div>
 

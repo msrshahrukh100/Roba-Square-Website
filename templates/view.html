@@ -43,7 +43,7 @@
   blockquote{
   margin: 20px 0;
   padding-left: 1.5rem;
-  border-left: 5px solid red; /* Just change the color value and that's it*/
+  border-left: 5px solid #00897b; /* Just change the color value and that's it*/
 }
 </style>
      
@@ -66,8 +66,12 @@
   <div class="{% cycle 'col s12 m6 l3 offset-l1' 'col s12 m6 l3' 'col s12 m6 l3 ' %}" >
     <div class="card large hoverable" >
       <div class="card-image waves-effect waves-block waves-light" >
-        <img  class="activator" src="{{ p.get_image_url }}
-"></div>
+      {{ p.prod }}
+      {% thumbnail p.prod.0.productimages.0.image "315x410" as im %}
+            <img class="responsive-img activator" src="{{ im.url }}" >
+              {% endthumbnail %}
+        <!-- <img  class="activator" src="{{ p.get_image_url }}"> -->
+        </div>
       <div class="card-content">
         <span class="card-title activator grey-text text-darken-4">
           <a href="{{ p.get_absolute_url }}">{{ p.name }} </a><i class="material-icons right">more_vert</i>
@@ -89,24 +93,22 @@
       {% endfor %}
       {% endif %}
         </p>
-            {% ifnotequal p.gender "0"  %}
-            <span class="badge red">{{ p.gender }}</span>
-            {% endifnotequal %}
-        <a data-href='{{ p.get_like_dislike_url  }}' data-position="bottom" data-delay="30" data-tooltip="Like Dislike" class="addtocart btn-floating waves-effect waves-light hoverable tooltipped " ><i class="material-icons ">favorite</i></a>
+           
+        <a data-href='{{ p.get_like_dislike_url  }}' data-position="bottom" data-delay="30" data-tooltip="Like Dislike" class="addtocart btn-floating waves-effect waves-light hoverable tooltipped" style="margin-left: 10px;" ><i class="material-icons ">favorite</i></a>
         {% if incart %}
-        <a href='{{ p.get_delete_cart_url  }}' data-position="bottom" data-delay="30" data-tooltip="Remove from cart" class="btn-floating waves-effect waves-light hoverable tooltipped"><i class="material-icons">remove_shopping_cart</i></a>
+        <a href='{{ p.get_delete_cart_url  }}' data-position="bottom" data-delay="30" data-tooltip="Remove from cart" class="btn-floating waves-effect waves-light hoverable tooltipped" style="margin-left: 10px;"><i class="material-icons">remove_shopping_cart</i></a>
         {% else %}
-        <a data-href='{{ p.get_add_to_cart_url }}' data-position="bottom" data-delay="30" data-tooltip="Add to cart" class="addtocart  btn-floating waves-effect waves-light hoverable tooltipped"><i class="material-icons">add_shopping_cart</i></a>
+        <a data-href='{{ p.get_add_to_cart_url }}' data-position="bottom" data-delay="30" data-tooltip="Add to cart" class="addtocart  btn-floating waves-effect waves-light hoverable tooltipped" style="margin-left: 10px;"><i class="material-icons">add_shopping_cart</i></a>
         {% endif %}
 
         {% if inwl and request.user %}
-        <a href='{{ p.get_delete_wishlist_url }}' data-position="bottom" data-delay="30" data-tooltip="Remove from Wish List" class="btn-floating waves-effect waves-light hoverable tooltipped"><i class="material-icons">redeem</i></a>
+        <a href='{{ p.get_delete_wishlist_url }}' data-position="bottom" data-delay="30" data-tooltip="Remove from Wish List" class="btn-floating waves-effect waves-light hoverable tooltipped" style="margin-left: 10px;"><i class="material-icons">redeem</i></a>
         {% endif %}
 
        {% if p.stockcount %}
           {% else %}
         {% if request.user and not inwl %}
-        <a data-href='{{ p.get_add_to_wishlist_url }}' data-position="bottom" data-delay="30" data-tooltip="Add to wishlist" class="addtocart btn-floating waves-effect waves-light hoverable tooltipped"><i class="material-icons">redeem</i></a>
+        <a data-href='{{ p.get_add_to_wishlist_url }}' data-position="bottom" data-delay="30" data-tooltip="Add to wishlist" class="addtocart btn-floating waves-effect waves-light hoverable tooltipped" style="margin-left: 10px;"><i class="material-icons">redeem</i></a>
         {% endif %}
           {% endif %}
 
@@ -309,13 +311,13 @@
         {% endif %}
 
         {%  if detailp.new_product %}
-          <span class="badge green black-text">New Arrival</span>
+          <span class="badge teal lighten-1 black-text">New Arrival</span>
           {% endif %}
           {%  if detailp.has_logo %}
           <span class="badge red black-text">User Customized</span>
           {% endif %}
           {% ifnotequal detailp.gender "0" %}
-          <span class="badge green black-text">{{ detailp.gender }}</span>
+          <span class="badge teal lighten-1 black-text">{{ detailp.gender }}</span>
           {% endifnotequal %}      
           </div>
           <blockquote >          
@@ -323,26 +325,29 @@
     </blockquote>
                   <h5 class="center"><i class="fa fa-inr fa-1x" aria-hidden="true"></i> {{ detailp.price }}</h5>
 
+                  <div class="center">
+                    
                   {% if detailp.stockcount %}
                 <p>In stock<p>
                 {% else %}
-                <p>Comming Soon</p>
+                <p class="red-text">Comming Soon</p>
                 {% endif %}
                     {% ifnotequal detailp.get_sizes_of_product.0 "0" %}
                     <p>Available sizes 
                     {% for i in detailp.get_sizes_of_product %}
-                    <div class="chip">
+                    <div class="chip teal lighten-3">
                     <b>{{ i.0 }} </b>
                     </div>
                     {% endfor %}
                     </p>
                     {% endifnotequal %}
+                  </div>
                     <hr>
           <div class="section">
           {% if friendslikes %}
           {% for l in friendslikes %}
                       <a href="{{ l.user.user_information.get_absolute_url }}">
-                      <div class="chip">
+                      <div class="chip teal lighten-3">
                       <img class="responsive-img" src="{{ l.user.user_information.get_image_url }}" >
                       {{ l.user|getfullname }}
                       </div>
@@ -361,7 +366,7 @@
                         {% for l in likes %}
                         <p>
                         <a href="{{ l.user.user_information.get_absolute_url }}">
-                          <div class="chip">
+                          <div class="chip teal lighten-3">
                             <img class="responsive-img" src="{{ l.user.user_information.get_image_url }}" >
                             {{ l.user|getfullname }}
                           </div>
@@ -441,6 +446,7 @@
       <a href="{{ review.get_delete_review_url }}">Remove</a> 
       {% endif %}
       <a class="secondary-content yellow-text accent-3">
+      <div style="margin-top: 40px;" class="hide-on-large-only"></div>
       {% for i in review.rating|times %}
       <i class="material-icons">star</i>
       {% endfor %}
@@ -481,7 +487,7 @@
         </div>
         <div class="col l2 m2 s6">
           <button class="btn waves-effect waves-light" type="submit" name="action">Add
-          <i class="material-icons right">send</i>
+          <i class="material-icons right">add</i>
         </button> 
         </div>
       </div>
@@ -505,14 +511,14 @@
             </div>
             <div class="card-action">
             
-              <a href="{{ p.product.get_absolute_url }}" class="black-text" style="text-transform: none;">{{ p.product.name }}</a>
+              <a class="teal-text text-darken-4" href="{{ p.product.get_absolute_url }}" style="text-transform: none;">{{ p.product.name }}</a>
               <br>
-              <a data-href='{{ p.product.get_add_to_cart_url }}' class='addtocart'>Add to cart</a>
+              <a data-href='{{ p.product.get_add_to_cart_url }}' data-position="bottom" data-delay="30" data-tooltip="Add to cart" class="addtocart  btn-floating waves-effect waves-light hoverable tooltipped" style="margin-left: 10px;"><i class="material-icons">add_shopping_cart</i></a>
 
               {% if p.product.stockcount %}
           {% else %}
               {% if request.user %}
-              <a data-href='{{ p.product.get_add_to_wishlist_url }}' class='addtocart'>Add to wishlist</a>
+              <a data-href='{{ p.product.get_add_to_wishlist_url }}' data-position="bottom" data-delay="30" data-tooltip="Add to wishlist" class="addtocart btn-floating waves-effect waves-light hoverable tooltipped" style="margin-left: 10px;"><i class="material-icons">redeem</i></a>
               {% endif %}
               {% endif %}
             </div>

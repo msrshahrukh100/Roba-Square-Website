@@ -25,6 +25,7 @@ class UserInformation(models.Model) :
 	showrecentlyviewed = models.BooleanField(default=True)
 	showfollowers = models.BooleanField(default=True)
 	showfollowing = models.BooleanField(default=True)
+	showdob = models.BooleanField(default=True)
 	slug = AutoSlugField(populate_from='user',unique=True)
 	
 	def __unicode__(self) :

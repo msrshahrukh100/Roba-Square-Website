@@ -76,9 +76,26 @@ def myprofile(request) :
 	recentlyviewed = RecentlyViewed.objects.filter(user=user)
 	idsf = Connections.objects.values_list('user').filter(following=user)
 	followers = User.objects.filter(id__in=idsf)
-	notifications = user.notifications.all()
+	notifications = user.notifications.all()[:10]
 	context = {'user':user,'connections' : connections, 'recentlyviewed' : recentlyviewed,'notifications':notifications,'followers':followers}
 	return render(request,'myprofile.html',context)
+
+
+@never_cache
+@login_required
+def showallnotifications(request) :
+	user = request.user
+	notifications = user.notifications.all()
+	context = {'notifications':notifications}
+	return render(request,'notifications.html',context)
+
+@login_required
+def deletehistory(request) :
+	user = request.user
+	rv = RecentlyViewed.objects.filter(user=user)
+	for i in rv :
+		i.delete()
+	return redirect('social:myprofile')
 
 @never_cache
 @login_required

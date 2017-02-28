@@ -1,0 +1,28 @@
+{% extends 'allauth/base.html' %}
+{% block breadcumb %}
+<div class="col s12" style="padding-left:50px;">
+        <a href="/" class="breadcrumb">Home</a>        
+        <a href="{% url 'social:myprofile' %}" class="breadcrumb" >My Profile</a>
+        <a class="breadcrumb">Notifications</a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+	<div id="test3" class="col s12">
+        {% if notifications %}
+        {% for i in notifications %}
+        <ul class='collection'>
+        <a class="teal-text text-darken-3 " href="{{ i.data.url }}"><li class="collection-item avatar">
+        <img src="{{ i.data.imageurl }}" class="circle">
+        <b class="title">@{{ i.actor }}</b> {{ i.verb }}</br>{{ i.timestamp|timesince }} ago
+        </li></a>
+        </ul>
+        {% endfor %}
+        {% else %}
+        <h5 class="grey-text center">No Notifications yet</h5>
+        {% endif %}
+      </div>
+
+</div>
+{% endblock %}
