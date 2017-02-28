@@ -1,6 +1,7 @@
 {% extends "allauth/base.html" %}
 {% load cfilters %}
 {% block breadcumb %}
+{% load thumbnail %}
 
 <div class="col s12" style="padding-left:50px;">
         <a href="/" class="breadcrumb">Home</a>
@@ -13,11 +14,14 @@
    <ul class="slides" >
     {% for image in images %}
     <li>
-      <img src="{{ image.image.url }}"> <!-- random image -->
+    {% thumbnail image.image '1352x300' as im %}
+      <img src="{{ im.url }}"> 
+      {% endthumbnail %}
+      <!-- random image -->
       <div class="caption {{ image.alignment }}-align">
         <h3>{{ image.header }}</h3>
-        <h5 class="light grey-text text-lighten-3">{{ image.content }}</h5>
-        <h5><a href="{{ image.link }}">{{ image.link_text }}</a><h5>
+        <h5 class="light">{{ image.content }}</h5>
+        <h5><a class="white-text" href="{{ image.link }}">{{ image.link_text }}</a><h5>
         </div>
       </li>
       {% endfor %}
@@ -74,16 +78,18 @@
           <div class="card small">
             <div class="card-image">
                 {% if obj.image %}
-                 <img src='{{ obj.image.url }}' class='responsive-img' />
+              {% thumbnail obj.image '1000x450' as im %}
+                 <img src='{{ im.url }}' class='responsive-img' />
+                 {% endthumbnail %}
                 {% endif %}
             </div>
             <div class="card-action">
-              <span class="badge blue black-text">Viewed {{ obj.get_views_count }} times</span>
+              <span class="badge teal lighten-1 black-text">Viewed {{ obj.get_views_count }} times</span>
               <p>
-              <h5><a style="text-transform: none;" href='{{ obj.get_absolute_url }}'>{{ obj.title }}</a></h5>
+              <h5><a class="teal-text text-darken-4" style="text-transform: none;" href='{{ obj.get_absolute_url }}'>{{ obj.title }}</a></h5>
 
               {% if request.user == obj.user %}
-              <a style="text-transform: none;" href="{% url 'blog:update' slug=obj.slug %}">Edit</a>
+              <a class="teal-text text-darken-4" style="text-transform: none;" href="{% url 'blog:update' slug=obj.slug %}">Edit</a>
               <a style="text-transform: none;" class="red-text" onclick="return confirm('Are you sure you want to delete this post?');" href="{% url 'blog:delete' slug=obj.slug %}">Delete Post?</a>
               <br>
               {% endif %}
@@ -104,7 +110,7 @@
   {% endif %}
   {% for i in nopages %}
   {% if i == object_list.number %}
-    <li class="active"><a href="#!">{{ i }}</a></li>
+    <li class="teal darken-4 active"><a href="#!">{{ i }}</a></li>
     {% else %}
     <li class="waves-effect"><a href="?{{ page_request_var }}={{ i }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ i }}</a></li>
     {% endif %}
@@ -131,7 +137,7 @@
             <hr/>
 
 
-
+{% if my_contributions %}
 <h5 class="center">My Contributions</h5>
 {% for obj in my_contributions %}
 <div class="row">
@@ -139,7 +145,7 @@
           <div class="card small" style="max-height: 170px;">
             <div class="card-content">
             {% if obj.publish_it %}
-            <span class="badge blue black-text">Viewed {{ obj.get_views_count }} times</span>
+            <span class="badge teal lighten-1 black-text">Viewed {{ obj.get_views_count }} times</span>
             {% else %}
               <span class="badge pink black-text">Pending review</span>
               {% endif %}
@@ -156,11 +162,8 @@
           </div>
         </div>
       </div>
-            
-<hr/>
-
 {% endfor %}
-
+{% endif %}
 
 </div>
 

@@ -2,6 +2,7 @@
 {% load staticfiles %}
 {% load cfilters %}
 {% block breadcumb %}
+{% load thumbnail %}
 
 <div class="col s12" style="padding-left:50px;">
         <a href="/" class="breadcrumb">Home</a>
@@ -19,13 +20,16 @@
 {% block content %}
 
 <div class="row">
+
 <div class="col s12 l3 m3 " style="padding-top: 20px;">
 
 {% if user.socialaccount_set.all.0.get_avatar_url %}
             <img class="responsive-img" src="{{ user.socialaccount_set.all.0.get_avatar_url }}" alt="Contact Person">
             <h5>{{ user|getfullname }}</h5>
             {% else %}
-            <img class="responsive-img" src="{{ user.user_information.change_profile_pic.url }}" alt="Contact Person">
+            {% thumbnail user.user_information.change_profile_pic '315x315' as im %}
+            <img class="responsive-img" src="{{ im.url }}" alt="Contact Person">
+            {% endthumbnail %}
             <h5>{{ user|getfullname }}</h5>
 
             {% if user.user_information.date_of_birth %}
@@ -57,6 +61,7 @@
             
 
 </div>
+
 <div class="col s12 l9 m9" style="padding-top: 20px;">
       <ul class="tabs">
         <li class="tab col s3"><a class="teal-text text-darken-3 active" href="#test2">Following</a></li>
@@ -89,13 +94,11 @@
         </div>
         <div class="center">
           <a href="{% url 'social:deletehistory' %}" onclick="return confirm('Are you sure you want to clear your browsing history?');" class="waves-effect waves-light btn">Clear</a>
-
         </div>
 </div>
 {% else %}
 <h5 class="grey-text center">No Items to show</h5>
 {% endif %}
-
     </div>
 
     <div id="test2" class="col s12">
@@ -135,20 +138,23 @@
 
 
         <div id="test3" class="col s12">
+          
         {% if notifications %}
+        <div class="row">
         {% for i in notifications %}
         <ul class='collection'>
         <a class="teal-text text-darken-3 " href="{{ i.data.url }}"><li class="collection-item avatar">
         <img src="{{ i.data.imageurl }}" class="circle">
-        <b class="title">@{{ i.actor }}</b> {{ i.verb }}</br>{{ i.timestamp|timesince }} ago
+        {{ i.verb }}</br>{{ i.timestamp|timesince }} ago
         </li></a>
         </ul>
         {% endfor %}
         <div class="center">
         <a href="{% url 'social:showallnotifications' %}" class="teal-text text-darken-3">Show all</a>
         </div>
+        </div>
+      
         {% else %}
-        <h5 class="grey-text center">No Notifications yet</h5>
         {% endif %}
       </div>
 
@@ -189,6 +195,36 @@
 
 
 </div>
+</div>
+
+<div class="container">
+{% if my_contributions %}
+<h5 class="center">Blog Posts</h5>
+{% for obj in my_contributions %}
+<div class="row">
+        <div class="col s12 m12">
+          <div class="card small" style="max-height: 170px;">
+            <div class="card-content">
+            {% if obj.publish_it %}
+            <span class="badge blue black-text">Viewed {{ obj.get_views_count }} times</span>
+            {% else %}
+              <span class="badge pink black-text">Pending review</span>
+              {% endif %}
+              <p>
+              <h5><a style="text-transform: none;" href='{{ obj.get_absolute_url }}'>{{ obj.title }}</a></h5>
+
+              {% if request.user == obj.user %}
+              <a style="text-transform: none;" href="{% url 'blog:update' slug=obj.slug %}">Edit</a>
+              <a style="text-transform: none;" class="red-text" onclick="return confirm('Are you sure you want to delete this post?');" href="{% url 'blog:delete' slug=obj.slug %}">Delete Post?</a>
+              <br>
+              {% endif %}
+              By <a style="text-transform: none;" class="green-text" href="{{ obj.user.user_information.get_absolute_url }}">{{ obj.user|getfullname }}</a><span class="right grey-text">Submitted {{ obj.timestamp|timesince }} ago</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+{% endfor %}
+{% endif %}
 </div>
 
 {% endblock %}

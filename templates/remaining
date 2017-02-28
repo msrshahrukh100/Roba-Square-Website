@@ -22,16 +22,16 @@ coloring the website
 thumbnailing all the images on the website with sorl thumbnail
 	
 in the my profile page - 
-adding the Blog contributions 
-more notifications in notifications
-dob show in the profile page and privatizing it
-in the recently viewed products - remove add to cart option, just the product name with link
-delete option for products viewed and also for notifications
+*adding the Blog contributions 
+*more notifications in notifications
+*dob show in the profile page and privatizing it
+*in the recently viewed products - remove add to cart option, just the product name with link
+*delete option for products viewed and also for notifications
 
  for the shopping 
  clearing the cart after a successful check out
 
- for the blog - adding safe texxt for the blogs
+for the blog - adding safe texxt for the blogs
 write blogs error at bread crumb
 on the read post there must be some products and 
 and also links to other posts

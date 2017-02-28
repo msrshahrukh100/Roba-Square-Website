@@ -14,6 +14,7 @@ from sorl.thumbnail import get_thumbnail
 from authentication.username import get_user_name
 from django.views.decorators.csrf import csrf_exempt
 from notifications.signals import notify
+from blog.models import Post
 
 
 
@@ -77,7 +78,8 @@ def myprofile(request) :
 	idsf = Connections.objects.values_list('user').filter(following=user)
 	followers = User.objects.filter(id__in=idsf)
 	notifications = user.notifications.all()[:10]
-	context = {'user':user,'connections' : connections, 'recentlyviewed' : recentlyviewed,'notifications':notifications,'followers':followers}
+	my_contributions = Post.objects.filter(user=request.user)
+	context = {'user':user,'connections' : connections, 'recentlyviewed' : recentlyviewed,'notifications':notifications,'followers':followers,'my_contributions':my_contributions}
 	return render(request,'myprofile.html',context)
 
 
@@ -112,6 +114,8 @@ def viewuser(request,slug=None) :
 	recentlyviewed = RecentlyViewed.objects.filter(user=user)
 	context = {}
 	context['user'] = user
+	context['my_contributions'] = Post.objects.filter(user=user).filter(publish_it=True)
+
 	if loggedinuser in connections :
 		if x.showrecentlyviewed :
 			context['recentlyviewed'] = recentlyviewed

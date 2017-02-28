@@ -15,6 +15,14 @@
   <script src="{% static 'js/materialize.min.js' %}"></script>
     <link rel="stylesheet" href="{% static 'css/materialize.min.css' %}">
     <script src="https://use.fontawesome.com/6dc1b79a56.js"></script>
+    <style type="text/css">
+  blockquote{
+  margin: 20px 0;
+  padding-left: 1.5rem;
+  border-left: 5px solid #00897b; /* Just change the color value and that's it*/
+}
+</style>
+     
 
 <meta property="og:url"           content="{{ request.build_absolute_uri }}" />
   <meta property="og:type"          content="article" />
@@ -34,7 +42,11 @@
 <body>
       {% if instance.image %}
  <div class="parallax-container">
-      <div class="parallax"><img src="{{ instance.image.url }}"></div>
+      <div class="parallax">
+      {% thumbnail instance.image '1352x300' as im %}
+      <img src="{{ im.url }}">
+      {% endthumbnail %}
+      </div>
     </div>
     {% endif %}
 
@@ -57,11 +69,11 @@
 <!-- <img src="{{ instance.image.url }}"> -->
 <h2>{{ title }}</h2>
 {% if instance.publish_it %}
-<span class="badge blue black-text">Viewed {{ count }} times</span>
+<span class="badge teal lighten-1 black-text">Viewed {{ count }} times</span>
 {% else %}
-<span class="badge green black-text">Preview</span>
+<span class="badge pink black-text">Preview</span>
 {% endif %}
-<p>By <a href="{{ instance.user.user_information.get_absolute_url }}">{{ instance.user|getfullname }}</a></p>
+<p>By <a class="green-text" href="{{ instance.user.user_information.get_absolute_url }}">{{ instance.user|getfullname }}</a></p>
 
 
 <hr/>
@@ -87,7 +99,7 @@
             <img class="circle" src="{{ im.url }}" alt="Contact Person">
               {% endthumbnail %}            
             {% endif %}
-      <span class="title"><a href="{{ instance.user.user_information.get_absolute_url }}"><b>{{ instance.user|getfullname }}</b></a></span>
+      <span class="title"><a class="teal-text text-darken-3" href="{{ instance.user.user_information.get_absolute_url }}"><b>{{ instance.user|getfullname }}</b></a></span>
       <p> 
     {% if request.user.user_information.profession and request.user.user_information.name_of_institute %}
                 <p>{{ request.user.user_information.profession }} at {{ request.user.user_information.name_of_institute }}</p>
@@ -104,12 +116,12 @@
 </div>
 {% if request.user == instance.user %}
       <p class="center">
-      <a style="text-transform: none;" href="{% url 'blog:update' slug=instance.slug %}">Edit</a>
+      <a style="text-transform: none;" href="{% url 'blog:update' slug=instance.slug %}" class="teal-text text-darken-4">Edit</a>
       <a style="text-transform: none;" class="red-text" onclick="return confirm('Are you sure you want to delete this post?');" href="{% url 'blog:delete' slug=instance.slug %}">Delete Post?</a>
       <br>
       
 {% endif %}
-To contribute for blog posts on Roba Square<a href="{% url 'blog:post_create' %}"> click here</a></p>
+To contribute for blog posts on Roba Square<a href="{% url 'blog:post_create' %}" class="teal-text text-darken-4"> click here</a></p>
 
 {% if instance.publish_it %}
 <div class="container">
@@ -128,16 +140,18 @@ To contribute for blog posts on Roba Square<a href="{% url 'blog:post_create' %}
           <div class="card small">
             <div class="card-image">
                 {% if obj.image %}
-                 <img src='{{ obj.image.url }}' class='responsive-img' />
+               {% thumbnail obj.image '1000x450' as im %} 
+                 <img src='{{ im.url }}' class='responsive-img' />
+                 {% endthumbnail %}
                 {% endif %}
             </div>
             <div class="card-action">
-              <span class="badge blue black-text">Viewed {{ obj.get_views_count }} times</span>
+              <span class="badge teal lighten-1 black-text">Viewed {{ obj.get_views_count }} times</span>
               <p>
-              <h5><a style="text-transform: none;" href='{{ obj.get_absolute_url }}'>{{ obj.title }}</a></h5>
+              <h5><a class="teal-text text-darken-4" style="text-transform: none;" href='{{ obj.get_absolute_url }}'>{{ obj.title }}</a></h5>
 
               {% if request.user == obj.user %}
-              <a style="text-transform: none;" href="{% url 'blog:update' slug=obj.slug %}">Edit</a>
+              <a style="text-transform: none;" href="{% url 'blog:update' slug=obj.slug %}" class="teal-text text-darken-4">Edit</a>
               <a style="text-transform: none;" class="red-text" onclick="return confirm('Are you sure you want to delete this post?');" href="{% url 'blog:delete' slug=obj.slug %}">Delete Post?</a>
               <br>
               {% endif %}
@@ -148,8 +162,8 @@ To contribute for blog posts on Roba Square<a href="{% url 'blog:post_create' %}
       </div>
 {% endfor %}
 <div class="center" style="padding-bottom:  70px;">
-<a class="center" href="{% url 'blog:list' %}">Show all</a> |
-<a class="center" href="/">Home</a>
+<a class="center teal-text text-darken-4" href="{% url 'blog:list' %}">Show all</a> |
+<a class="center teal-text text-darken-4" href="/">Home</a>
 </div>
 </div>
 
