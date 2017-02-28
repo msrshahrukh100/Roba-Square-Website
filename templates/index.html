@@ -205,7 +205,9 @@
    <ul class="slides">
     {% for image in slider %}
     <li>
-      <img src="{{ image.image.url }}"> <!-- random image -->
+    {% thumbnail image.image "1351x500" as im %}
+      <img src="{{ im.url }}"> <!-- random image -->
+      {% endthumbnail %}
       <div class="caption {{ image.alignment }}-align">
         <h3>{{ image.header }}</h3>
         <h5 class="light grey-text text-lighten-3">{{ image.content }}</h5>

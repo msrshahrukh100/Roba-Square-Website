@@ -28,9 +28,12 @@
             <img class="responsive-img" src="{{ user.user_information.change_profile_pic.url }}" alt="Contact Person">
             <h5>{{ user|getfullname }}</h5>
 
+            {% if user.user_information.date_of_birth %}
             {% if user.user_information.showdob %}
             <i class="material-icons left teal-text text-darken-3">cake</i> {{ user.user_information.date_of_birth }}
             {% endif %}
+            {% endif %}
+            
             {% if request.user == user %}
             <div class="row">
           <form method='POST' action="{% url 'authentication:change_dp' %}" enctype='multipart/form-data'>{% csrf_token %}

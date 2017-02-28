@@ -66,11 +66,10 @@
   <div class="{% cycle 'col s12 m6 l3 offset-l1' 'col s12 m6 l3' 'col s12 m6 l3 ' %}" >
     <div class="card large hoverable" >
       <div class="card-image waves-effect waves-block waves-light" >
-      {{ p.prod }}
-      {% thumbnail p.prod.0.productimages.0.image "315x410" as im %}
+      <!-- {{ p.prod.all.0.productimages.all.0.image }} -->
+      {% thumbnail p.prod.all.0.productimages.all.0.image "315x410" as im %}
             <img class="responsive-img activator" src="{{ im.url }}" >
-              {% endthumbnail %}
-        <!-- <img  class="activator" src="{{ p.get_image_url }}"> -->
+      {% endthumbnail %}
         </div>
       <div class="card-content">
         <span class="card-title activator grey-text text-darken-4">
@@ -348,7 +347,16 @@
           {% for l in friendslikes %}
                       <a href="{{ l.user.user_information.get_absolute_url }}">
                       <div class="chip teal lighten-3">
-                      <img class="responsive-img" src="{{ l.user.user_information.get_image_url }}" >
+
+                      {% if l.user.socialaccount_set.all.0 %}
+            <img src="{{ l.user.socialaccount_set.all.0.get_avatar_url }}" alt="Contact Person" class="circle responsive-img">
+            {% else %}
+            {% thumbnail l.user.user_information.change_profile_pic "100x100" as im %}
+            <img src="{{ im.url }}" alt="Contact Person" class="circle responsive-img">
+            {% endthumbnail %}
+            {% endif %}
+
+                      <!-- <img class="responsive-img" src="{{ l.user.user_information.get_image_url }}" > -->
                       {{ l.user|getfullname }}
                       </div>
                       </a>
@@ -367,7 +375,16 @@
                         <p>
                         <a href="{{ l.user.user_information.get_absolute_url }}">
                           <div class="chip teal lighten-3">
-                            <img class="responsive-img" src="{{ l.user.user_information.get_image_url }}" >
+
+                          {% if l.user.socialaccount_set.all.0 %}
+            <img src="{{ l.user.socialaccount_set.all.0.get_avatar_url }}" alt="Contact Person" class="circle responsive-img">
+            {% else %}
+            {% thumbnail l.user.user_information.change_profile_pic "100x100" as im %}
+            <img src="{{ im.url }}" alt="Contact Person" class="circle responsive-img">
+            {% endthumbnail %}
+            {% endif %}
+
+                            <!-- <img class="responsive-img" src="{{ l.user.user_information.get_image_url }}" > -->
                             {{ l.user|getfullname }}
                           </div>
                           <span class="right grey-text">{{ l.timestamp|timesince }} ago</span>
@@ -507,7 +524,14 @@
           <div class="col l3 s6 m6">
           <div class="card z-depth-0">
             <div class="card-image">
-              <img src="{{ p.product.get_image_url }}">
+            <!-- {{ p.product.prod.all.0.productimages.all.0.image }} -->
+            {% thumbnail p.product.prod.all.0.productimages.all.0.image "315x410" as im %}
+            <img class="responsive-img activator" src="{{ im.url }}" >
+      {% endthumbnail %}
+
+              <!-- <img src="{{ p.product.get_image_url }}"> -->
+
+
             </div>
             <div class="card-action">
             
