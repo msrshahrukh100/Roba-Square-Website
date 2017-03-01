@@ -1,5 +1,5 @@
 from django.conf.urls import include, url
-from .views import checkoutpage, requestpayment, paymentredirect, webhook, generateinvoice, myorders, returns
+from .views import checkoutpage, requestpayment, paymentredirect, webhook, generateinvoice, myorders, returns, myreturns
 
 urlpatterns = [
 	url(r'^generateinvoice/$', generateinvoice, name='generateinvoice'),
@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'^webhook/$', webhook, name='webhook'),
     url(r'^myorders/$', myorders, name='myorders'),
     url(r'^returns/(?P<id>\d+)$', returns, name='returns'),
+    url(r'^myreturns/$', myreturns, name='myreturns'),
 
 
 ]

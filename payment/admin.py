@@ -11,7 +11,7 @@ class OnlineTransactionDetailAdmin(admin.ModelAdmin) :
 
 
 class BuyingCartAdmin(admin.ModelAdmin) :
-	list_display = ["user","product","size","quantity","method_of_payment","price","address","phonenumber","status","timestamp"]
+	list_display = ["user","product","size","quantity","method_of_payment","price","address","phonenumber","status","timestamp","invoice_url"]
 	list_filter = ["timestamp","status","user","product","method_of_payment"]
 	class Meta:
 		model = BuyingCart

@@ -1,0 +1,41 @@
+{% extends "allauth/base.html" %}
+{% block breadcumb %}
+{% load thumbnail %}
+<div class="col s12" style="padding-left:50px;">
+        <a href="/" class="breadcrumb">Home</a>
+        <a href="{% url 'payment:myorders' %}" class="breadcrumb">My Orders</a>
+        <a class="breadcrumb">My Returns</a>
+
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+      
+
+<div class="row">
+  <div class="col s12">
+    <div class="section scrollspy">
+      <ul class="collection">
+
+{% for i in items %}
+    <li class="collection-item avatar">
+    {% thumbnail i.refund_item.product.prod.all.0.productimages.all.0.image "64x64" as im %}
+            <img src="{{ im.url }}" alt="Contact Person" class="circle">
+              {% endthumbnail %}
+      <a class="teal-text text-darken-3" href="{{ i.refund_item.product.get_absolute_url }}"><b class="title">{{ i.refund_item.product.name }}</b></a>
+      <p><b>Size</b>: {% ifnotequal i.refund_item.size "0" %}{{ i.refund_item.size }}{% else %}N/A{% endifnotequal %} <br>
+         <b>Quantity</b>: {{ i.refund_item.quantity }}<br>
+        <b>Date</b>: {{ i.refund_item.timestamp }}<br>
+         <b>Method of Payment</b>: {{ i.refund_item.method_of_payment }}<br>
+         <b>Status</b>:{% if i.refund_amount_to_user %} Done {% else %} <span class="red-text">Pending</span>{% endif %}
+      </p>
+    </li>
+    {% endfor %}
+    </ul> 
+    </div>
+  </div>
+</div>
+</div>
+
+{% endblock %}

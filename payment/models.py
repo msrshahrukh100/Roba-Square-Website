@@ -46,7 +46,8 @@ class BuyingCart(models.Model) :
 	cod_unique_id = models.CharField(max_length=150,null=True,blank=True) 
 	status = models.CharField(max_length=10, default="Pending")
 	timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
-
+	invoice_url = models.URLField(default='/')
+	returned = models.BooleanField(default=False)
 	def __unicode__(self):
 		return str(self.id)
 
@@ -58,13 +59,14 @@ class BuyingCart(models.Model) :
 
 class Refund_requests(models.Model) :
 	user = models.ForeignKey(User,on_delete=models.CASCADE,related_name='refundrequest')
-	refund_item = models.ForeignKey(BuyingCart,on_delete=models.CASCADE, related_name="refunds")
+	refund_item = models.ForeignKey(BuyingCart,on_delete=models.DO_NOTHING, related_name="refunds")
 	reason = models.CharField(max_length=200)
 	refund_amount_to_user = models.BooleanField(default=False,help_text="Setting this field to true refunds the amount to the user's account.Set it to true only after you receive the products")
 
 	def __unicode__(self) :
 		return str(self.id)
 
+# for the online payment only
 class RefundsHistory(models.Model) :
 	user = models.ForeignKey(User,on_delete=models.CASCADE,related_name='refundhistory')
 	refundid = models.CharField(max_length=50)

@@ -11,6 +11,8 @@ from .models import OnlineTransactionsDetail, BuyingCart, Refund_requests
 from django.contrib.auth.decorators import login_required
 from easy_pdf.rendering import render_to_pdf_response
 import uuid
+from notifications.signals import notify
+
 # Create your views here.
 
 
@@ -114,7 +116,8 @@ def requestpayment(request) :
 				address=address,
 				phonenumber=phone,
 				status="Done",
-				cod_unique_id=cod_unique_id
+				cod_unique_id=cod_unique_id,
+				invoice_url=reverse("payment:generateinvoice")[:-1] + "?type=cod&id=" + str(cod_unique_id),
 				)
 		url = reverse("payment:generateinvoice")[:-1] + "?type=cod&id=" + str(cod_unique_id)
 		context = {"type" : 1,"url":url}
@@ -183,6 +186,7 @@ def paymentredirect(request):
 			for i in buyingcart :
 				i.status = "Done"
 				i.paymentid = payment_id
+				i.invoice_url = reverse("payment:generateinvoice")[:-1] + "?type=online&id=" + str(context['payment_request']['id'])
 				i.save()
 			context['type'] = 1
 			context['url'] = reverse("payment:generateinvoice")[:-1] + "?type=online&id=" + str(context['payment_request']['id'])
@@ -200,7 +204,7 @@ def paymentredirect(request):
 
 @login_required
 def myorders(request) :
-	items = BuyingCart.objects.filter(user=request.user).order_by("-id")
+	items = BuyingCart.objects.filter(user=request.user).filter(returned=False).order_by("-id")
 
 	context = {"items":items}
 	return render(request,"myorders.html",context)
@@ -248,9 +252,22 @@ def returns(request,id=None) :
 		item = BuyingCart.objects.get(id=request.POST.get('id'))
 		reason = request.POST.get('reason')
 		Refund_requests.objects.get_or_create(user=request.user,refund_item=item,reason=reason)
+		verb = "We have received your request for return. You can check the status in My Refunds."
+		url = reverse("payment:myorders")
+
+		imageurl = item.product.get_image_url
+		notify.send(request.user, recipient=request.user, verb=verb, url=url,imageurl=imageurl)
+		item.returned = True
+		item.save()
 		return redirect("/")
 
 	item = BuyingCart.objects.get(id=id)
 	context = {"item":item, "id":id}
 	return render(request, 'returnpage.html', context)
+
+
+@login_required
+def myreturns(request) :
+	context = {"items" : Refund_requests.objects.filter(user=request.user)}
+	return render(request,"myreturns.html", context)
 	

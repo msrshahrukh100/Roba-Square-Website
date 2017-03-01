@@ -64,7 +64,7 @@
 {% if products %}
   {% for p in products %}
   <div class="{% cycle 'col s12 m6 l3 offset-l1' 'col s12 m6 l3' 'col s12 m6 l3 ' %}" >
-    <div class="card large hoverable" >
+    <div class="card hoverable" >
       <div class="card-image waves-effect waves-block waves-light" >
       <!-- {{ p.prod.all.0.productimages.all.0.image }} -->
       {% thumbnail p.prod.all.0.productimages.all.0.image "315x410" as im %}
@@ -92,7 +92,8 @@
       {% endfor %}
       {% endif %}
         </p>
-           
+           <div class="center">
+             
         <a data-href='{{ p.get_like_dislike_url  }}' data-position="bottom" data-delay="30" data-tooltip="Like Dislike" class="addtocart btn-floating waves-effect waves-light hoverable tooltipped" style="margin-left: 10px;" ><i class="material-icons ">favorite</i></a>
         {% if incart %}
         <a href='{{ p.get_delete_cart_url  }}' data-position="bottom" data-delay="30" data-tooltip="Remove from cart" class="btn-floating waves-effect waves-light hoverable tooltipped" style="margin-left: 10px;"><i class="material-icons">remove_shopping_cart</i></a>
@@ -111,6 +112,7 @@
         {% endif %}
           {% endif %}
 
+           </div>
       </div>
       <div class="card-reveal">
         <span class="card-title grey-text text-darken-4">
@@ -233,17 +235,28 @@
 
 
      <div class="row">
-        <div class="col l6 s12 m6">
+        <div class="col l3 s12 m4 offset-l1 offset-m1">
+<!-- 
+{% for im in detailp.prod.all %}
+          {% for image in im.productimages.all %}
+              <li><a href="#{{ image.id }}">
+              {% thumbnail image.image "900x350" as img %}
+                <img src="{{ img.url }}" data-caption="{{ detailp.name }} {{ im.color }} {{ im.size }}" class="responsive-img">
+              {% endthumbnail %}
+                </a>
+                </li>
+              {% endfor %}
+          {% endfor %} -->
 
-          <div class="card z-depth-0" style="height: 500px;">
+          <div class="card z-depth-0">
             <div class="card-image">
           <div class="slider productslider" >
             <ul class="slides">
               {% for im in detailp.prod.all %}
           {% for image in im.productimages.all %}
               <li><a href="#{{ image.id }}">
-              {% thumbnail image.image "450x500" as img %}
-                <img src="{{ img.url }}" height="500px" width="450px" data-caption="{{ detailp.name }} {{ im.color }} {{ im.size }}" class="responsive-img">
+              {% thumbnail image.image "900x350" as img %}
+                <img src="{{ img.url }}" data-caption="{{ detailp.name }} {{ im.color }} {{ im.size }}" class="responsive-img">
               {% endthumbnail %}
                 </a>
                 </li>
@@ -252,8 +265,15 @@
               
             </ul>
           </div>
-          
 
+ <!--          <script type="text/javascript">
+  $(document).ready(function(){
+    $('.slider.productslider').slider({
+    height:600
+    });
+  });
+  </script> -->
+          
             </div>
     {% for im in detailp.prod.all %}
           {% for image in im.productimages.all %}
@@ -271,6 +291,7 @@
               {% if detailp.stockcount %}
           {% else %}
               {% if request.user %}
+              <div style="padding-top: 20px;"></div>
               <a data-href='{{ detailp.get_add_to_wishlist_url }}' class='addtocart waves-effect waves-light btn'><i class="material-icons left">redeem</i>Add to wishlist</a>
               {% endif %}
               {% endif %}
@@ -288,7 +309,7 @@
           </div>
         </div>
 
-      <div class="col l6 s12 m6">
+      <div class="col l7 s12 m7">
         <div class="card-panel white card z-depth-0">
 <div class="hide-on-med-and-up" style="padding-top: 100px;"></div>
           <div class="row">
@@ -533,7 +554,7 @@
 
 
             </div>
-            <div class="card-action">
+            <div class="card-action center">
             
               <a class="teal-text text-darken-4" href="{{ p.product.get_absolute_url }}" style="text-transform: none;">{{ p.product.name }}</a>
               <br>
