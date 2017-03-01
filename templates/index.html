@@ -371,11 +371,21 @@
 <div class="col s6 hide-on-large-only" style="height: 25px;"></div>
         <div class="col l6 s12">
         <div class="hide-on-med-and-down" style="padding-top: 40px;"></div>
-            <i style="padding-left: 10px;" class="fa fa-instagram fa-2x black-text right" aria-hidden="true"></i>
+           <a href="https://www.instagram.com/roba_square/" target="_blank">
+           <i style="padding-left: 10px;" class="fa fa-instagram fa-2x black-text right" aria-hidden="true"></i>  
+           </a>
+           <a href="https://twitter.com/roba_square" target="_blank"> 
             <i style="padding-left: 10px;" class="fa fa-twitter fa-2x black-text right" aria-hidden="true"></i>
-            <i style="padding-left: 10px;" class="fa fa-youtube fa-2x black-text right" aria-hidden="true"></i>
-            <i style="padding-left: 10px;" class="fa fa-google fa-2x black-text right" aria-hidden="true"></i>
+           </a> 
+           <a href="https://www.youtube.com/channel/UCmRn617_koWRtvuzv44XcRA" target="_blank">
+            <i style="padding-left: 10px;" class="fa fa-youtube fa-2x black-text right" aria-hidden="true"></i> 
+           </a>
+           <a href="https://plus.google.com/u/0/109485630924303286551" target="_blank">
+            <i style="padding-left: 10px;" class="fa fa-google fa-2x black-text right" aria-hidden="true"></i> 
+           </a>
+           <a href="https://www.facebook.com/RobaSquare/" target="_blank"> 
             <i style="padding-left: 10px;" class="fa fa-facebook fa-2x black-text right" aria-hidden="true"></i>
+           </a>
         </div>
       </div>
       </div>
@@ -386,7 +396,11 @@
             <b>Robasquare</b>
             <ul>
               <li><i class="fa fa-users fa-1x black-text left" aria-hidden="true"></i>About Us</li>
-              <li><i class="fa fa-rss fa-1x black-text left" aria-hidden="true"></i>Blogs</li>
+              <li>
+              <a href="{% url 'blog:list' %}" class="black-text">
+              <i class="fa fa-rss fa-1x black-text left" aria-hidden="true"></i>Blogs
+              </a>
+              </li>
               <li><i class="fa fa-list fa-1x black-text left" aria-hidden="true"></i>Community Guidelines</li>
             </ul>
           </div>
@@ -402,8 +416,12 @@
           <div class="col l4">
             <b>Get to Know us</b>
             <ul>
-              <li><i class="fa fa-phone fa-1x black-text left" aria-hidden="true"></i>Phone: +91-99999999999</li>
-              <li><i class="fa fa-envelope  fa-1x black-text left" aria-hidden="true"></i>Email: care@robasquare.com</li>
+              <li><i class="fa fa-phone fa-1x black-text left" aria-hidden="true"></i>Phone: +91-9910059750</li>
+              <li>
+              <a href="mailto:care@robasquare.com" class="black-text">
+              <i class="fa fa-envelope  fa-1x black-text left" aria-hidden="true"></i>Email: care@robasquare.com
+              </a>
+              </li>
               <li>
                 {% block facebookpage %}
          
