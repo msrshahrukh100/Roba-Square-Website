@@ -134,3 +134,22 @@ def removeaddress(request,id=None) :
 	instance.delete()
 	return redirect('authentication:change_settings')
 
+
+def viewextra(request,id) :
+	if id == '1' :
+		return render(request,'extras/aboutus.html',{})
+	if id == '2' :
+		return render(request,'extras/communityguidelines.html',{})
+	if id == '3' :
+		return render(request,'extras/returnexchange.html',{})
+	if id == '4' :
+		return render(request,'extras/shipping.html',{})
+	if id == '5' :
+		return render(request,'extras/help.html',{})
+	if id == '6' :
+		return render(request,'extras/disclaimer.html',{})
+	if id == '7' :
+		return render(request,'extras/termsofuse.html',{})
+	if id == '8' :
+		return render(request,'extras/privacy.html',{})
+

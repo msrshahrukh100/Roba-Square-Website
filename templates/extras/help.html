@@ -1,0 +1,38 @@
+{% extends 'allauth/base.html' %}
+
+{% block breadcumb %}
+<div class="col s12" style="padding-left:50px;">
+        <a href="/" class="breadcrumb">Home</a>
+        <a class="breadcrumb">Help</a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+	<h4 class="center">Roba Square Help Center</h4>
+	<h5>My Account and My order</h5>
+	<b></b>
+
+
+	 <ul class="collapsible popout" data-collapsible="accordion">
+    <li>
+      <div class="collapsible-header"><i class="material-icons">filter_drama</i>First</div>
+      <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+    </li>
+    <li>
+      <div class="collapsible-header"><i class="material-icons">place</i>Second</div>
+      <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+    </li>
+    <li>
+      <div class="collapsible-header"><i class="material-icons">whatshot</i>Third</div>
+      <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+    </li>
+  </ul>
+</div>
+<script type="text/javascript">
+	 $(document).ready(function(){
+    $('.collapsible').collapsible();
+  });
+       
+</script>
+{% endblock %}

@@ -395,22 +395,47 @@
           <div class="col l4">
             <b>Robasquare</b>
             <ul>
-              <li><i class="fa fa-users fa-1x black-text left" aria-hidden="true"></i>About Us</li>
+
+              <li>
+              <a href="{% url 'authentication:viewextra' id=1 %}" class="black-text">
+              <i class="fa fa-users fa-1x black-text left" aria-hidden="true"></i>About Us</li>
+              </a>
               <li>
               <a href="{% url 'blog:list' %}" class="black-text">
               <i class="fa fa-rss fa-1x black-text left" aria-hidden="true"></i>Blogs
               </a>
               </li>
-              <li><i class="fa fa-list fa-1x black-text left" aria-hidden="true"></i>Community Guidelines</li>
+
+              <li>
+              <a href="{% url 'authentication:viewextra' id=2 %}" class="black-text">
+              <i class="fa fa-list fa-1x black-text left" aria-hidden="true"></i>Community Guidelines
+              </a>
+              </li>
             </ul>
           </div>
           <div class="col l4">
             <b>Customer Service</b>
             <ul>
-              <li><i class="fa fa-undo fa-1x black-text left" aria-hidden="true"></i>Return and Exchange</li>
-              <li><i class="fa fa-truck fa-1x black-text left" aria-hidden="true"></i>Shipping</li>
-              <li><i class="fa fa-info fa-1x black-text left" aria-hidden="true"></i>Help</li>
-              <li><i class="fa fa-exclamation fa-1x black-text left" aria-hidden="true"></i>Disclaimer</li>
+              <li>
+              <a href="{% url 'authentication:viewextra' id=3 %}" class="black-text">
+              <i class="fa fa-undo fa-1x black-text left" aria-hidden="true"></i>Return and Exchange
+              </a>
+              </li>
+              <li>
+              <a href="{% url 'authentication:viewextra' id=4 %}" class="black-text">
+              <i class="fa fa-truck fa-1x black-text left" aria-hidden="true"></i>Shipping
+              </a>
+              </li>
+              <li>
+              <a href="{% url 'authentication:viewextra' id=5 %}" class="black-text">
+              <i class="fa fa-info fa-1x black-text left" aria-hidden="true"></i>Help
+              </a>
+              </li>
+              <li>
+              <a href="{% url 'authentication:viewextra' id=6 %}" class="black-text">
+              <i class="fa fa-exclamation fa-1x black-text left" aria-hidden="true"></i>Disclaimer
+              </a>
+              </li>
             </ul>
           </div>
           <div class="col l4">
@@ -435,8 +460,8 @@
       <div class="footer-copyright">
         <div class="container black-text">
           © 2017 Copyright Roba Square
-          <a class="black-text right" href="#!" style="padding-left: 20px;">Terms of Use</a> 
-          <a class="black-text right" href="">Privacy Policy</a> 
+          <a class="black-text right" href="{% url 'authentication:viewextra' id=7 %}" style="padding-left: 20px;">Terms of Use</a> 
+          <a class="black-text right" href="{% url 'authentication:viewextra' id=8 %}">Privacy Policy</a> 
         </div>
       </div>
     </footer>
