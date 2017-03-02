@@ -1,5 +1,4 @@
 {% extends "index.html" %}
-{% block title %}View title{% endblock %}
 {% load crispy_forms_tags %}
 {% load cfilters %}
 {% load staticfiles %}
@@ -14,6 +13,21 @@
 {% endblock %}
 
 {% block facebookpage %}
+{% endblock %}
+
+
+{% block title %}
+{% if type == 1 %}
+{% if etype == 1 %}
+My Cart
+{% elif etype == 2 %}
+My Wish List
+{% else %}
+{{ cname }}
+{% endif %}
+{% else %}
+RobaSquare | {{ detailp.name }}
+{% endif %}
 {% endblock %}
 
 {% block breadcumb %}

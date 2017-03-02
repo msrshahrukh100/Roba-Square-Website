@@ -18,6 +18,7 @@ from .forms import PostForm
 from .models import Post, PostViews,BlogSlider
 from django.contrib.auth.decorators import login_required
 from django.contrib.contenttypes.models import ContentType
+from social.models import RecentlyViewed
 
 @login_required
 def post_create(request):
@@ -45,11 +46,17 @@ def post_detail(request, slug=None):
 			ip=request.META['REMOTE_ADDR'],
 			session=request.session.session_key
 			)
+	if request.user.is_anonymous() :
+		recentlyviewed = []
+	else :
+		recentlyviewed = RecentlyViewed.objects.filter(user=request.user)[:4]
+
 	context = {
 		"posts" : Post.objects.filter(publish_it=True).order_by('?')[:3] ,
 		"title": instance.title,
 		"instance": instance,
-		'count' : PostViews.objects.filter(post=instance).count()
+		'count' : PostViews.objects.filter(post=instance).count(),
+		"recentlyviewed":recentlyviewed,
 	}
 	return render(request, "blog/post_detail.html", context)
 

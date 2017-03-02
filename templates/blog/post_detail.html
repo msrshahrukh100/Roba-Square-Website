@@ -14,6 +14,8 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="{% static 'js/materialize.min.js' %}"></script>
     <link rel="stylesheet" href="{% static 'css/materialize.min.css' %}">
+      <link href="{% static 'css/icons.css' %}" rel="stylesheet">
+
     <script src="https://use.fontawesome.com/6dc1b79a56.js"></script>
     <style type="text/css">
   blockquote{
@@ -180,15 +182,55 @@ To contribute for blog posts on Roba Square<a href="{% url 'blog:post_create' %}
 
 
 
+<h5 class="center">Try Out some awesome products on Roba Square</h5>
+
+{% if recentlyviewed %}
+<div class="section">
+      <div class="row">
+      {% for p in recentlyviewed %}
+          <div class="col l3 s6 m6">
+          <div class="card z-depth-0">
+            <div class="card-image">
+            <!-- {{ p.product.prod.all.0.productimages.all.0.image }} -->
+            {% thumbnail p.product.prod.all.0.productimages.all.0.image "315x410" as im %}
+            <img class="responsive-img activator" src="{{ im.url }}" >
+      {% endthumbnail %}
+
+              <!-- <img src="{{ p.product.get_image_url }}"> -->
+
+
+            </div>
+            <div class="card-action center">
+            
+              <a class="teal-text text-darken-4" href="{{ p.product.get_absolute_url }}" style="text-transform: none;">{{ p.product.name }}</a>
+              <br>
+              <a data-href='{{ p.product.get_add_to_cart_url }}' data-position="bottom" data-delay="30" data-tooltip="Add to cart" class="addtocart  btn-floating waves-effect waves-light hoverable tooltipped" style="margin-left: 10px;"><i class="material-icons">add_shopping_cart</i></a>
+
+              {% if p.product.stockcount %}
+          {% else %}
+              {% if request.user %}
+              <a data-href='{{ p.product.get_add_to_wishlist_url }}' data-position="bottom" data-delay="30" data-tooltip="Add to wishlist" class="addtocart btn-floating waves-effect waves-light hoverable tooltipped" style="margin-left: 10px;"><i class="material-icons">redeem</i></a>
+              {% endif %}
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+        </div>
+</div>
+{% endif %}
+
+
+
+
 <script type="text/javascript">
 	 $(document).ready(function(){
       $('.parallax').parallax();
     });
         
 </script>
-
-<footer class="page-footer  teal darken-2 white-text">
-      <div class="row teal darken-3" style="margin-top: -20px; height: 140px;">
+    <footer class="page-footer  teal darken-2 white-text">
+      <div class="row teal darken-3" style="margin-top: -20px; height: 120px;">
       <div class="container">
         
         <div class="col l6 s12">
@@ -202,14 +244,24 @@ To contribute for blog posts on Roba Square<a href="{% url 'blog:post_create' %}
           </div>
         </div>
         </div>
-
+<div class="col s6 hide-on-large-only" style="height: 25px;"></div>
         <div class="col l6 s12">
         <div class="hide-on-med-and-down" style="padding-top: 40px;"></div>
-            <i style="padding-left: 10px;" class="fa fa-instagram fa-2x black-text right" aria-hidden="true"></i>
+           <a href="https://www.instagram.com/roba_square/" target="_blank">
+           <i style="padding-left: 10px;" class="fa fa-instagram fa-2x black-text right" aria-hidden="true"></i>  
+           </a>
+           <a href="https://twitter.com/roba_square" target="_blank"> 
             <i style="padding-left: 10px;" class="fa fa-twitter fa-2x black-text right" aria-hidden="true"></i>
-            <i style="padding-left: 10px;" class="fa fa-youtube fa-2x black-text right" aria-hidden="true"></i>
-            <i style="padding-left: 10px;" class="fa fa-google fa-2x black-text right" aria-hidden="true"></i>
+           </a> 
+           <a href="https://www.youtube.com/channel/UCmRn617_koWRtvuzv44XcRA" target="_blank">
+            <i style="padding-left: 10px;" class="fa fa-youtube fa-2x black-text right" aria-hidden="true"></i> 
+           </a>
+           <a href="https://plus.google.com/u/0/109485630924303286551" target="_blank">
+            <i style="padding-left: 10px;" class="fa fa-google fa-2x black-text right" aria-hidden="true"></i> 
+           </a>
+           <a href="https://www.facebook.com/RobaSquare/" target="_blank"> 
             <i style="padding-left: 10px;" class="fa fa-facebook fa-2x black-text right" aria-hidden="true"></i>
+           </a>
         </div>
       </div>
       </div>
@@ -219,25 +271,58 @@ To contribute for blog posts on Roba Square<a href="{% url 'blog:post_create' %}
           <div class="col l4">
             <b>Robasquare</b>
             <ul>
-              <li><i class="fa fa-users fa-1x black-text left" aria-hidden="true"></i>About Us</li>
-              <li><i class="fa fa-rss fa-1x black-text left" aria-hidden="true"></i>Blogs</li>
-              <li><i class="fa fa-list fa-1x black-text left" aria-hidden="true"></i>Community Guidelines</li>
+
+              <li>
+              <a href="{% url 'authentication:viewextra' id=1 %}" class="black-text">
+              <i class="fa fa-users fa-1x black-text left" aria-hidden="true"></i>About Us</li>
+              </a>
+              <li>
+              <a href="{% url 'blog:list' %}" class="black-text">
+              <i class="fa fa-rss fa-1x black-text left" aria-hidden="true"></i>Blogs
+              </a>
+              </li>
+
+              <li>
+              <a href="{% url 'authentication:viewextra' id=2 %}" class="black-text">
+              <i class="fa fa-list fa-1x black-text left" aria-hidden="true"></i>Community Guidelines
+              </a>
+              </li>
             </ul>
           </div>
           <div class="col l4">
             <b>Customer Service</b>
             <ul>
-              <li><i class="fa fa-undo fa-1x black-text left" aria-hidden="true"></i>Return and Exchange</li>
-              <li><i class="fa fa-truck fa-1x black-text left" aria-hidden="true"></i>Shipping</li>
-              <li><i class="fa fa-info fa-1x black-text left" aria-hidden="true"></i>Help</li>
-              <li><i class="fa fa-exclamation fa-1x black-text left" aria-hidden="true"></i>Disclaimer</li>
+              <li>
+              <a href="{% url 'authentication:viewextra' id=3 %}" class="black-text">
+              <i class="fa fa-undo fa-1x black-text left" aria-hidden="true"></i>Return and Exchange
+              </a>
+              </li>
+              <li>
+              <a href="{% url 'authentication:viewextra' id=4 %}" class="black-text">
+              <i class="fa fa-truck fa-1x black-text left" aria-hidden="true"></i>Shipping
+              </a>
+              </li>
+              <li>
+              <a href="{% url 'authentication:viewextra' id=5 %}" class="black-text">
+              <i class="fa fa-info fa-1x black-text left" aria-hidden="true"></i>Help
+              </a>
+              </li>
+              <li>
+              <a href="{% url 'authentication:viewextra' id=6 %}" class="black-text">
+              <i class="fa fa-exclamation fa-1x black-text left" aria-hidden="true"></i>Disclaimer
+              </a>
+              </li>
             </ul>
           </div>
           <div class="col l4">
             <b>Get to Know us</b>
             <ul>
-              <li><i class="fa fa-phone fa-1x black-text left" aria-hidden="true"></i>Phone: +91-99999999999</li>
-              <li><i class="fa fa-envelope  fa-1x black-text left" aria-hidden="true"></i>Email: care@robasquare.com</li>
+              <li><i class="fa fa-phone fa-1x black-text left" aria-hidden="true"></i>Phone: +91-9910059750</li>
+              <li>
+              <a href="mailto:care@robasquare.com" class="black-text">
+              <i class="fa fa-envelope  fa-1x black-text left" aria-hidden="true"></i>Email: care@robasquare.com
+              </a>
+              </li>
               <li>
                 {% block facebookpage %}
          
@@ -251,11 +336,12 @@ To contribute for blog posts on Roba Square<a href="{% url 'blog:post_create' %}
       <div class="footer-copyright">
         <div class="container black-text">
           © 2017 Copyright Roba Square
-          <a class="black-text right" href="#!" style="padding-left: 20px;">Terms of Use</a> 
-          <a class="black-text right" href="">Privacy Policy</a> 
+          <a class="black-text right" href="{% url 'authentication:viewextra' id=7 %}" style="padding-left: 20px;">Terms of Use</a> 
+          <a class="black-text right" href="{% url 'authentication:viewextra' id=8 %}">Privacy Policy</a> 
         </div>
       </div>
     </footer>
+
 <script type="text/javascript">
   
   $(document).ready(function(){

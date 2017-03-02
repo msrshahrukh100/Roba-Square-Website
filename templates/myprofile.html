@@ -1,8 +1,16 @@
 {% extends 'allauth/base.html' %}
 {% load staticfiles %}
 {% load cfilters %}
-{% block breadcumb %}
 {% load thumbnail %}
+
+
+
+{% block head_title %}
+RobaSquare | {{ user|getfullname }}
+{% endblock %}
+
+
+{% block breadcumb %}
 
 <div class="col s12" style="padding-left:50px;">
         <a href="/" class="breadcrumb">Home</a>
