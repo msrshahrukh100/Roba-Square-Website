@@ -24,7 +24,7 @@ from blog.models import Post
 def viewallusers(request) :
 	user = request.user
 	# .filter(is_superuser=False).filter(is_staff=False)
-	users = User.objects.order_by('?')
+	users = User.objects.all().filter(is_superuser=False).filter(is_staff=False).order_by('?')
 
 	paginator = Paginator(users, 24) 
 	nopages = paginator.num_pages

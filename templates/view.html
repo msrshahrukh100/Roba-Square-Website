@@ -133,17 +133,17 @@ RobaSquare | {{ detailp.name }}
           {{ p.name }} <i class="material-icons right">close</i>
         </span>
         <p>
-          {{ p.description }}
+          {{ p.description|linebreaks }}
         </p>
           {% if p.stockcount %}
-          <p>In stock<p>
+          <p class="green-text">In stock<p>
           {% else %}
-          <p>Comming Soon</p>
+          <p class="red">Comming Soon</p>
           {% endif %}
-              {% ifnotequal p.get_sizes_of_product.0 "0" %}
+              {% ifnotequal p.get_sizes_of_product.0.0 "0" %}
               <p>Available sizes : 
               {% for i in p.get_sizes_of_product %}
-              {{ i }}
+              {{ i.0 }}
               {% endfor %}
               </p>
               {% endifnotequal %}
@@ -362,11 +362,11 @@ RobaSquare | {{ detailp.name }}
                   <div class="center">
                     
                   {% if detailp.stockcount %}
-                <p>In stock<p>
+                <p class="green-text">In stock<p>
                 {% else %}
                 <p class="red-text">Comming Soon</p>
                 {% endif %}
-                    {% ifnotequal detailp.get_sizes_of_product.0 "0" %}
+                    {% ifnotequal detailp.get_sizes_of_product.0.0 "0" %}
                     <p>Available sizes 
                     {% for i in detailp.get_sizes_of_product %}
                     <div class="chip teal lighten-3">

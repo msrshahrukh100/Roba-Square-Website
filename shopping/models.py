@@ -144,7 +144,7 @@ class Products(models.Model) :
 
 #upload location for product images
 def upload_location_pro(instance,filename) :
-	return "product_images/%s/%s" % (instance.id, filename)
+	return "product_images/%s/%s" % (instance, filename)
 
 #class for storing the product images
 class ImagesOfProducts(models.Model) :

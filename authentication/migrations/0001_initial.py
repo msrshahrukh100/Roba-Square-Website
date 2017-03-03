@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
+import sorl.thumbnail.fields
 import autoslug.fields
 import authentication.models
 from django.conf import settings
@@ -29,7 +30,7 @@ class Migration(migrations.Migration):
             name='UserInformation',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('change_profile_pic', models.ImageField(default=b'default.jpg', height_field=b'height_field', width_field=b'width_field', upload_to=authentication.models.upload_location_user, blank=True, null=True)),
+                ('change_profile_pic', sorl.thumbnail.fields.ImageField(default=b'default.jpg', height_field=b'height_field', width_field=b'width_field', upload_to=authentication.models.upload_location_user, blank=True, null=True)),
                 ('height_field', models.IntegerField(default=0)),
                 ('width_field', models.IntegerField(default=0)),
                 ('date_of_birth', models.CharField(max_length=20, null=True, blank=True)),
@@ -39,6 +40,7 @@ class Migration(migrations.Migration):
                 ('showrecentlyviewed', models.BooleanField(default=True)),
                 ('showfollowers', models.BooleanField(default=True)),
                 ('showfollowing', models.BooleanField(default=True)),
+                ('showdob', models.BooleanField(default=True)),
                 ('slug', autoslug.fields.AutoSlugField(populate_from=b'user', unique=True, editable=False)),
                 ('user', models.OneToOneField(related_name='user_information', to=settings.AUTH_USER_MODEL)),
             ],

@@ -42,7 +42,7 @@ class Likes(models.Model) :
 
 
 def upload_location_picoftheweek(instance,filename) :
-	return "pic_of_the_week/%s/%s" % (instance.id, filename)
+	return "pic_of_the_week/%s/%s" % (instance, filename)
 
 class PicOfTheWeek(models.Model) :
 	user = models.ForeignKey(User,related_name='picoftheweek')

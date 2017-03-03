@@ -6,14 +6,31 @@ import sorl.thumbnail.fields
 import autoslug.fields
 import shopping.models
 import django.db.models.deletion
+from django.conf import settings
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
+        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
+        migrations.CreateModel(
+            name='BulkOrders',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('product', models.CharField(max_length=20)),
+                ('base', models.CharField(max_length=50)),
+                ('quantity', models.CharField(max_length=10)),
+                ('description', models.TextField()),
+                ('phone', models.CharField(max_length=15)),
+                ('image', sorl.thumbnail.fields.ImageField(help_text=b'Image of the design', height_field=b'height_field', width_field=b'width_field', upload_to=shopping.models.upload_location_bulk)),
+                ('height_field', models.IntegerField(default=0)),
+                ('width_field', models.IntegerField(default=0)),
+                ('user', models.ForeignKey(related_name='bulkorders', to=settings.AUTH_USER_MODEL)),
+            ],
+        ),
         migrations.CreateModel(
             name='Categories',
             fields=[
@@ -66,6 +83,8 @@ class Migration(migrations.Migration):
                 ('stockcount', models.PositiveIntegerField(default=0, help_text=b'The number of items which are available in the stock')),
                 ('gender', models.CharField(help_text=b'Gender for whom this product is meant for.', max_length=10, choices=[(b'Male', b'Male'), (b'Female', b'Female'), (b'Unisex', b'Unisex'), (b'0', b'N/A')])),
                 ('new_product', models.BooleanField(default=False, help_text=b'Wether this product is newly added or not. New products are separately displayed on the front page.')),
+                ('has_logo', models.BooleanField(default=False, help_text=b'Check it if the product has logo and is to be shown to the user separately')),
+                ('has_logo_variation', models.BooleanField(default=True, help_text=b'Check it if the product has a logo variation of itself.')),
                 ('slug', autoslug.fields.AutoSlugField(populate_from=b'name', unique=True, editable=False)),
                 ('category', models.ForeignKey(related_name='products_desc', on_delete=django.db.models.deletion.SET_NULL, blank=True, to='shopping.Categories', help_text=b'Choose the category of product.', null=True)),
             ],
@@ -75,11 +94,19 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
+            name='ProductRelationsForLogo',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('product', models.ForeignKey(related_name='relatedproduct', to='shopping.ProductDescription', help_text=b'Chose the product which has a logo version of itself.')),
+                ('related_to', models.ForeignKey(related_name='havinglogo', to='shopping.ProductDescription', help_text=b'Choose the product that has a logo.')),
+            ],
+        ),
+        migrations.CreateModel(
             name='Products',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('size', models.CharField(help_text=b'Size of the product.', max_length=5, choices=[(b'S', b'S'), (b'M', b'M'), (b'L', b'L'), (b'XL', b'XL'), (b'XXL', b'XXL'), (b'0', b'N/A')])),
-                ('color', models.CharField(help_text=b'Color of the product', max_length=30)),
+                ('color', models.CharField(help_text=b'Color of the product', max_length=30, null=True, blank=True)),
                 ('stockcount', models.PositiveIntegerField(default=0, help_text=b'The number of items which are available in the stock')),
                 ('product', models.ForeignKey(related_name='prod', to='shopping.ProductDescription', null=True)),
             ],
