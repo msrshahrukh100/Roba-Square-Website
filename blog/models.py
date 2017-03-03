@@ -28,6 +28,7 @@ class Post(models.Model):
     width_field = models.IntegerField(default=0)
     content = models.TextField()
     publish_it = models.BooleanField(default=False)
+    draft = models.BooleanField(default=False, verbose_name="Submit posts when you have completed. Draft posts are not published.")
     show_about_the_author = models.BooleanField(default=True, verbose_name="Select if u wish to display the 'About the Author' section along with your post")
     about_the_author = models.CharField(max_length=200, null=True,blank=True, verbose_name="Write about yourself, which you want to be displayed in the 'About the Author' section")
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)

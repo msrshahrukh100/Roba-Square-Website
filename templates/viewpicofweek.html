@@ -35,7 +35,7 @@ Pic Of the Week
             {% thumbnail i.image "750x450" as im %}
             <img class="responsive-img" src="{{ im.url }}" >
               {% endthumbnail %}
-              <span class="card-title"><a href="{{ i.user.user_information.get_absolute_url }}" class="white-text">{{ i.user|getfullname }}</a></span>
+              <span class="card-title"><a href="{{ i.user.user_information.get_absolute_url }}" class="teal-text">{{ i.user|getfullname }}</a></span>
             </div>
             <div class="card-content">
               <p>{{ i.description|linebreaks }}</p>

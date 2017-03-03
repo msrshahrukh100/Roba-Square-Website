@@ -61,7 +61,7 @@ def post_detail(request, slug=None):
 	return render(request, "blog/post_detail.html", context)
 
 def post_list(request):
-	queryset_list = Post.objects.filter(publish_it=True) #.order_by("-timestamp")
+	queryset_list = Post.objects.filter(publish_it=True).filter(draft=False) #.order_by("-timestamp")
 	images = BlogSlider.objects.all().order_by('?')
 	query = request.GET.get("q")
 	if query:

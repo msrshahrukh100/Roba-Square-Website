@@ -275,7 +275,7 @@
     </div>
 
     <div class="parallax-container">
-      <div class="parallax"><img src="{% static 'images/1.jpg' %}"></div>
+      <div class="parallax"><img src="{% static 'images/parallax.jpg' %}"></div>
     </div>
 
     <div class="container">
@@ -292,6 +292,7 @@
         <div class="card-content">
         <p><a  class="teal-text text-darken-3" href="{{ picoftheweek.user.user_information.get_absolute_url }}">{{ picoftheweek.user|getfullname }}</a></p>
           <p>{{ picoftheweek.description|linebreaks }}</p>
+          
           </div>
           {% if request.user.is_anonymous %}
           {% else %}
@@ -345,12 +346,9 @@
 
            </div>
            <div class="card-content">
-            <p>I am a very simple card. I am good at containing small bits of information.
-              I am convenient because I require little markup to use effectively.</p>
+            <p>The best is yet to come. Just when you thought you have the perfect wardrobe. Wear your identity wherever you go. You want the best….. Well we have something better in store for ya!!!</p>
             </div>
-            <div class="card-action">
-              <a href="#">This is a link</a>
-            </div>
+            
           </div>
         </div>
       </div>

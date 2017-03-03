@@ -48,6 +48,7 @@ class BuyingCart(models.Model) :
 	timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
 	invoice_url = models.URLField(default='/')
 	returned = models.BooleanField(default=False)
+	delivered = models.BooleanField(default=False)
 	def __unicode__(self):
 		return str(self.id)
 
