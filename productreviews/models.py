@@ -2,6 +2,9 @@ from django.db import models
 from shopping.models import ProductDescription
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
+from django.core.cache import cache
+from django.db.models.signals import pre_delete
+from django.dispatch.dispatcher import receiver
 # Create your models here.
 class Reviews(models.Model) :
 	user = models.ForeignKey(User, related_name='userreviews')
@@ -20,6 +23,10 @@ class Reviews(models.Model) :
 		verbose_name = "Reviews of Products"
 		verbose_name_plural = "Reviews of Products"
 		ordering = ['-id']
+
+@receiver(pre_delete, sender=Reviews)
+def clear_cache(sender, instance, **kwargs):
+    cache.clear()
 
 
 

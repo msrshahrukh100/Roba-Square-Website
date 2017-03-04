@@ -12,10 +12,12 @@ from django.contrib.auth.decorators import login_required
 from easy_pdf.rendering import render_to_pdf_response
 import uuid
 from notifications.signals import notify
+from django.views.decorators.cache import never_cache
+from django.views.decorators.cache import cache_page
 
 # Create your views here.
 
-
+@never_cache
 @login_required
 def checkoutpage(request) :
 
@@ -41,6 +43,7 @@ def checkoutpage(request) :
 
 	return render(request,"checkoutpage.html",context)
 
+@never_cache
 @login_required
 def generateinvoice(request) :
 	t = request.GET.get('type')
@@ -71,6 +74,7 @@ def generateinvoice(request) :
 	return JsonResponse({'sad':'asd'})
 
 
+@never_cache
 @login_required
 def requestpayment(request) :
 	data = dict(request.POST)
@@ -162,7 +166,7 @@ def requestpayment(request) :
 
 	return redirect(response['payment_request']['longurl']+"?embed=form")
 
-
+@never_cache
 @login_required
 def paymentredirect(request):
 	api = Instamojo(api_key=settings.API_KEY, auth_token=settings.AUTH_TOKEN, endpoint='https://test.instamojo.com/api/1.1/');
@@ -201,7 +205,7 @@ def paymentredirect(request):
 	
 
 
-
+@never_cache
 @login_required
 def myorders(request) :
 	items = BuyingCart.objects.filter(user=request.user).filter(returned=False).order_by("-id")
@@ -209,7 +213,7 @@ def myorders(request) :
 	context = {"items":items}
 	return render(request,"myorders.html",context)
 	
-
+@never_cache
 @csrf_exempt
 def webhook(request) :
 	if request.method == 'POST' :
@@ -245,7 +249,7 @@ def webhook(request) :
 
 	return JsonResponse({'msg':'Entry added!'})
 
-
+@never_cache
 @login_required
 def returns(request,id=None) :
 	if request.method == 'POST' :
@@ -265,7 +269,7 @@ def returns(request,id=None) :
 	context = {"item":item, "id":id}
 	return render(request, 'returnpage.html', context)
 
-
+@never_cache
 @login_required
 def myreturns(request) :
 	context = {"items" : Refund_requests.objects.filter(user=request.user)}

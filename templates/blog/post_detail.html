@@ -52,7 +52,7 @@
     </div>
     {% endif %}
 
-{% if instance.publish_it %}
+
 <div id="fb-root"></div>
 <script>(function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
@@ -62,13 +62,13 @@
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
 
-{% endif %}
+
 
 
 
 
        <div class="container">
-<!-- <img src="{{ instance.image.url }}"> -->
+
 <h2>{{ title }}</h2>
 {% if instance.publish_it %}
 <span class="badge teal lighten-1 black-text">Viewed {{ count }} times</span>

@@ -14,9 +14,12 @@ from django.core.urlresolvers import reverse
 from random import randint
 from sorl.thumbnail import get_thumbnail
 from notifications.signals import notify
+from django.views.decorators.cache import never_cache
+from django.views.decorators.cache import cache_page
 # Create your views here.
 
 
+@cache_page(60*60)
 def view_category_or_item(request, qtype=None, slug=None) :
 	if qtype == 'categories' :
 		instance = Categories.objects.filter(slug=slug).first()
@@ -68,6 +71,7 @@ def view_category_or_item(request, qtype=None, slug=None) :
 	else :
 		raise Http404
 
+@never_cache
 @login_required
 def view_private_item(request,slug=None) :
 	user = request.user
@@ -83,6 +87,7 @@ def view_private_item(request,slug=None) :
 	return JsonResponse(text)
 
 
+@never_cache
 @login_required
 def show_private_item(request,slug=None,key=None) :
 	if request.session.get('privateproduct')  != int(key) :
@@ -112,7 +117,7 @@ def show_private_item(request,slug=None,key=None) :
 	}
 	return render(request,'view.html',context)
 
-
+@cache_page(60*60)
 @csrf_exempt
 def search(request) :
 	query = request.POST.get('query')
@@ -140,7 +145,7 @@ def search(request) :
 	return JsonResponse({'categoryitems':categoryitems,'productitems':productitems})
 
 
-
+@never_cache
 @csrf_exempt
 def checkavailability(request) :
 	size = request.POST.get('size',None)
@@ -161,6 +166,7 @@ def checkavailability(request) :
 		data['msg'] = "Sorry, this size is not available."
 	return JsonResponse(data)
 
+@never_cache
 @login_required
 def bulkorders(request) :
 	if request.method == 'POST' :
@@ -191,6 +197,7 @@ def bulkorders(request) :
 	return render(request,'bulkorders.html',{})
 
 
+@never_cache
 @login_required
 def viewbulkorders(request) :
 	user = request.user
@@ -198,7 +205,7 @@ def viewbulkorders(request) :
 	return render(request,'viewbulkorders.html', context)
 
 
-
+@never_cache
 @login_required
 def deletebulkorder(request,id) :
 	x = get_object_or_404(BulkOrders,id=id)

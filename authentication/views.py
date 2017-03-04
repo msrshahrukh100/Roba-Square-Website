@@ -7,7 +7,7 @@ from .forms import UserInfoForm,AddressForm
 from .models import UserInformation, Addresses
 from social.models import PicOfTheWeek
 from django.views.decorators.cache import never_cache
-
+from django.views.decorators.cache import cache_page
 
 # from django.core.mail import EmailMessage
 # email = EmailMessage(
@@ -19,7 +19,7 @@ from django.views.decorators.cache import never_cache
 # )
 # email.send()
 
-
+@cache_page(60*60*12)
 def home_page(request) :
 	context = {"slider":Slider.objects.all(),
 	"categories":Categories.objects.all(),
@@ -94,6 +94,7 @@ def change_settings(request) :
 	return render(request,'settings.html',context)
 
 
+@never_cache
 @login_required
 def change_dp(request) :
 	user = request.user
@@ -117,6 +118,7 @@ def change_privacy_settings(request) :
 			}
 	return JsonResponse(response)
 
+@never_cache
 @login_required
 def addaddress(request):
 	user = request.user
@@ -128,13 +130,14 @@ def addaddress(request):
 	return redirect('authentication:change_settings')
 
 
+@never_cache
 @login_required
 def removeaddress(request,id=None) :
 	instance = get_object_or_404(Addresses,id=id)
 	instance.delete()
 	return redirect('authentication:change_settings')
 
-
+@cache_page(60*60*48)
 def viewextra(request,id) :
 	if id == '1' :
 		return render(request,'extras/aboutus.html',{})

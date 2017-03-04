@@ -19,10 +19,14 @@ from .models import Post, PostViews,BlogSlider
 from django.contrib.auth.decorators import login_required
 from django.contrib.contenttypes.models import ContentType
 from social.models import RecentlyViewed
+from django.views.decorators.cache import never_cache
+from django.views.decorators.cache import cache_page
+# from django.core.cache import cache
 
+@never_cache
 @login_required
 def post_create(request):
-
+	
 	form = PostForm(request.POST or None, request.FILES or None)
 	if form.is_valid():
 		instance = form.save(commit=False)
@@ -36,6 +40,7 @@ def post_create(request):
 	}
 	return render(request, "blog/post_form.html", context)
 
+@cache_page(60*60)
 def post_detail(request, slug=None):
 	instance = get_object_or_404(Post, slug=slug)
 	user = request.user
@@ -60,6 +65,7 @@ def post_detail(request, slug=None):
 	}
 	return render(request, "blog/post_detail.html", context)
 
+@never_cache
 def post_list(request):
 	queryset_list = Post.objects.filter(publish_it=True).filter(draft=False) #.order_by("-timestamp")
 	images = BlogSlider.objects.all().order_by('?')
@@ -98,6 +104,7 @@ def post_list(request):
 	return render(request, "blog/post_list.html", context)
 
 
+@never_cache
 def post_update(request, slug=None):
 	instance = get_object_or_404(Post, slug=slug)
 	form = PostForm(request.POST or None, request.FILES or None, instance=instance)
@@ -115,7 +122,7 @@ def post_update(request, slug=None):
 	return render(request, "blog/post_form.html", context)
 
 
-
+@never_cache
 def post_delete(request, slug=None):
 	if not request.user.is_staff or not request.user.is_superuser:
 		raise Http404

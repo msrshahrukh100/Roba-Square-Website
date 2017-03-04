@@ -7,7 +7,6 @@ from authentication.models import UserInformation
 from shopping.models import ProductDescription
 from notifications.signals import notify
 from authentication.username import get_user_name
-from django.views.decorators.cache import never_cache
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 from sorl.thumbnail import get_thumbnail
@@ -15,11 +14,12 @@ from authentication.username import get_user_name
 from django.views.decorators.csrf import csrf_exempt
 from notifications.signals import notify
 from blog.models import Post
-
+from django.views.decorators.cache import never_cache
+from django.views.decorators.cache import cache_page
 
 
 # Create your views here.
-@never_cache
+@cache_page(60*15)
 @login_required
 def viewallusers(request) :
 	user = request.user
@@ -44,6 +44,7 @@ def viewallusers(request) :
 	context = {'users':queryset,'connections':connections,'page_request_var':page_request_var,"nopages" : [i for i in range(1,nopages+1)],}
 	return render(request,'friends.html',context)
 
+@never_cache
 @login_required
 def addconnection(request,id=None) :
 	user = request.user
@@ -59,6 +60,7 @@ def addconnection(request,id=None) :
 		return JsonResponse({'msg':'Already in your connections!'})
 
 
+@never_cache
 @login_required
 def removeconnection(request,id=None) :
 	user = request.user
@@ -91,6 +93,7 @@ def showallnotifications(request) :
 	context = {'notifications':notifications}
 	return render(request,'notifications.html',context)
 
+@never_cache
 @login_required
 def deletehistory(request) :
 	user = request.user
@@ -99,7 +102,7 @@ def deletehistory(request) :
 		i.delete()
 	return redirect('social:myprofile')
 
-@never_cache
+@cache_page(10)
 @login_required
 def viewuser(request,slug=None) :
 	loggedinuser = request.user
@@ -155,7 +158,7 @@ def likedislike(request, id=None) :
 	return JsonResponse({'msg':'You unliked this product'})
 
 
-
+@cache_page(60*60)
 @csrf_exempt
 def search(request) :
 	query = request.POST.get('query')
@@ -182,7 +185,7 @@ def search(request) :
 		 
 	return JsonResponse({'searchusers':searchusers})
 
-
+@never_cache
 @login_required
 def addpicofweek(request) :
 	if request.method == 'POST' :
@@ -197,6 +200,7 @@ def addpicofweek(request) :
 			notify.send(request.user, recipient=request.user, verb=verb, url=url, imageurl=obj.image.url)
 	return redirect("/")
 
+@cache_page(60*60)
 @login_required
 def viewpicofweek(request) :
 	context = {'pics': PicOfTheWeek.objects.filter(publish_it=True)}
