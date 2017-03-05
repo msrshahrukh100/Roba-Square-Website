@@ -85,7 +85,14 @@
            <a href = "{% url 'account_login' %}" class="waves-effect waves-light btn"><i class="material-icons teal-text text-darken-3">menu</i>Login or Signup</a>
          </li>
          <li><a href="{% url 'cart:viewcart' %}" class="teal-text text-darken-3"><i class="material-icons teal-text text-darken-3 left">shopping_cart</i><span class="right cartcount">{{ request.session.products|length }}</span> My Cart</a></li>
-
+         <li><a href="{% url 'shopping:bulkorders' %}" class="teal-text text-darken-3"><i class="material-icons teal-text text-darken-3 left">layers</i>Bulk Orders</a></li>
+         
+         <li><a href="{% url 'blog:list' %}" class="teal-text text-darken-3"><i class="material-icons teal-text text-darken-3 left">speaker_notes</i>Blogs</a></li>
+         <li>
+              <a href="{% url 'authentication:viewextra' id=5 %}" class="teal-text text-darken-3">
+              <i class="fa fa-info fa-1x teal-text text-darken-3 left" aria-hidden="true"></i>Help
+              </a>
+              </li>
         {% endif %}
       </ul>
     </div>
@@ -215,7 +222,7 @@
       <div class="caption {{ image.alignment }}-align">
         <h3>{{ image.header }}</h3>
         <h5 class="light grey-text text-lighten-3">{{ image.content }}</h5>
-        <h5><a class="white-text" href="{{ image.link }}">{{ image.link_text }}</a><h5>
+        <p><a class="waves-effect waves-light btn white-text" href="{{ image.link }}">{{ image.link_text }}</a><p>
         </div>
       </li>
       {% endfor %}
@@ -366,7 +373,7 @@
           </div>
           <div style="padding-top: 50px; "></div>
           <div class="col s6 black-text" >
-          Legacy gets you going.
+          You Belong Here.
           </div>
         </div>
         </div>

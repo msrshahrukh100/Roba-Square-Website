@@ -85,7 +85,7 @@ def refund_amount(sender, instance, **kwargs):
 		if instance.refund_item.method_of_payment == "Online Payment" :
 			print "online pay"
 			try : 
-				api = Instamojo(api_key=settings.API_KEY, auth_token=settings.AUTH_TOKEN, endpoint='https://test.instamojo.com/api/1.1/')
+				api = Instamojo(api_key=settings.API_KEY, auth_token=settings.AUTH_TOKEN, endpoint='https://instamojo.com/api/1.1/')
 				api.refund_create(instance.refund_item.paymentid,"QFL",instance.reason,instance.refund_item.price)
 				x = api.refund_detail(instance.refund_item.paymentid)
 				if x.get('success') :

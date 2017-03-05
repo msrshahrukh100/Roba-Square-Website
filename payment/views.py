@@ -55,7 +55,9 @@ def generateinvoice(request) :
 			total += int(i.price)
 		if cart.first().user != request.user :#or not (request.user.is_staff() or request.user.is_superuser()) :
 			raise Http404
-		context = {'cart':cart,'total':total}
+		cod = 40
+		total += cod 
+		context = {'cart':cart,'total':total,'cod':40}
 		# return render_to_pdf('invoice/invoice.html',{'pagesize':'A4','cart': cart})
 		return render_to_pdf_response(request,"invoice/invoice.html",context)
 
@@ -121,13 +123,13 @@ def requestpayment(request) :
 				phonenumber=phone,
 				status="Done",
 				cod_unique_id=cod_unique_id,
-				invoice_url=reverse("payment:generateinvoice")[:-1] + "?type=cod&id=" + str(cod_unique_id),
+				invoice_url=request.build_absolute_uri(reverse("payment:generateinvoice"))[:-1] + "?type=cod&id=" + str(cod_unique_id),
 				)
 		url = reverse("payment:generateinvoice")[:-1] + "?type=cod&id=" + str(cod_unique_id)
 		context = {"type" : 1,"url":url}
 		return render(request,"paymentredirect.html",context)
 		
-	api = Instamojo(api_key=settings.API_KEY, auth_token=settings.AUTH_TOKEN, endpoint='https://test.instamojo.com/api/1.1/');
+	api = Instamojo(api_key=settings.API_KEY, auth_token=settings.AUTH_TOKEN, endpoint='https://instamojo.com/api/1.1/');
 	purpose = " | ".join(ids)
 	redirect_url = request.build_absolute_uri(reverse("payment:paymentredirect"))
 	webhook = request.build_absolute_uri(reverse("payment:webhook"))
@@ -169,7 +171,7 @@ def requestpayment(request) :
 @never_cache
 @login_required
 def paymentredirect(request):
-	api = Instamojo(api_key=settings.API_KEY, auth_token=settings.AUTH_TOKEN, endpoint='https://test.instamojo.com/api/1.1/');
+	api = Instamojo(api_key=settings.API_KEY, auth_token=settings.AUTH_TOKEN, endpoint='https://instamojo.com/api/1.1/');
 	payment_id = request.GET.get('payment_id')
 	payment_request_id = request.GET.get('payment_request_id')
 
@@ -193,7 +195,7 @@ def paymentredirect(request):
 				i.invoice_url = reverse("payment:generateinvoice")[:-1] + "?type=online&id=" + str(context['payment_request']['id'])
 				i.save()
 			context['type'] = 1
-			context['url'] = reverse("payment:generateinvoice")[:-1] + "?type=online&id=" + str(context['payment_request']['id'])
+			context['url'] = request.build_absolute_uri(reverse("payment:generateinvoice"))[:-1] + "?type=online&id=" + str(context['payment_request']['id'])
 		else :
 			context['fail'] = response.get('message')
 			context['type'] = 0

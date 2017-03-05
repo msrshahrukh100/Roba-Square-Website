@@ -84,7 +84,8 @@
                         <tr>
                             <td>
                             <h1 >Roba Square</h1>
-                            <p style="padding-top: -20px;">Tagline</p>
+                            <p style="padding-top: -20px;">You Belong Here</p>
+                            <p><b>www.robasquare.com</b>  <br>care@robasquare.com <br>+91-9910059750</p>
                             </td>
                             
                             <td>
@@ -161,6 +162,26 @@
             </tr>
             {% endfor %}
             
+
+            {% if cod %}
+
+            <tr class="item">
+                <td>
+                    Cash On Delivery Charges
+                </td>
+                <td>
+
+                </td>
+                <td>
+                </td>
+                
+                <td>
+                    {{ cod }}
+                </td>
+            </tr>
+
+            {% endif %}
+
             
             <tr class="total">
                 <td></td><td></td><td></td>
@@ -171,5 +192,14 @@
             </tr>
         </table>
     </div>
+
+
+    <center><h1>Thank You!</h1>
+<h2>For shopping with us</h2>
+<h2>Roba Square Team</h2>
+<b>www.robasquare.com</b>
+</center>
+
+<p>Note: If an item is received damaged or is incorrectly shipped by us, please contact Customer Support immediately. In the event of any error on our part, it will be corrected at our expense.</p>
 </body>
 </html>

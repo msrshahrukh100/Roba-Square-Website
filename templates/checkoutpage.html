@@ -143,11 +143,11 @@ Check Out
 			</p>
 			{% endfor %}
 			<p>
-			<input class="addresscheckbox" name="address" type="radio" id="userpreference"  value="0" />
+			<input {% if address %}{% else %}required {% endif %} class="addresscheckbox" name="address" type="radio" id="userpreference"  value="0" />
 			<label for="userpreference">Add a new address for Delivery</label>
 			</p>
 			<div class="input-field col s12">
-			<input name="newaddress" id="newaddress" type="text" class="validate" >
+			<input {% if address %}{% else %}required {% endif %} name="newaddress" id="newaddress" type="text" class="validate" >
 			<label for="newaddress">Add Address</label>
 			</div>
 			</div>
@@ -187,6 +187,7 @@ Check Out
 	<button id="paycod" class="btn waves-effect waves-light center" type="submit" name="action">Cash on Delivery
 	<i class="material-icons right">attach_money</i>
 	</button>
+	<p class="red-text"><i class="fa fa-inr fa-1x prefix" aria-hidden="true"></i>40 extra COD charge.</p>
 	</div>
     </div>
 	</div>			
