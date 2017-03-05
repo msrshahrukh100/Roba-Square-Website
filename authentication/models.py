@@ -7,6 +7,16 @@ from django.db.models.signals import post_save
 from django.core.urlresolvers import reverse
 from sorl.thumbnail import ImageField
 
+from django.core.cache import cache
+from django.contrib.auth.signals import user_logged_in, user_logged_out
+
+
+def clear_the_cache(sender, user, request, **kwargs):
+	cache.clear()
+
+user_logged_in.connect(clear_the_cache)
+user_logged_out.connect(clear_the_cache)
+
 
 # upload location for user profile pics
 def upload_location_user(instance, filename) :

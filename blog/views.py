@@ -21,12 +21,12 @@ from django.contrib.contenttypes.models import ContentType
 from social.models import RecentlyViewed
 from django.views.decorators.cache import never_cache
 from django.views.decorators.cache import cache_page
-# from django.core.cache import cache
+from django.core.cache import cache
 
 @never_cache
 @login_required
 def post_create(request):
-	
+	cache.clear()
 	form = PostForm(request.POST or None, request.FILES or None)
 	if form.is_valid():
 		instance = form.save(commit=False)
