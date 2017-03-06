@@ -129,7 +129,7 @@ def requestpayment(request) :
 		context = {"type" : 1,"url":url}
 		return render(request,"paymentredirect.html",context)
 		
-	api = Instamojo(api_key=settings.API_KEY, auth_token=settings.AUTH_TOKEN, endpoint='https://instamojo.com/api/1.1/');
+	api = Instamojo(api_key=settings.API_KEY, auth_token=settings.AUTH_TOKEN, endpoint='https://www.instamojo.com/api/1.1/');
 	purpose = " | ".join(ids)
 	redirect_url = request.build_absolute_uri(reverse("payment:paymentredirect"))
 	webhook = request.build_absolute_uri(reverse("payment:webhook"))
@@ -171,7 +171,7 @@ def requestpayment(request) :
 @never_cache
 @login_required
 def paymentredirect(request):
-	api = Instamojo(api_key=settings.API_KEY, auth_token=settings.AUTH_TOKEN, endpoint='https://instamojo.com/api/1.1/');
+	api = Instamojo(api_key=settings.API_KEY, auth_token=settings.AUTH_TOKEN, endpoint='https://www.instamojo.com/api/1.1/');
 	payment_id = request.GET.get('payment_id')
 	payment_request_id = request.GET.get('payment_request_id')
 

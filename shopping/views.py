@@ -117,7 +117,7 @@ def show_private_item(request,slug=None,key=None) :
 	}
 	return render(request,'view.html',context)
 
-@cache_page(60*60)
+@never_cache
 @csrf_exempt
 def search(request) :
 	query = request.POST.get('query')

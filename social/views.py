@@ -158,7 +158,7 @@ def likedislike(request, id=None) :
 	return JsonResponse({'msg':'You unliked this product'})
 
 
-@cache_page(60*60)
+@never_cache
 @csrf_exempt
 def search(request) :
 	query = request.POST.get('query')
