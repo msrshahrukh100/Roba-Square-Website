@@ -19,7 +19,7 @@ from django.views.decorators.cache import cache_page
 # Create your views here.
 
 
-@cache_page(60*60)
+
 def view_category_or_item(request, qtype=None, slug=None) :
 	if qtype == 'categories' :
 		instance = Categories.objects.filter(slug=slug).first()
@@ -71,7 +71,7 @@ def view_category_or_item(request, qtype=None, slug=None) :
 	else :
 		raise Http404
 
-@never_cache
+
 @login_required
 def view_private_item(request,slug=None) :
 	user = request.user
@@ -87,7 +87,7 @@ def view_private_item(request,slug=None) :
 	return JsonResponse(text)
 
 
-@never_cache
+
 @login_required
 def show_private_item(request,slug=None,key=None) :
 	if request.session.get('privateproduct')  != int(key) :
@@ -117,7 +117,7 @@ def show_private_item(request,slug=None,key=None) :
 	}
 	return render(request,'view.html',context)
 
-@never_cache
+
 @csrf_exempt
 def search(request) :
 	query = request.POST.get('query')
@@ -131,7 +131,7 @@ def search(request) :
 		temp = {'category':c,'url':u,'imageurl':iu}
 		categoryitems.append(temp)
 
-	productquery = ProductDescription.objects.filter(has_logo=False).filter(name__startswith=query)
+	productquery = ProductDescription.objects.filter(has_logo=False).filter(name__icontains=query)
 	productitems = []
 	for i in productquery :
 		n = i.name
@@ -142,10 +142,10 @@ def search(request) :
 		temp = {'name':n,'url':u,'imageurl':iu}
 		productitems.append(temp)
 		 
-	return JsonResponse({'categoryitems':categoryitems,'productitems':productitems})
+	return JsonResponse({'categoryitems':categoryitems[:2],'productitems':productitems[:3]})
 
 
-@never_cache
+
 @csrf_exempt
 def checkavailability(request) :
 	size = request.POST.get('size',None)
@@ -166,7 +166,7 @@ def checkavailability(request) :
 		data['msg'] = "Sorry, this size is not available."
 	return JsonResponse(data)
 
-@never_cache
+
 @login_required
 def bulkorders(request) :
 	if request.method == 'POST' :
@@ -197,7 +197,7 @@ def bulkorders(request) :
 	return render(request,'bulkorders.html',{})
 
 
-@never_cache
+
 @login_required
 def viewbulkorders(request) :
 	user = request.user
@@ -205,7 +205,7 @@ def viewbulkorders(request) :
 	return render(request,'viewbulkorders.html', context)
 
 
-@never_cache
+
 @login_required
 def deletebulkorder(request,id) :
 	x = get_object_or_404(BulkOrders,id=id)

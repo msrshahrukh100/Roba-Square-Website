@@ -19,7 +19,7 @@ from django.views.decorators.cache import cache_page
 # )
 # email.send()
 
-@cache_page(60*60*12)
+
 def home_page(request) :
 	context = {"slider":Slider.objects.all(),
 	"categories":Categories.objects.all(),
@@ -29,7 +29,7 @@ def home_page(request) :
 	}
 	return render(request,'index.html',context)
 
-@never_cache
+
 @login_required
 def change_settings(request) :
 
@@ -94,7 +94,7 @@ def change_settings(request) :
 	return render(request,'settings.html',context)
 
 
-@never_cache
+
 @login_required
 def change_dp(request) :
 	user = request.user
@@ -103,7 +103,7 @@ def change_dp(request) :
 	userinfo.save()
 	return redirect('social:myprofile')
 
-@never_cache
+
 @login_required
 def change_privacy_settings(request) :
 	user = request.user
@@ -118,7 +118,7 @@ def change_privacy_settings(request) :
 			}
 	return JsonResponse(response)
 
-@never_cache
+
 @login_required
 def addaddress(request):
 	user = request.user
@@ -130,7 +130,7 @@ def addaddress(request):
 	return redirect('authentication:change_settings')
 
 
-@never_cache
+
 @login_required
 def removeaddress(request,id=None) :
 	instance = get_object_or_404(Addresses,id=id)

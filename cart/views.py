@@ -6,7 +6,7 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.cache import cache_page
 
 # Create your views here.
-@never_cache
+
 def addtocart(request,id=None) :
 	cart = request.session.get('products',None)
 	if cart :
@@ -21,7 +21,7 @@ def addtocart(request,id=None) :
 		request.session['products'].append(id) 
 		return JsonResponse({'msg':'Added to cart!','count':1})
 
-@never_cache
+
 def deletefromcart(request,id=None) :
 	cart = request.session['products']
 	cart.remove(str(id))
@@ -29,7 +29,7 @@ def deletefromcart(request,id=None) :
 	print request.session['products']
 	return redirect('cart:viewcart')
 
-@never_cache
+
 def viewcart(request) :
 	cart = request.session.get('products',None)
 	print cart
@@ -46,7 +46,7 @@ def viewcart(request) :
 	}
 	return render(request,'view.html',context)
 
-@never_cache
+
 def addtowishlist(request, id=None) :
 	user = request.user
 	product = ProductDescription.objects.filter(id=id).first()
@@ -56,7 +56,7 @@ def addtowishlist(request, id=None) :
 	else :
 		return JsonResponse({'msg' : 'Already in your wishlist'})
 
-@never_cache
+
 def viewwishlist(request) :
 	user = request.user
 	products = []
@@ -73,7 +73,7 @@ def viewwishlist(request) :
 	}
 	return render(request,'view.html',context)
 
-@never_cache
+
 def deletefromwishlist(request, id=None) :
 	product = ProductDescription.objects.filter(id=id).first()
 	user = request.user

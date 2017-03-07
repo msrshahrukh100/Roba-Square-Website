@@ -9,7 +9,7 @@ from django.core.urlresolvers import reverse
 from django.views.decorators.cache import never_cache
 from django.views.decorators.cache import cache_page
 # Create your views here.
-@never_cache
+
 def addreview(request) :
 	if request.method == 'POST' :
 		id = request.POST.get('product',"")
@@ -24,7 +24,7 @@ def addreview(request) :
 		return redirect('shopping:show_private_item' , slug=product.slug, key = request.session.get('privateproduct'))
 	return redirect('shopping:view_category_or_item',qtype = 'product',slug=product.slug)
 
-@never_cache
+
 def deletereview(request, id=None) :
 	x = get_object_or_404(Reviews, id=id)
 	product = x.product
@@ -32,7 +32,7 @@ def deletereview(request, id=None) :
 	x.delete()
 	return redirect('shopping:view_category_or_item',qtype = 'product',slug=slug)
 
-@never_cache
+
 def productsuggestion(request) :
 	if request.method == 'POST' :
 		user = request.user

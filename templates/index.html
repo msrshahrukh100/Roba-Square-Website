@@ -7,7 +7,9 @@
 {% load thumbnail %}
 {% user_display user as user_display %}
 {% notifications_unread as unread_count %}
+{% load cache %}
 <html>
+
 <head>
 	<title>{% block title %}Welcome to Roba Square{% endblock %}</title>
 
@@ -53,6 +55,7 @@
   <link href="{% static 'css/icons.css' %}" rel="stylesheet">
    
 </head>
+
 <body>
   {% block facebookplugin %}
 {% endblock %}
