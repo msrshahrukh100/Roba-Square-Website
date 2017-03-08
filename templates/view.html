@@ -33,7 +33,6 @@ RobaSquare | {{ detailp.name }}
 
 {% block head_extra %}
   <script src="{% static 'js/search.js' %}"></script> 
-  <script type="text/javascript" src="{% static 'js/preloader.js' %}"></script>
 {% endblock %}
 
 {% block breadcumb %}
@@ -168,15 +167,20 @@ RobaSquare | {{ detailp.name }}
 
 
   <div class="fixed-action-btn">
-    <a class="btn-floating btn-large red">
-      <i class="large material-icons">mode_edit</i>
+    <a class="btn-floating btn-large teal darken-4">
+      <i class="large material-icons">apps</i>
     </a>
     <ul>
-      <li><a class="btn-floating red"><i class="material-icons">insert_chart</i></a></li>
-      <li><a class="btn-floating yellow darken-1"><i class="material-icons">format_quote</i></a></li>
-      <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
-      <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
-    </ul>
+      <li><a href="/shop/categories/outfits/" class="btn-floating tooltipped orange accent-2" data-position="left" data-delay="50" data-tooltip="Outfits"><i class="material-icons">style</i></a>
+      </li>
+      <li><a href="/shop/categories/accessories/" class="btn-floating tooltipped teal accent-3" data-position="left" data-delay="50" data-tooltip="Accessories"><i class="material-icons">camera</i></a>
+      </li>
+      <li><a href="/shop/categories/goodies/" class="btn-floating tooltipped indigo lighten-2 " data-position="left" data-delay="50" data-tooltip="Goodies"><i class="material-icons">card_giftcard</i></a>
+      </li>
+      <li><a href="/shop/categories/combo/" class="btn-floating tooltipped cyan accent-4 " data-position="left" data-delay="50" data-tooltip="Combo"><i class="material-icons">layers</i></a>
+      </li>
+      
+      </ul>
   </div>
 
 {% if etype == 1 %}
@@ -257,17 +261,7 @@ RobaSquare | {{ detailp.name }}
 
      <div class="row">
         <div class="col l3 s12 m4 offset-l1 offset-m1">
-<!-- 
-{% for im in detailp.prod.all %}
-          {% for image in im.productimages.all %}
-              <li><a href="#{{ image.id }}">
-              {% thumbnail image.image "900x350" as img %}
-                <img src="{{ img.url }}" data-caption="{{ detailp.name }} {{ im.color }} {{ im.size }}" class="responsive-img">
-              {% endthumbnail %}
-                </a>
-                </li>
-              {% endfor %}
-          {% endfor %} -->
+
 
           <div class="card z-depth-0">
             <div class="card-image">
@@ -287,13 +281,6 @@ RobaSquare | {{ detailp.name }}
             </ul>
           </div>
 
- <!--          <script type="text/javascript">
-  $(document).ready(function(){
-    $('.slider.productslider').slider({
-    height:600
-    });
-  });
-  </script> -->
           
             </div>
     {% for im in detailp.prod.all %}

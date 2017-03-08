@@ -42,6 +42,36 @@
 {% block head_extra %}
   <script src="{% static 'js/search.js' %}"></script> 
 <script type="text/javascript" src="{% static 'js/preloader.js' %}"></script>
+<style type="text/css">
+  #overlay{
+  position:fixed;
+  z-index:99999;
+  top:0;
+  left:0;
+  bottom:0;
+  right:0;
+  background:rgba(0,0,0,0.9);
+  transition: 1s 0.4s;
+}
+#progress{
+  height:1px;
+  background:#fff;
+  position:absolute;
+  width:0;
+  top:50%;
+}
+#progstat{
+  font-size:2em;
+  letter-spacing: 3px;
+  position:absolute;
+  top:50%;
+  margin-top:-40px;
+  width:100%;
+  text-align:center;
+  color:#fff;
+}
+
+</style>
 {% endblock %}
   <script src="https://use.fontawesome.com/6dc1b79a56.js"></script>
 
@@ -64,6 +94,31 @@
         <div id="progstat"></div>
         <div id="progress"></div>
 </div>
+<!-- 
+<div id="container">
+        <img src="http://placehold.it/3000x3000/cf5">
+        <img src="http://placehold.it/3000x3000/f0f">
+        <img src="http://placehold.it/3000x3000/fb1">
+        <img src="http://placehold.it/3000x3000/ada">
+        <img src="http://placehold.it/3000x3000/045">
+        <img src="http://placehold.it/3000x3000/b00">
+        <img src="http://placehold.it/3000x3000/41b">
+        <img src="http://errrrrrrrrrror.it/errorImage">
+        <img src="http://placehold.it/3000x3000/098">
+        <img src="http://placehold.it/3000x3000/987">
+        <img src="http://placehold.it/3000x3000/f25">
+        <img src="http://placehold.it/3000x3000/526">
+        <img src="http://placehold.it/3000x3000/826">
+        <img src="http://placehold.it/3000x3000/ad6">
+        <img src="http://placehold.it/3000x3000/74c">
+        <img src="http://placehold.it/3000x3000/b40">
+        <img src="http://placehold.it/3000x3000/cc7">
+        <img src="http://placehold.it/3000x3000/112">
+        <img src="http://placehold.it/3000x3000/113">
+      </div> -->
+  
+
+
 
   {% block facebookplugin %}
 {% endblock %}

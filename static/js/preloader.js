@@ -10,37 +10,36 @@
 
     function imgLoaded(){
       c += 1;
-      var perc = ((100/tot*c) << 0) +"%";
+      var width = ((100/tot*c) << 0);
+      var perc =  width + "%";
       prog.style.width = perc;
-      if (perc < 20)
+      if (Number(width) <40)
       {
-        stat.innerHTML = "Loading your cart";
+        stat.innerHTML = "Welcome to Roba Square";
       }
-      else if (perc <40 && perc > 20) 
+      else if(Number(width) > 40 && Number(width) <55)
       {
-        stat.innerHTML = "Loading your memories";
+        stat.innerHTML = "Loading your cart....";
       }
-      else if(perc > 40 && perc <60)
+      else if(Number(width) > 55 && Number(width) <75)
       {
-        stat.innerHTML = "Loading "+ perc;
-      }
-      else if(perc > 60 && perc < 80)
-      {
-        stat.innerHTML = "Loading "+ perc;
+        stat.innerHTML = "Be here and be happy :-) ";
       }
       else  
       {
-        stat.innerHTML = "Loading "+ perc;
+        stat.innerHTML = "Entering happiness....";
       }
 
       if(c===tot) return doneLoading();
     }
+
     function doneLoading(){
       ovrl.style.opacity = 0;
       setTimeout(function(){ 
         ovrl.style.display = "none";
       }, 1200);
     }
+
     for(var i=0; i<tot; i++) {
       var tImg     = new Image();
       tImg.onload  = imgLoaded;
