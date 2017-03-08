@@ -143,7 +143,7 @@ Check Out
 			</p>
 			{% endfor %}
 			<p>
-			<input {% if address %}{% else %}required {% endif %} class="addresscheckbox" name="address" type="radio" id="userpreference"  value="0" />
+			<input {% if address %}{% else %}required {% endif %} {% if address %}{% else %}checked {% endif %} class="addresscheckbox" name="address" type="radio" id="userpreference"  value="0" />
 			<label for="userpreference">Add a new address for Delivery</label>
 			</p>
 			<div class="input-field col s12">

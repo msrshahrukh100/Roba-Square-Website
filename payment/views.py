@@ -258,7 +258,7 @@ def returns(request,id=None) :
 		item = BuyingCart.objects.get(id=request.POST.get('id'))
 		reason = request.POST.get('reason')
 		Refund_requests.objects.get_or_create(user=request.user,refund_item=item,reason=reason)
-		verb = "We have received your request for return. You can check the status in My Refunds."
+		verb = "We have received your request for return. You can check the status in My Returns."
 		url = reverse("payment:myorders")
 
 		imageurl = item.product.get_image_url

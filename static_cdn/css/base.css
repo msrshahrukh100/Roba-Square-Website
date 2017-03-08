@@ -1,7 +1,8 @@
+
 .dropdown-content
 {
-	position: absolute;
-	z-index: 200;
+  position: absolute;
+  z-index: 200;
 }
 
 .btn {
@@ -10,7 +11,7 @@
 }
 
 .no-capital {
-	text-transform: none;	
+  text-transform: none; 
 }
 
 .breadcrumb:before {
@@ -27,7 +28,7 @@
 
 .tabs 
 {
-	color: #00695c;
+  color: #00695c;
 }
 
  .table-of-contents a.active {
@@ -40,5 +41,34 @@
   {
     color: #004d40;
   }
+
+#overlay{
+  position:fixed;
+  z-index:99999;
+  top:0;
+  left:0;
+  bottom:0;
+  right:0;
+  background:rgba(0,0,0,0.9);
+  transition: 1s 0.4s;
+}
+
+#progress{
+  height:1px;
+  background:#fff;
+  position:absolute;
+  width:0;
+  top:50%;
+}
+#progstat{
+  font-size:2em;
+  letter-spacing: 3px;
+  position:absolute;
+  top:50%;
+  margin-top:-40px;
+  width:100%;
+  text-align:center;
+  color:#fff;
+}
 
 

@@ -173,8 +173,13 @@ def search(request) :
 		else :
 			iu = get_thumbnail(i.user_information.change_profile_pic, '100x100').url
 		name = get_user_name(i)
-		if  i.user_information.profession != "" and i.user_information.name_of_institute != "" :
-			about = i.user_information.profession + " at " +i.user_information.name_of_institute
+		print i.user_information.profession
+		print i.user_information.name_of_institute
+		print i.user_information.profession != ""
+		if (i.user_information.profession == None or i.user_information.name_of_institute == None):
+			about = ""
+		elif  (i.user_information.profession != "" ) and (i.user_information.name_of_institute != "") :
+			about = str(i.user_information.profession) + " at " +str(i.user_information.name_of_institute)
 		else :
 			about = ""
 		url = i.user_information.get_absolute_url()

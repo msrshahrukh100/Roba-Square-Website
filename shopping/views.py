@@ -120,6 +120,7 @@ def show_private_item(request,slug=None,key=None) :
 
 @csrf_exempt
 def search(request) :
+	print "coming here"
 	query = request.POST.get('query')
 	categoryquery = Categories.objects.filter(category__startswith=query)
 	categoryitems = []

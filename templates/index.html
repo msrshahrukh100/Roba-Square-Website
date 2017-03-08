@@ -13,7 +13,6 @@
 <head>
 	<title>{% block title %}Welcome to Roba Square{% endblock %}</title>
 
-
 <link rel="icon" type="image/png"
      href="{% static 'images/tabicon.png' %}" />
 
@@ -38,10 +37,12 @@
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
       <script src="{% static 'js/materialize.min.js' %}"></script>
-
   <script src="{% static 'js/main.js' %}"></script>
-  <script src="{% static 'js/search.js' %}"></script>
   <script src="{% static 'js/timesince.js' %}"></script>
+{% block head_extra %}
+  <script src="{% static 'js/search.js' %}"></script> 
+<script type="text/javascript" src="{% static 'js/preloader.js' %}"></script>
+{% endblock %}
   <script src="https://use.fontawesome.com/6dc1b79a56.js"></script>
 
   <script src="{% static 'js/notif.js' %}"></script>
@@ -57,6 +58,13 @@
 </head>
 
 <body>
+
+
+ <div id="overlay">
+        <div id="progstat"></div>
+        <div id="progress"></div>
+</div>
+
   {% block facebookplugin %}
 {% endblock %}
  <nav class="nav-extended transparent z-depth-0 hide-on-large-only">
@@ -350,9 +358,14 @@
       <div class="col s12 m12 l6">
         <div class="card">
           <div class="card-image">
-            <video class="responsive-video" controls>
+              
+    <div class="video-container">
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/RyqFEHhZR8k" frameborder="0" allowfullscreen></iframe>
+      </div>
+        
+            <!-- <video class="responsive-video" controls>
              <source src="{% static 'videoes/1.mp4' %}" type="video/mp4">
-             </video>
+             </video> -->
 
            </div>
            <div class="card-content">

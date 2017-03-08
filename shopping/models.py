@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models.signals import post_delete, post_save
+from django.db.models.signals import post_delete, post_save, pre_save
 from django.dispatch.dispatcher import receiver
 from autoslug import AutoSlugField
 from django.core.urlresolvers import reverse
@@ -48,7 +48,9 @@ class ProductDescription(models.Model) :
 	category = models.ForeignKey(Categories,on_delete=models.SET_NULL,null=True,blank=True, related_name="products_desc",help_text="Choose the category of product.")
 	name = models.CharField(max_length = 250, help_text="Name of the product, eg.T-shirt, Cup, Hoody, etc.")
 	description = models.TextField(blank=True, null=True,help_text="Product description here. Don't include size and color information. Write about product quality , specification, material etc.")
-	price = models.PositiveIntegerField(help_text="The price of the product in positive integers")
+	price = models.PositiveIntegerField(help_text="The price of the product in positive integers", default=0)
+	actual_price = models.PositiveIntegerField(help_text="The actual price of the product")
+	discount_percent = models.PositiveIntegerField(help_text="Percentage of discount provided")
 	stockcount = models.PositiveIntegerField(default=0, help_text="The number of items which are available in the stock")
 	gender = models.CharField(max_length=10, choices=gender_opt,help_text="Gender for whom this product is meant for.")
 	new_product = models.BooleanField(default=False, help_text="Wether this product is newly added or not. New products are separately displayed on the front page.")
@@ -226,6 +228,11 @@ class BulkOrders(models.Model) :
 
 # make for update too
 
+
+@receiver(pre_save, sender=ProductDescription)
+def set_the_price_after_discount(sender, instance, **kwargs):
+    instance.price = int(instance.actual_price) - int(instance.actual_price) * int(instance.discount_percent) / 100
+    # instance.save()
 
 @receiver(post_delete, sender=ImagesOfProducts)
 def product_images_delete(sender, instance, **kwargs):

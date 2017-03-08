@@ -30,6 +30,12 @@ RobaSquare | {{ detailp.name }}
 {% endif %}
 {% endblock %}
 
+
+{% block head_extra %}
+  <script src="{% static 'js/search.js' %}"></script> 
+  <script type="text/javascript" src="{% static 'js/preloader.js' %}"></script>
+{% endblock %}
+
 {% block breadcumb %}
       {% if type == 1 %}
     <div class="col s12" style="padding-left:50px;">
@@ -93,8 +99,9 @@ RobaSquare | {{ detailp.name }}
           <span class="new badge green"></span>
           {% endif %}
           <p>
-          <b><i class="fa fa-inr fa-1x" aria-hidden="true"></i> {{ p.price }}</b>
-          </p>
+          <b><i class="fa fa-inr fa-1x" aria-hidden="true"></i> {{ p.price }}</b>&nbsp &nbsp
+          <span class="grey-text"><strike><i class="fa fa-inr fa-1x" aria-hidden="true"></i> {{ p.actual_price }}</strike>&nbsp &nbsp<span class="green-text">{{ p.discount_percent }}% off</span> </span>
+          </p> 
         <p>
         {% if p.get_average_rating %}
             {% for i in p.get_average_rating|list %}
@@ -358,6 +365,7 @@ RobaSquare | {{ detailp.name }}
           <p>{{ detailp.description|linebreaks }}</p>
     </blockquote>
                   <h5 class="center"><i class="fa fa-inr fa-1x" aria-hidden="true"></i> {{ detailp.price }}</h5>
+                  <p class="center"><i class="fa fa-inr fa-1x grey-text text-darken-1" aria-hidden="true"></i><strike class="grey-text text-darken-1">{{ detailp.actual_price }}</strike>&nbsp&nbsp<span class="green-text">{{ detailp.discount_percent }}% off</span> </p>
 
                   <div class="center">
                   
