@@ -6,8 +6,6 @@ from .models import Reviews, ProductSuggestions
 from django.http import Http404
 from django.core.cache import cache
 from django.core.urlresolvers import reverse
-from django.views.decorators.cache import never_cache
-from django.views.decorators.cache import cache_page
 # Create your views here.
 
 def addreview(request) :

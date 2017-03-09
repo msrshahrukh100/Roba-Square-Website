@@ -19,8 +19,7 @@ from .models import Post, PostViews,BlogSlider
 from django.contrib.auth.decorators import login_required
 from django.contrib.contenttypes.models import ContentType
 from social.models import RecentlyViewed
-from django.views.decorators.cache import never_cache
-from django.views.decorators.cache import cache_page
+
 from django.core.cache import cache
 
 

@@ -14,8 +14,6 @@ from django.core.urlresolvers import reverse
 from random import randint
 from sorl.thumbnail import get_thumbnail
 from notifications.signals import notify
-from django.views.decorators.cache import never_cache
-from django.views.decorators.cache import cache_page
 # Create your views here.
 
 

@@ -1,5 +1,5 @@
 {% extends 'allauth/base.html' %}
-
+{% load staticfiles %}
 
 {% block head_title %}
 Help Center
@@ -254,11 +254,11 @@ To get your flaunting photo published on PIC of the week section
     <div class="modal-content">
       <h4>Size Chart</h4>
       <p>
-        <img src="" class="responsive-img">
+        <img src="{% static 'images/sizechart.jpg' %}" class="responsive-img">
       </p>
     </div>
     <div class="modal-footer">
-      <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+      <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
     </div>
   </div>
           

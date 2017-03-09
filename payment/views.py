@@ -12,8 +12,6 @@ from django.contrib.auth.decorators import login_required
 from easy_pdf.rendering import render_to_pdf_response
 import uuid
 from notifications.signals import notify
-from django.views.decorators.cache import never_cache
-from django.views.decorators.cache import cache_page
 
 # Create your views here.
 

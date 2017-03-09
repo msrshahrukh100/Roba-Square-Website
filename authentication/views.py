@@ -6,8 +6,6 @@ from django.http import JsonResponse
 from .forms import UserInfoForm,AddressForm
 from .models import UserInformation, Addresses
 from social.models import PicOfTheWeek
-from django.views.decorators.cache import never_cache
-from django.views.decorators.cache import cache_page
 
 # from django.core.mail import EmailMessage
 # email = EmailMessage(
@@ -137,7 +135,6 @@ def removeaddress(request,id=None) :
 	instance.delete()
 	return redirect('authentication:change_settings')
 
-@cache_page(60*60*48)
 def viewextra(request,id) :
 	if id == '1' :
 		return render(request,'extras/aboutus.html',{})

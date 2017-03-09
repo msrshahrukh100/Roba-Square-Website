@@ -14,8 +14,6 @@ from authentication.username import get_user_name
 from django.views.decorators.csrf import csrf_exempt
 from notifications.signals import notify
 from blog.models import Post
-from django.views.decorators.cache import never_cache
-from django.views.decorators.cache import cache_page
 
 
 # Create your views here.

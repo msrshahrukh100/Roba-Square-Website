@@ -2,8 +2,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from shopping.models import ProductDescription
 from django.http import JsonResponse
 from .models import Wishlist
-from django.views.decorators.cache import never_cache
-from django.views.decorators.cache import cache_page
 
 # Create your views here.
 
