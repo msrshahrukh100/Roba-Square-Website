@@ -42,7 +42,7 @@
 
 
                {% if user.socialaccount_set.all.0 %}
-                  <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" alt="Contact Person">
+                  <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" height="227" width="227"  alt="Contact Person">
             {% else %}
 
             {% thumbnail user.user_information.change_profile_pic "227x227" crop="center" quality=100 as im %}

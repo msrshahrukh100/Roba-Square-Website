@@ -2,6 +2,7 @@
 {% load thumbnail %}
 
 
+
 {% block head_title %}
 My Orders
 {% endblock %}
@@ -33,7 +34,10 @@ My Orders
         <b>Date</b>: {{ i.timestamp }}<br>
          <b>Method of Payment</b>: {{ i.method_of_payment }}<br>
       </p>
+      {{ i.is_valid_return_date }}
+      {% if i.is_valid_return_date %}
       <a href="{{ i.get_return_url }}" class="return-button secondary-content waves-effect waves-light btn">Return</a>
+      {% endif %}
     </li>
     {% endfor %}
     </ul> 

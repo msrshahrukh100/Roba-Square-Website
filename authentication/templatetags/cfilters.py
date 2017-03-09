@@ -1,7 +1,11 @@
 from django import template
 from authentication.username import get_user_name
 
+
+
 register = template.Library()
+
+
 
 @register.filter(name='addclass')
 def addclass(field,css) :

@@ -27,7 +27,7 @@
       }
       else  
       {
-        stat.innerHTML = "Entering happiness....";
+        stat.innerHTML = "Entering Happiness....";
       }
 
       if(c===tot) return doneLoading();

@@ -6,6 +6,7 @@ from django.db.models.signals import pre_save
 from django.conf import settings
 from django.http import Http404
 from instamojo_wrapper import Instamojo
+from datetime import date, timedelta
 # Create your models here.
 
 class OnlineTransactionsDetail(models.Model) :
@@ -54,6 +55,13 @@ class BuyingCart(models.Model) :
 
 	def get_return_url(self) :
 		return reverse("payment:returns" , kwargs={"id":self.id})
+
+
+	@property
+	def is_valid_return_date(self):
+		if date.today() - timedelta(7) > self.timestamp.date():		
+			return False
+		return True
 
 
 
