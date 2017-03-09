@@ -347,8 +347,9 @@
           {% if request.user.is_anonymous %}
           {% else %}
           <div class="card-action">
-            <a style="text-transform: none;" href="#modalpic" class="teal-text text-darken-3">Send Us your pic</a> &nbsp
-            <a style="text-transform: none;" href="{% url 'social:viewpicofweek' %}" class="teal-text text-darken-3">View all</a>
+          <a style="text-transform: none;" class="black-text"><b>Pic of the Week</b></a> &nbsp
+            <a style="text-transform: none;" href="#modalpic" class="teal-text text-darken-3 right">Send Us your pic</a> &nbsp
+            <a style="text-transform: none;" href="{% url 'social:viewpicofweek' %}" class="teal-text text-darken-3 right">View all</a>
           </div>
           {% endif %}
         </div>
