@@ -201,7 +201,7 @@ def addpicofweek(request) :
 			notify.send(request.user, recipient=request.user, verb=verb, url=url, imageurl=obj.image.url)
 	return redirect("/")
 
-@login_required
+
 def viewpicofweek(request) :
 	context = {'pics': PicOfTheWeek.objects.filter(publish_it=True)}
 	return render(request,'viewpicofweek.html',context)
