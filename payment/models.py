@@ -7,6 +7,9 @@ from django.conf import settings
 from django.http import Http404
 from instamojo_wrapper import Instamojo
 from datetime import date, timedelta
+from django.db.models.signals import pre_save
+from django.dispatch.dispatcher import receiver
+from django.core.mail import EmailMessage
 # Create your models here.
 
 class OnlineTransactionsDetail(models.Model) :
@@ -63,6 +66,25 @@ class BuyingCart(models.Model) :
 			return False
 		return True
 
+@receiver(pre_save, sender=BuyingCart)
+def send_email_to_user(sender, instance, **kwargs):
+	pass
+
+
+    # Pass false so FileField doesn't save the model.
+	# try:
+	# # email = EmailMessage(
+	# # subject='Hello',
+	# # body='Body goes here',
+	# # from_email='care@robasquare.com',
+	# # to=['msr.concordfly@gmail.com'],
+	# # headers={'Content-Type': 'text/plain'},
+	# # )
+	# # email.send()
+	# except :
+	# 	pass
+
+    
 
 
 

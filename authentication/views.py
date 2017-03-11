@@ -7,15 +7,6 @@ from .forms import UserInfoForm,AddressForm
 from .models import UserInformation, Addresses
 from social.models import PicOfTheWeek
 
-# from django.core.mail import EmailMessage
-# email = EmailMessage(
-# subject='Hello',
-# body='Body goes here',
-# from_email='care@robasquare.com',
-# to=['msr.concordfly@gmail.com'],
-# headers={'Content-Type': 'text/plain'},
-# )
-# email.send()
 
 
 def home_page(request) :
