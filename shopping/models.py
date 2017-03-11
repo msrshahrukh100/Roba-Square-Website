@@ -229,20 +229,20 @@ class BulkOrders(models.Model) :
 # make for update too
 
 
-@receiver(pre_save, sender=ProductDescription)
-def set_the_price_after_discount(sender, instance, **kwargs):
-    instance.price = int(instance.actual_price) - int(instance.actual_price) * int(instance.discount_percent) / 100
-    # instance.save()
+# @receiver(pre_save, sender=ProductDescription)
+# def set_the_price_after_discount(sender, instance, **kwargs):
+#     instance.price = int(instance.actual_price) - int(instance.actual_price) * int(instance.discount_percent) / 100
+#     # instance.save()
 
-@receiver(post_delete, sender=ImagesOfProducts)
-def product_images_delete(sender, instance, **kwargs):
-    # Pass false so FileField doesn't save the model.
-    instance.image.delete(False)
+# @receiver(post_delete, sender=ImagesOfProducts)
+# def product_images_delete(sender, instance, **kwargs):
+#     # Pass false so FileField doesn't save the model.
+#     instance.image.delete(False)
 
-@receiver(post_delete, sender=Categories)
-def categories_images_delete(sender, instance, **kwargs):
-    # Pass false so FileField doesn't save the model.
-    instance.image.delete(False)
+# @receiver(post_delete, sender=Categories)
+# def categories_images_delete(sender, instance, **kwargs):
+#     # Pass false so FileField doesn't save the model.
+#     instance.image.delete(False)
 
 
 
