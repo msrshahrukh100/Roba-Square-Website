@@ -362,6 +362,7 @@ RobaSquare | {{ detailp.name }}
                 {% else %}
                 <p class="red-text">Comming Soon</p>
                 {% endif %}
+                
                     {% ifnotequal detailp.get_sizes_of_product.0.0 "0" %}
                     <p>Available sizes 
                     {% for i in detailp.get_sizes_of_product %}

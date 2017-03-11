@@ -70,6 +70,20 @@ class BuyingCart(models.Model) :
 def send_email_to_user(sender, instance, **kwargs):
 	pass
 
+	# if not instance.returned :		
+
+	# 	from django.core.mail import send_mail
+	# 	from django.template.loader import render_to_string
+	# 	msg_plain = render_to_string('email/email.txt', {'name': 'shahrukh'})
+	# 	msg_html = render_to_string('email/email.html', {'name': 'shahrukh'})
+	# 	send_mail(
+	# 	    'test email',
+	# 	    msg_plain,
+	# 	    'care@robasquare.com',
+	# 	    ['msr.concordfly@gmail.com'],
+	# 	    html_message=msg_html,
+	# 	)
+
 
     # Pass false so FileField doesn't save the model.
 	# try:

@@ -1,0 +1,2 @@
+<h2>Hello {{ user }}</h2>
+      <b>Thank You! For shopping with us</b>

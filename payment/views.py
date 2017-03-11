@@ -12,8 +12,50 @@ from django.contrib.auth.decorators import login_required
 from easy_pdf.rendering import render_to_pdf_response
 import uuid
 from notifications.signals import notify
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
 
 # Create your views here.
+
+def send_email_to_user(user,url) :
+	# msg_plain = render_to_string('email/email.txt', {'user': user,'url':url})
+	# msg_html = render_to_string('email/email.html', {'user': user,'url':url})
+	# send_mail(
+	#     'test email',
+	#     msg_plain,
+	#     'care@robasquare.com',
+	#     ['msr.concordfly@gmail.com'],
+	#     fail_silently=True,
+	#     html_message=msg_html,
+	# )
+
+	# from django.core.mail import EmailMultiAlternatives
+	# from django.template.loader import render_to_string
+	# from django.utils.html import strip_tags
+
+	# subject, from_email, to = 'Thank You!', 'care@robasquare.com', 'msr.concordfly@gmail.com'
+
+	# html_content = render_to_string('email/email.html', {'user': user,'url':url}) # ...
+	# text_content = strip_tags(html_content) # this strips the html, so people will have the text as well.
+
+	# # create the email, and attach the HTML version as well.
+	# msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+	# msg.attach_alternative(html_content, "text/html")
+	# msg.send()
+
+	from django.core.mail import send_mail
+	from django.template.loader import render_to_string
+	msg_plain = render_to_string('email/email.txt', {'user': user,'url':url})
+	msg_html = render_to_string('email/email.html', {'user': user,'url':url})
+	send_mail(
+	'test email',
+	msg_plain,
+	'care@robasquare.com',
+	['msr.concordfly@gmail.com'],
+	html_message=msg_html,
+	)
+
+
 
 
 @login_required
@@ -123,8 +165,12 @@ def requestpayment(request) :
 				cod_unique_id=cod_unique_id,
 				invoice_url=request.build_absolute_uri(reverse("payment:generateinvoice"))[:-1] + "?type=cod&id=" + str(cod_unique_id),
 				)
-		url = reverse("payment:generateinvoice")[:-1] + "?type=cod&id=" + str(cod_unique_id)
+		url = request.build_absolute_uri(reverse("payment:generateinvoice"))[:-1] + "?type=cod&id=" + str(cod_unique_id)
 		context = {"type" : 1,"url":url}
+		try:
+			send_email_to_user(user=get_user_name(request.user),url=url)
+		except :
+			pass
 		return render(request,"paymentredirect.html",context)
 		
 	api = Instamojo(api_key=settings.API_KEY, auth_token=settings.AUTH_TOKEN, endpoint='https://www.instamojo.com/api/1.1/');
