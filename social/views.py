@@ -15,13 +15,14 @@ from django.views.decorators.csrf import csrf_exempt
 from notifications.signals import notify
 from blog.models import Post
 
+from django.http import HttpResponse
 
 # Create your views here.
 @login_required
 def viewallusers(request) :
 	user = request.user
 	# .filter(is_superuser=False).filter(is_staff=False)
-	users = User.objects.all().filter(is_superuser=False).filter(is_staff=False).order_by('?')
+	users = User.objects.all().filter(is_superuser=False).filter(is_staff=False).order_by('-id')
 
 	paginator = Paginator(users, 24) 
 	nopages = paginator.num_pages
@@ -134,9 +135,11 @@ def readallnotifications(request) :
 	return JsonResponse({'msg':'Read all'})
 
 
-@login_required
 def likedislike(request, id=None) :
 	user = request.user
+	if user.is_anonymous :
+		return JsonResponse({'msg':'Log in to like it'})
+
 	product = get_object_or_404(ProductDescription, id=id)
 	l, created = Likes.objects.get_or_create(user=user, product=product)
 	if created :
@@ -189,6 +192,9 @@ def search(request) :
 
 @login_required
 def addpicofweek(request) :
+	pic = request.FILES.get('pic')
+	if pic._size > 3 * 1024 * 1024 :
+		return HttpResponse("<h3>The file size is greater than 3 MB. Please go back and upload a smaller file.</h3>")
 	if request.method == 'POST' :
 		obj, created = PicOfTheWeek.objects.get_or_create(
 			user=request.user,
@@ -203,5 +209,5 @@ def addpicofweek(request) :
 
 
 def viewpicofweek(request) :
-	context = {'pics': PicOfTheWeek.objects.filter(publish_it=True)}
+	context = {'pics': PicOfTheWeek.objects.filter(publish_it=True).order_by('-id')}
 	return render(request,'viewpicofweek.html',context)

@@ -10,7 +10,27 @@ from datetime import date, timedelta
 from django.db.models.signals import pre_save
 from django.dispatch.dispatcher import receiver
 from django.core.mail import EmailMessage
+
+from authentication.username import get_user_name
 # Create your models here.
+
+
+
+def send_email_to_user(message,receiver,user,url,product) :
+
+	from django.core.mail import send_mail
+	from django.template.loader import render_to_string
+	msg_plain = render_to_string('email/email2.txt', {'user': user,'url':url,'product':product})
+	msg_html = render_to_string('email/email2.html', {'user': user,'url':url,'product':product})
+	send_mail(
+	message,
+	msg_plain,
+	'care@robasquare.com',
+	[receiver],
+	html_message=msg_html,
+	)
+
+
 
 class OnlineTransactionsDetail(models.Model) :
 	user = models.ForeignKey(User,related_name="online_transactions")
@@ -67,38 +87,12 @@ class BuyingCart(models.Model) :
 		return True
 
 @receiver(pre_save, sender=BuyingCart)
-def send_email_to_user(sender, instance, **kwargs):
-	pass
-
-	# if not instance.returned :		
-
-	# 	from django.core.mail import send_mail
-	# 	from django.template.loader import render_to_string
-	# 	msg_plain = render_to_string('email/email.txt', {'name': 'shahrukh'})
-	# 	msg_html = render_to_string('email/email.html', {'name': 'shahrukh'})
-	# 	send_mail(
-	# 	    'test email',
-	# 	    msg_plain,
-	# 	    'care@robasquare.com',
-	# 	    ['msr.concordfly@gmail.com'],
-	# 	    html_message=msg_html,
-	# 	)
-
-
-    # Pass false so FileField doesn't save the model.
-	# try:
-	# # email = EmailMessage(
-	# # subject='Hello',
-	# # body='Body goes here',
-	# # from_email='care@robasquare.com',
-	# # to=['msr.concordfly@gmail.com'],
-	# # headers={'Content-Type': 'text/plain'},
-	# # )
-	# # email.send()
-	# except :
-	# 	pass
-
-    
+def send_email(sender, instance, **kwargs):
+	if not instance.returned and instance.delivered :
+		try:
+			send_email_to_user(message="Delivery Update",receiver=instance.user.email,user=get_user_name(instance.user),url=instance.invoice_url,product=instance.product.name)
+		except :
+			pass
 
 
 

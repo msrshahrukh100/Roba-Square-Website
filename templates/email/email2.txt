@@ -1,0 +1,4 @@
+Hello {{ user }}
+
+Your order for {{ product }} has been shipped! Delivery is on the way. 
+Our courier executive is out to deliver the product. If your order is on COD than please be ready with cash.

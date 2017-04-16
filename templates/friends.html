@@ -36,13 +36,19 @@
 {% block content %}
 <div class="row">
       {% for user in users %}
-        <div class="col s6 l3 m4">
+        <div class="col s12 l3 m4">
           <div class="card">
             <div class="card-image">
 
 
                {% if user.socialaccount_set.all.0 %}
-                  <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" height="227" width="227"  alt="Contact Person">
+                  <!-- <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" style="max-height: 300px;"  alt="Contact Person"> -->
+
+
+                      {% thumbnail user.socialaccount_set.all.0.get_avatar_url "227x227" crop="center" as im %}
+                      <img src="{{ im.url }}">
+                      {% endthumbnail %}
+
             {% else %}
 
             {% thumbnail user.user_information.change_profile_pic "227x227" crop="center" quality=100 as im %}
@@ -58,6 +64,8 @@
             <a class="teal-text text-darken-3" href="{% url 'social:viewuser' slug=user.user_information.slug %}">{{ user|getfullname }}</a>
             {% if user.user_information.profession and user.user_information.name_of_institute %}
               <p>{{ user.user_information.profession }} at {{ user.user_information.name_of_institute }}</p>
+              {% else %}
+              <p>&nbsp</p>
               {% endif %}
               
             </div>

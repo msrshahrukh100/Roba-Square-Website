@@ -52,7 +52,7 @@ class UserInformation(models.Model) :
 		if self.user.socialaccount_set.all().first() :
 			return self.user.socialaccount_set.all().first().get_avatar_url()
 		else :
-			return self.user.user_information.change_profile_pic.url
+			return self.user.user_information.change_profile_pic
 
 
 

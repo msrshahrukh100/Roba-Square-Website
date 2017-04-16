@@ -69,12 +69,12 @@
       <a href="#" data-activates="mobile-demo" class="button-collapse teal-text text-darken-3"><i class="material-icons">menu</i></a>
       <ul class="side-nav" id="mobile-demo">
         {% if user_display %}
-        {% if user.socialaccount_set.all.0 %}
-                  <li class="center"><div style="padding-top: 15px;" class="chip center transparent teal-text text-darken-3"><img class='circle' height="50" width="50" src="{{ user.socialaccount_set.all.0.get_avatar_url }}" alt="Contact Person"></div>{{ user_display }}<br/></li><hr>
+        {% if request.user.socialaccount_set.all.0 %}
+                  <li class="center"><div style="padding-top: 15px;" class="chip center transparent teal-text text-darken-3"><img class='circle' height="50" width="50" src="{{ user.socialaccount_set.all.0.get_avatar_url }}" alt="Contact Person"></div><span class="teal-text text-darken-3">{{ request.user|getfullname }}</span></li><hr>
             {% else %}
-            {% thumbnail user.user_information.change_profile_pic "50x50" as im %}
-            <li class="center"><div style="padding-top: 15px;" class="chip center transparent teal-text text-darken-3"><img class="circle" src="{{ im.url }}" alt="Contact Person">{{ user_display }}
-            <br/></div></li><hr>
+            {% thumbnail request.user.user_information.change_profile_pic "50x50" as im %}
+            <li class="center"><div style="padding-top: 15px;" class="chip center transparent teal-text text-darken-3"><img class="circle" height="50" width="50" src="{{ im.url }}" alt="Contact Person">
+            </div><span class="teal-text text-darken-3">{{ request.user|getfullname }}</span></li><hr>
               {% endthumbnail %}
             {% endif %}
             <li><a href="{% url 'cart:viewcart' %}" class="teal-text text-darken-3"><i class="material-icons teal-text text-darken-3 left">shopping_cart</i><span class="right ">{{ request.session.products|length }}</span> My Cart</a></li>
@@ -138,7 +138,7 @@
               {% if request.user.socialaccount_set.all.0 %}
               <img src="{{ request.user.socialaccount_set.all.0.get_avatar_url }}" alt="Contact Person">
             {% else %}
-                    {% thumbnail user.user_information.change_profile_pic "100x100" as im %}
+                    {% thumbnail request.user.user_information.change_profile_pic "100x100" as im %}
             <img src="{{ im.url }}" alt="Contact Person">
               {% endthumbnail %}
 

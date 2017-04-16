@@ -2,7 +2,9 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 
 from django.db import models
-from django.db.models.signals import pre_save
+from django.db.models.signals import pre_save, post_save
+from django.dispatch.dispatcher import receiver
+from notifications.signals import notify
 from django.utils import timezone
 from autoslug import AutoSlugField
 from django.utils.safestring import mark_safe
@@ -29,10 +31,11 @@ class Post(models.Model):
     content = models.TextField()
     publish_it = models.BooleanField(default=False)
     draft = models.BooleanField(default=False, verbose_name="Select if it is a draft. Draft posts are not published.")
-    show_about_the_author = models.BooleanField(default=True, verbose_name="Select if u wish to display the 'About the Author' section along with your post")
+    show_about_the_author = models.BooleanField(default=True, verbose_name="Select if you wish to display the 'About the Author' section along with your post")
     about_the_author = models.CharField(max_length=200, null=True,blank=True, verbose_name="Write about yourself, which you want to be displayed in the 'About the Author' section")
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
+    url = models.URLField(default='/')
 
 
     def __unicode__(self):
@@ -52,11 +55,26 @@ class Post(models.Model):
         ordering = ["-timestamp", "-updated"]
 
 
+
+@receiver(post_save, sender=Post)
+def notify_user_about_post(sender, instance, **kwargs):
+    if instance.publish_it :
+        verb = "Your blog post on Roba Square recently got pblished !"
+        url = instance.url
+        imageurl = instance.image.url
+        notify.send(instance.user, recipient=instance.user, verb=verb, url=url, imageurl=imageurl)
+
+    # instance.save()
+
+
+
+
+
 class PostViews(models.Model) :
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="userblogviewed")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="userblogviewed", null=True, blank=True)
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="postviews")
     ip = models.CharField(max_length=100)
-    session = models.CharField(max_length=100)
+    session = models.CharField(max_length=100,null=True,blank=True)
     viewed_on = models.DateTimeField(auto_now=False, auto_now_add=True)
 
     def __unicode__(self) :

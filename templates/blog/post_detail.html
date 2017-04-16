@@ -5,6 +5,8 @@
 <html>
 <head>
 	<title>{{ instance.title }} | RobaSquare</title>
+  <link rel="icon" type="image/png"
+     href="{% static 'images/tabicon.png' %}" />
 
   <meta charset="UTF-8">
 <!--   <meta name="description" content="">
@@ -68,8 +70,12 @@
 
 
        <div class="container">
-
+<div class="row">
+  <div class="col s12"> 
 <h2>{{ title }}</h2>
+  </div>
+</div>
+
 {% if instance.publish_it %}
 <span class="badge teal lighten-1 black-text">Viewed {{ count }} times</span>
 {% else %}
@@ -89,18 +95,37 @@
 <div class="divider"></div>
 
 <div class="row">
-	<div class="col s12 l4 offset-l4">
+	<div class="col s12 l6 offset-l3">
  <blockquote>
  	<h5>About the Author</h5>
   <ul class="collection" style="border: none;">
     <li class="collection-item avatar">
-          {% if instance.user.socialaccount_set.all.0 %}
+
+
+               {% if instance.user.socialaccount_set.all.0 %}
+                  <!-- <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" style="max-height: 300px;"  alt="Contact Person"> -->
+
+
+                      {% thumbnail instance.user.socialaccount_set.all.0.get_avatar_url "70x70" crop="center" as im %}
+                      <img src="{{ im.url }}">
+                      {% endthumbnail %}
+
+            {% else %}
+
+            {% thumbnail instance.user.user_information.change_profile_pic "70x70" crop="center" quality=100 as im %}
+            <img src="{{ im.url }}" alt="Contact Person">
+              {% endthumbnail %}
+
+            
+            {% endif %}
+            
+          <!-- {% if instance.user.socialaccount_set.all.0 %}
                   <img class="square" src="{{ instance.user.socialaccount_set.all.0.get_avatar_url }}" alt="Contact Person">
             {% else %}
             {% thumbnail instance.user.user_information.change_profile_pic "50x50" as im %}
             <img class="circle" src="{{ im.url }}" alt="Contact Person">
               {% endthumbnail %}            
-            {% endif %}
+            {% endif %} -->
       <span class="title"><a class="teal-text text-darken-3" href="{{ instance.user.user_information.get_absolute_url }}"><b>{{ instance.user|getfullname }}</b></a></span>
       <p> 
     {% if request.user.user_information.profession and request.user.user_information.name_of_institute %}
@@ -108,7 +133,7 @@
                 {% endif %} <br>
       </p>
       {% if instance.about_the_author %}
-  <p>{{ instance.about_the_author }}</p>
+  <p>{{ instance.about_the_author|linebreaks }}</p>
                 {% endif %}
     </li>
     </ul>                

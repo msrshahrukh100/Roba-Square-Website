@@ -113,15 +113,24 @@ RobaSquare | {{ user|getfullname }}
     {% if connections %}
     	<div class="row">
       {% for user in connections %}
-        <div class="col s6 l3 m4">
+        <div class="col s12 l3 m4">
           <div class="card">
             <div class="card-image">
-              <img src="{{ user.user_information.get_image_url }}">
+              <!-- <img src="{{ user.user_information.get_image_url }}"> -->
+
+              {% thumbnail user.user_information.get_image_url "227x227" crop="center" as im %}
+                      <img src="{{ im.url }}">
+                      {% endthumbnail %}
+
               <span class="card-title"></span>
             </div>
             <div class="card-content">
             <a class="teal-text text-darken-4" href="{% url 'social:viewuser' slug=user.user_information.slug %}">{{ user|getfullname }}</a>
+               {% if user.user_information.profession and user.user_information.name_of_institute %}
               <p>{{ user.user_information.profession }} at {{ user.user_information.name_of_institute }}</p>
+              {% else %}
+              <p>&nbsp</p>
+              {% endif %}
             </div>
             <div class="card-action" id="arc">
 
@@ -173,12 +182,22 @@ RobaSquare | {{ user|getfullname }}
         <div class="col s6 l3 m4">
           <div class="card">
             <div class="card-image">
-              <img src="{{ user.user_information.get_image_url }}">
+              
+              <!-- <img src="{{ user.user_information.get_image_url }}"> -->
+                
+                {% thumbnail user.user_information.get_image_url "227x227" crop="center" as im %}
+                      <img src="{{ im.url }}">
+                      {% endthumbnail %}
+
               <span class="card-title"></span>
             </div>
             <div class="card-content">
             <a class="teal-text text-darken-3" href="{% url 'social:viewuser' slug=user.user_information.slug %}">{{ user|getfullname }}</a>
+               {% if user.user_information.profession and user.user_information.name_of_institute %}
               <p>{{ user.user_information.profession }} at {{ user.user_information.name_of_institute }}</p>
+              {% else %}
+              <p>&nbsp</p>
+              {% endif %}
             </div>
             <div class="card-action" id="arc">
 

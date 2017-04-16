@@ -20,7 +20,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.contenttypes.models import ContentType
 from social.models import RecentlyViewed
 
+
 from django.core.cache import cache
+
 
 
 @login_required
@@ -31,6 +33,11 @@ def post_create(request):
 		instance = form.save(commit=False)
 		instance.user = request.user
 		instance.save()
+
+		instance.url = request.build_absolute_uri(instance.get_absolute_url()) 
+		instance.save()
+
+
 		# message success
 		messages.success(request, "Successfully Created")
 		return HttpResponseRedirect(instance.get_absolute_url())
@@ -43,6 +50,8 @@ def post_create(request):
 def post_detail(request, slug=None):
 	instance = get_object_or_404(Post, slug=slug)
 	user = request.user
+
+	print request.session.session_key
 	if not user.is_anonymous() :
 		c,created = PostViews.objects.get_or_create(
 			user=user,
@@ -50,8 +59,15 @@ def post_detail(request, slug=None):
 			ip=request.META['REMOTE_ADDR'],
 			session=request.session.session_key
 			)
+
+	else :
+		c,created = PostViews.objects.get_or_create(
+			post=instance,
+			ip=request.META['REMOTE_ADDR'],
+			session=request.session.session_key
+			)
 	if request.user.is_anonymous() :
-		recentlyviewed = []
+		recentlyviewed = RecentlyViewed.objects.all().order_by('?')[:4]
 	else :
 		recentlyviewed = RecentlyViewed.objects.filter(user=request.user)[:4]
 
@@ -67,7 +83,7 @@ def post_detail(request, slug=None):
 
 def post_list(request):
 	queryset_list = Post.objects.filter(publish_it=True).filter(draft=False) #.order_by("-timestamp")
-	images = BlogSlider.objects.all().order_by('?')
+	images = BlogSlider.objects.all().order_by('-id')
 	query = request.GET.get("q")
 	if query:
 		queryset_list = queryset_list.filter(

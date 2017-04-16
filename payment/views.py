@@ -17,7 +17,7 @@ from django.template.loader import render_to_string
 
 # Create your views here.
 
-def send_email_to_user(user,url) :
+def send_email_to_user(message,receiver,user,url) :
 	# msg_plain = render_to_string('email/email.txt', {'user': user,'url':url})
 	# msg_html = render_to_string('email/email.html', {'user': user,'url':url})
 	# send_mail(
@@ -48,10 +48,10 @@ def send_email_to_user(user,url) :
 	msg_plain = render_to_string('email/email.txt', {'user': user,'url':url})
 	msg_html = render_to_string('email/email.html', {'user': user,'url':url})
 	send_mail(
-	'test email',
+	message,
 	msg_plain,
 	'care@robasquare.com',
-	['msr.concordfly@gmail.com'],
+	[receiver],
 	html_message=msg_html,
 	)
 
@@ -93,8 +93,7 @@ def generateinvoice(request) :
 		total = 0
 		for i in cart :
 			total += int(i.price)
-		if cart.first().user != request.user :#or not (request.user.is_staff() or request.user.is_superuser()) :
-			raise Http404
+		
 		cod = 40
 		total += cod 
 		context = {'cart':cart,'total':total,'cod':40}
@@ -106,8 +105,7 @@ def generateinvoice(request) :
 		total = 0
 		for i in cart :
 			total += int(i.price)
-		if cart.first().user != request.user :#or not (request.user.is_staff() or request.user.is_superuser()) :
-			raise Http404
+		
 		context = {'cart':cart,'total':total}
 		# return render_to_pdf('invoice/invoice.html',{'pagesize':'A4','cart': cart})
 		return render_to_pdf_response(request,"invoice/invoice.html",context)
@@ -168,7 +166,7 @@ def requestpayment(request) :
 		url = request.build_absolute_uri(reverse("payment:generateinvoice"))[:-1] + "?type=cod&id=" + str(cod_unique_id)
 		context = {"type" : 1,"url":url}
 		try:
-			send_email_to_user(user=get_user_name(request.user),url=url)
+			send_email_to_user(message="Thank You!",receiver=request.user.email,user=get_user_name(request.user),url=url)
 		except :
 			pass
 		return render(request,"paymentredirect.html",context)
@@ -240,6 +238,13 @@ def paymentredirect(request):
 				i.save()
 			context['type'] = 1
 			context['url'] = request.build_absolute_uri(reverse("payment:generateinvoice"))[:-1] + "?type=online&id=" + str(context['payment_request']['id'])
+
+			try:
+				
+				send_email_to_user(message="Thank You!",receiver=request.user.email,user=get_user_name(request.user),url=url)
+			except :
+				pass
+
 		else :
 			context['fail'] = response.get('message')
 			context['type'] = 0

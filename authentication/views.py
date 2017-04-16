@@ -7,7 +7,7 @@ from .forms import UserInfoForm,AddressForm
 from .models import UserInformation, Addresses
 from social.models import PicOfTheWeek
 
-
+from django.http import HttpResponse
 
 def home_page(request) :
 	context = {"slider":Slider.objects.all(),
@@ -86,6 +86,9 @@ def change_settings(request) :
 
 @login_required
 def change_dp(request) :
+	pic = request.FILES.get('ppic')
+	if pic._size > 3 * 1024 * 1024 :
+		return HttpResponse("<h3>The file size is greater than 3 MB. Please go back and upload a smaller file.</h3>")
 	user = request.user
 	userinfo = UserInformation.objects.filter(user=user).first()
 	userinfo.change_profile_pic = request.FILES.get('ppic')
