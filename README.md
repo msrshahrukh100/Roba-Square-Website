@@ -1,5 +1,4 @@
-## Roba Square Website  [Robasquare.com](robasquare.com)
-
+## Roba Square Website  [RobaSquare.com](https://robasquare.com/)
 #### An e-commerce website developed for the college Jamia Millia Islamia. It has a blogging section as well. Built on Django 1.8 and deployed on Apache server.
 
 Feel free to contribute to its development. In case you need any information or help mail me at msr.concordfly@gmail.com
